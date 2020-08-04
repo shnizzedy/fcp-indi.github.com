@@ -51,7 +51,7 @@
             
   <div class="section" id="longitudinal-preprocessing">
 <h1>Longitudinal Preprocessing<a class="headerlink" href="#longitudinal-preprocessing" title="Permalink to this headline">¶</a></h1>
-<div class="flowchart-container"><object data="_static/flowcharts/longitudinal.svg" type="image/svg+xml"></object></div><div class="section" id="background">
+<div class="flowchart-container"><object data="../_static/flowcharts/longitudinal.svg" type="image/svg+xml"></object></div><div class="section" id="background">
 <h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
 <p>Longitudinal preprocessing pipeline is designed to process longitudinal data with two or more sessions. Based on <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S1053811912002765?via%3Dihub">Reuter et al. 2012</a>, all secions of subjects are first preprocessed independently and then a within-subject template is created by averaging all sessions of the subject. Subsequently the within-subject template is registered to standard space and all sections are then registered to the longitudinal template in standard space.</p>
 <div class="section" id="configuring-cpac-to-run-longitudinal-preprocessing-pipeline">
@@ -71,7 +71,50 @@
 </div>
 <div class="section" id="configuration-without-the-gui">
 <h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
-<p>The following key/value pairs must be defined in your <span class="xref std std-doc">pipeline configuration YAML</span> for C-PAC to run longitudinal preprocessing:</p>
+<p>The following key/value pairs must be defined in your <a class="reference internal" href="pipeline_config"><span class="doc">pipeline configuration YAML</span></a> for C-PAC to run longitudinal preprocessing:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="10%" />
+<col width="60%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Description</th>
+<th class="head">Potential Values</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>run_longitudinal</td>
+<td>Run longitudinal preprocessing.</td>
+<td>A list of containing ‘anat’ (e.g., [‘anat’])</td>
+</tr>
+<tr class="row-odd"><td>longitudinal_template_average_method</td>
+<td>Method to average sessions to create a longitudinal template.</td>
+<td>A string of ‘median’, ‘mean’ or ‘std’ (e.g. ‘median’)</td>
+</tr>
+<tr class="row-even"><td>longitudinal_template_dof</td>
+<td>Transform degree of freedom in flirt.</td>
+<td>An integer (e.g. 12)</td>
+</tr>
+<tr class="row-odd"><td>longitudinal_template_interp</td>
+<td>Interpolation in flirt.</td>
+<td>A string of ‘trilinear’, ‘nearestneighbour’, ‘sinc’ or ‘spline’ (e.g. ‘trilinear’)</td>
+</tr>
+<tr class="row-even"><td>longitudinal_template_cost</td>
+<td>Cost function in flirt.</td>
+<td>A string of ‘mutualinfo’, ‘corratio’, ‘normcorr’, ‘normmi’, ‘leastsq’, ‘labeldiff’, ‘bbr’ (e.g. ‘corratio’)</td>
+</tr>
+<tr class="row-odd"><td>longitudinal_template_thread_pool</td>
+<td>Number of threads in a thread pool.</td>
+<td>An integer (e.g. 2)</td>
+</tr>
+<tr class="row-even"><td>longitudinal_template_convergence_threshold</td>
+<td>Convergence threshold of longitudinal template.</td>
+<td>An integer or a float (e.g. 0.01)</td>
+</tr>
+</tbody>
+</table>
 <p>The box below contains an example of what these parameters might look like when defined in the YAML:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">run_longitudinal</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;anat&#39;</span><span class="p">]</span>
 <span class="n">longitudinal_template_average_method</span> <span class="p">:</span> <span class="n">median</span>
@@ -103,7 +146,7 @@
   <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index">User Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index#the-c-pac-mission">The C-PAC Mission</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index#latest-release-version-1-7-0-beta-jul-4-2020">Latest Release: Version 1.7.0 Beta (Jul 4, 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index#latest-release-version-1-7-0-beta-jul-23-2020">Latest Release: Version 1.7.0 Beta (Jul 23, 2020)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index#the-c-pac-team">The C-PAC Team</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index#funding-acknowledgements">Funding Acknowledgements</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index#user-guide-index">User Guide Index</a><ul class="current">
