@@ -53,63 +53,7 @@
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>This section explains how to create a new pipeline or edit an existing one. If you wish to use one of the pre-configured pipelines that come packaged with C-PAC, you can view the current available library of <a class="reference internal" href="preconfig"><span class="doc">pipelines here</span></a>.</p>
-<p>There are two ways of setting up or editing a pipeline configuration for C-PAC:</p>
-<ul class="simple">
-<li>Using the pipeline configuration interface in the C-PAC GUI</li>
-<li>Using a text editor (useful for remote servers where using the C-PAC GUI is not possible or impractical)</li>
-</ul>
-<div class="section" id="definitions">
-<h3>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><dl class="first docutils">
-<dt>Workflow</dt>
-<dd>A workflow accomplishes a particular processing task (e.g. functional preprocessing, scrubbing, nuisance correction). Each workflow can be turned on or off in the pipeline configuration.  Sometimes a workflow can be set to both on and off, allowing for pipelines to branch.</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>Pipeline</dt>
-<dd>A pipeline is a combination of workflows.</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>Strategy</dt>
-<dd>A strategy is a set of preprocessing options. Specifically, a strategy is defined by nuisance corrections and scrubbing settings. Strategies can branch depending on which of these workflows are turned on or off and how they are configured.</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>Derivative</dt>
-<dd>Derivatives are the results of processing a participant’s raw data (i.e., connectivity measures).</dd>
-</dl>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="design-a-pipeline">
-<h2>Design A Pipeline<a class="headerlink" href="#design-a-pipeline" title="Permalink to this headline">¶</a></h2>
-<p>C-PAC offers a graphical interface you can use to quickly and easily modify the default pipeline or create your own from scratch:</p>
-<p><a class="reference external" href="https://fcp-indi.github.io/C-PAC_GUI/versions/latest/browser/#/">https://fcp-indi.github.io/C-PAC_GUI/versions/latest/browser/#/</a></p>
-<div class="figure">
-<img alt="../_images/gui_home1.png" src="../_images/gui_home1.png" />
-</div>
-<p>Once you save the pipeline configuration YAML file, you can provide it to the C-PAC Docker container like so:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">docker run -i --rm \</span>
-<span class="go">        -v /Users/You/local_bids_data:/bids_dataset \</span>
-<span class="go">        -v /Users/You/some_folder:/outputs \</span>
-<span class="go">        -v /tmp:/tmp \</span>
-<span class="go">        -v /Users/You/Documents:/configs \</span>
-<span class="go">        -v /Users/You/resources:/resources \</span>
-<span class="go">        fcpindi/c-pac:latest /bids_dataset /outputs participant --pipeline_file /configs/pipeline_config.yml</span>
-</pre></div>
-</div>
-<p>Or you can provide it to the C-PAC Singularity container like so:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run \</span>
-<span class="go">        -B /Users/You/some_folder:/outputs \</span>
-<span class="go">        -B /tmp:/tmp \</span>
-<span class="go">        -B /Users/You/Documents:/configs \</span>
-<span class="go">        fcpindi_c-pac_latest-{date}-{hash value}.img s3://fcp-indi/data/Projects/ADHD200/RawDataBIDS /outputs participant --pipeline_file /configs/pipeline_config.yml</span>
-</pre></div>
-</div>
-<div class="topic">
+<div class="topic" id="ndmg-atlases">
 <p class="topic-title first">Neuroparc v1.0: Baseline</p>
 <p>On July 20, 2020, Neuroparc released v1.0. In moving from v0 to v1, the paths to several of the Neuroparc atlases changed. The atlases are used by C-PAC in its default and preconfigured pipelines. C-PAC v1.7.0 includes the Neuroparc v1.0 paths, but <strong>if you are using a pipeline based on C-PAC 1.6.2a or older, you will need to update any Nueroparc v0 paths in your config</strong></p>
 <table border="1" class="docutils" id="id1">
@@ -192,6 +136,62 @@
 </tr>
 </tbody>
 </table>
+</div>
+<p>There are two ways of setting up or editing a pipeline configuration for C-PAC:</p>
+<ul class="simple">
+<li>Using the pipeline configuration interface in the C-PAC GUI</li>
+<li>Using a text editor (useful for remote servers where using the C-PAC GUI is not possible or impractical)</li>
+</ul>
+<div class="section" id="definitions">
+<h3>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Workflow</dt>
+<dd>A workflow accomplishes a particular processing task (e.g. functional preprocessing, scrubbing, nuisance correction). Each workflow can be turned on or off in the pipeline configuration.  Sometimes a workflow can be set to both on and off, allowing for pipelines to branch.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Pipeline</dt>
+<dd>A pipeline is a combination of workflows.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Strategy</dt>
+<dd>A strategy is a set of preprocessing options. Specifically, a strategy is defined by nuisance corrections and scrubbing settings. Strategies can branch depending on which of these workflows are turned on or off and how they are configured.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Derivative</dt>
+<dd>Derivatives are the results of processing a participant’s raw data (i.e., connectivity measures).</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="design-a-pipeline">
+<h2>Design A Pipeline<a class="headerlink" href="#design-a-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>C-PAC offers a graphical interface you can use to quickly and easily modify the default pipeline or create your own from scratch:</p>
+<p><a class="reference external" href="https://fcp-indi.github.io/C-PAC_GUI/versions/latest/browser/#/">https://fcp-indi.github.io/C-PAC_GUI/versions/latest/browser/#/</a></p>
+<div class="figure">
+<img alt="../_images/gui_home1.png" src="../_images/gui_home1.png" />
+</div>
+<p>Once you save the pipeline configuration YAML file, you can provide it to the C-PAC Docker container like so:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">docker run -i --rm \</span>
+<span class="go">        -v /Users/You/local_bids_data:/bids_dataset \</span>
+<span class="go">        -v /Users/You/some_folder:/outputs \</span>
+<span class="go">        -v /tmp:/tmp \</span>
+<span class="go">        -v /Users/You/Documents:/configs \</span>
+<span class="go">        -v /Users/You/resources:/resources \</span>
+<span class="go">        fcpindi/c-pac:latest /bids_dataset /outputs participant --pipeline_file /configs/pipeline_config.yml</span>
+</pre></div>
+</div>
+<p>Or you can provide it to the C-PAC Singularity container like so:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">singularity run \</span>
+<span class="go">        -B /Users/You/some_folder:/outputs \</span>
+<span class="go">        -B /tmp:/tmp \</span>
+<span class="go">        -B /Users/You/Documents:/configs \</span>
+<span class="go">        fcpindi_c-pac_latest-{date}-{hash value}.img s3://fcp-indi/data/Projects/ADHD200/RawDataBIDS /outputs participant --pipeline_file /configs/pipeline_config.yml</span>
+</pre></div>
 </div>
 <p><strong>Reporting errors and getting help</strong></p>
 <p>Please report errors on the <a class="reference external" href="https://github.com/FCP-INDI/C-PAC/issues">C-PAC github page issue tracker</a>. Please use the <a class="reference external" href="https://groups.google.com/forum/#!forum/cpax_forum">C-PAC google group</a> for help using C-PAC and this application.</p>
