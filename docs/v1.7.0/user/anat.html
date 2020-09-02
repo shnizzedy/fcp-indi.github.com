@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Anatomical Preprocessing &#8212; C-PAC 1.7.0 Beta documentation</title>
+    <title>Anatomical Preprocessing &#8212; C-PAC t Beta documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="preprocessing" title="Pre-Processing Steps"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.7.0 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC t Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" accesskey="U">Pre-Processing Steps</a> &#187;</li> 
       </ul>
@@ -51,7 +51,7 @@
             
   <div class="section" id="anatomical-preprocessing">
 <h1>Anatomical Preprocessing<a class="headerlink" href="#anatomical-preprocessing" title="Permalink to this headline">¶</a></h1>
-<div class="flowchart-container"><object data="../../_static/flowcharts/anatomical.svg" type="image/svg+xml"></object></div><div class="section" id="initial-preprocessing">
+<div class="flowchart-container"><object data="../_static/flowcharts/anatomical.svg" type="image/svg+xml"></object></div><div class="section" id="initial-preprocessing">
 <h2>Initial Preprocessing<a class="headerlink" href="#initial-preprocessing" title="Permalink to this headline">¶</a></h2>
 <p>Initial preprocessing offers methods like <a class="reference external" href="https://www.iro.umontreal.ca/~mignotte/IFT6150/Articles/Buades-NonLocal.pdf">non-local means filtering</a> and <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3071855/">N4 bias field correction</a> to preprocess anatomical images.</p>
 <p>C-PAC provides options for configuring initial preprocessing - users can select:</p>
@@ -306,7 +306,7 @@ ANTs_para_T1_registration:
 </div>
 <div class="section" id="anatomical-tissue-segmentation">
 <h2>Anatomical Tissue Segmentation<a class="headerlink" href="#anatomical-tissue-segmentation" title="Permalink to this headline">¶</a></h2>
-<div class="flowchart-container"><object data="../../_static/flowcharts/segmentation.svg" type="image/svg+xml"></object></div><p>C-PAC uses <a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FAST">FSL/FAST</a> to automatically segment brain images into white matter, gray matter, and CSF. This is done using probability maps that contain information about the likelihood that a given voxel will be of a particular tissue type. Users specify a probability threshold such that voxels meeting a minimum probability of being a particular tissue will be classified as such. This results in masks containing voxels of only a single tissue type.</p>
+<div class="flowchart-container"><object data="../_static/flowcharts/segmentation.svg" type="image/svg+xml"></object></div><p>C-PAC uses <a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FAST">FSL/FAST</a> to automatically segment brain images into white matter, gray matter, and CSF. This is done using probability maps that contain information about the likelihood that a given voxel will be of a particular tissue type. Users specify a probability threshold such that voxels meeting a minimum probability of being a particular tissue will be classified as such. This results in masks containing voxels of only a single tissue type.</p>
 <div class="figure">
 <img alt="../_images/segmentation.png" src="../_images/segmentation.png" />
 </div>
@@ -520,7 +520,7 @@ ANTs_prior_seg_right_WM_label: 41
         <li class="right" >
           <a href="preprocessing" title="Pre-Processing Steps"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.7.0 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC t Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" >Pre-Processing Steps</a> &#187;</li> 
       </ul>
