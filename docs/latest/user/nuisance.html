@@ -133,6 +133,13 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
 <p>Median angle correction is another global signal correction approach. It is assumed that the global signal in resting-state fMRI can be viewed as the sum of two components: a component that reflects the intrinsic correlations of resting state fMRI signals between regions, and a nuisance component that reflects an additive global signal confound. Unlike the GSR method which removes both components, median angle correction can characterize the properties of the global signal and effectively minimize the effects of the additive global signal confound while preserving the desired components.</p>
 <p>Principal component analysis (PCA) is used to decompose the resting-state data. Median angle is computed by taking the inverse cosine of each voxel’s time series vector’s projection onto the first principal component (i.e. the global mean signal) and then calculating the median over the angles from all the vectors. If an inverse relation is found between the median angle and the mean BOLD signal amplitude, then an additive signal confound is present. As resting-state data sets with high median angles and low mean BOLD magnitudes are likely to be the least contaminated by an additive global confound (He and Liu, 2011), the inverse relation between median angle and mean BOLD magnitude is used to correct for differences in the additive confound. Specifically, the angular distributions of datasets with small median angles can be shifted to attain a larger target median angle to effectively minimize the effects of the global signal confound. The calculation of target angle for median angle correction is described in He and Liu (2011).</p>
 </div>
+<div class="section" id="custom-regressors">
+<h2>Custom Regressors<a class="headerlink" href="#custom-regressors" title="Permalink to this headline">¶</a></h2>
+<p>You can provide your own custom regressor signals beyond those provided by C-PAC (e.g., task encodings or quasi-periodic pattern waveforms).</p>
+<p>Each custom regressor must be either a CSV or NIFTI file that contains a single column of the same length as the functional signal with <code class="docutils literal notranslate"><span class="pre">1</span></code>s indicating volumes to keep and <code class="docutils literal notranslate"><span class="pre">0</span></code>s indicating volumes to censor.</p>
+<p>The custom regressor specification also takes a boolean <code class="docutils literal notranslate"><span class="pre">convolve</span></code> (default = <code class="docutils literal notranslate"><span class="pre">false</span></code>).</p>
+<p>An example with one custom regressor is included in <a class="reference internal" href="#nuisance-no-gui"><span class="std std-ref">Configuration Without the GUI</span></a>, below.</p>
+</div>
 <div class="section" id="configuring-nuisance-signal-regression-options">
 <h2>Configuring Nuisance Signal Regression Options<a class="headerlink" href="#configuring-nuisance-signal-regression-options" title="Permalink to this headline">¶</a></h2>
 <div class="figure align-default">
@@ -144,7 +151,7 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
 <li><p><strong>Select Regressors: - [checkbox: compcor, wm, csf, global, pc1, motion, linear, quadratic]:</strong>  Clicking on the <em>+</em> icon to the right of the box here will bring up a dialog where you can check off which nuisance variables you would like to include.  You may generate multiple sets of nuisance regression strategies in this way.  When you are done defining nuisance regression strategies, check the box next to each strategy you would like to run.</p></li>
 </ol>
 <div class="section" id="configuration-without-the-gui">
-<h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
+<span id="nuisance-no-gui"></span><h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following key/value pairs must be defined in your <a class="reference internal" href="pipeline_config"><span class="doc">pipeline configuration YAML</span></a> for C-PAC to run nuisance correction:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -168,7 +175,7 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
 <td><p>A path (e.g., $FSLDIR/data/atlases/HarvardOxford/ HarvardOxford-lateral-ventricles-thr25-2mm.nii.gz).</p></td>
 </tr>
 <tr class="row-even"><td><p>Regressors</p></td>
-<td><p>The nuisance corrections you wish to apply. Corrections include aCompCor, tCompCor, White Matter, Cerebrospinal Fluid, Grey Matter, Global Signal, Motion, Polynomial regression, Bandpass, Censoring.</p></td>
+<td><p>The nuisance corrections you wish to apply. Corrections include aCompCor, tCompCor, White Matter, Cerebrospinal Fluid, Grey Matter, Global Signal, Motion, Polynomial regression, Bandpass, Censoring, Custom.</p></td>
 <td><p>See below for a full specification of regressors.</p></td>
 </tr>
 </tbody>
@@ -551,6 +558,7 @@ Fox, M.D., Snyder, A.Z., Vincent, J.L., Corbetta, M., Van Essen, D.C., Raichle, 
 <li class="toctree-l5"><a class="reference internal" href="#scrubbing">Scrubbing</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#temporal-filtering">Temporal Filtering</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#median-angle-correction">Median Angle Correction</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#custom-regressors">Custom Regressors</a></li>
 <li class="toctree-l5"><a class="reference internal" href="#configuring-nuisance-signal-regression-options">Configuring Nuisance Signal Regression Options</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#configuration-without-the-gui">Configuration Without the GUI</a></li>
 <li class="toctree-l6"><a class="reference internal" href="#translating-from-old-c-pac-configuration">Translating from old C-PAC configuration</a></li>
