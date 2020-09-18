@@ -54,7 +54,8 @@
 <p>If you have a question that is not answered in the User Guide or encounter an issue not covered in the <cite>Common Issues and Solutions</cite> section below, you should submit it to the <a class="reference external" href="https://groups.google.com/forum/#!forum/cpax_forum">C-PAC user forum</a>.</p>
 <div class="section" id="view-crash-files">
 <h2>View Crash Files<a class="headerlink" href="#view-crash-files" title="Permalink to this headline">¶</a></h2>
-<p>If you run C-PAC through the container (Docker/Singularity), you need to enter the container by typing:</p>
+<p>If you have the <span class="xref std std-doc">cpac Python package</span>, you can simply run <code class="docutils literal notranslate"><span class="pre">cpac</span> <span class="pre">crash</span> <span class="pre">/path/to/crash-file.pklz</span></code> where <code class="file docutils literal notranslate"><span class="pre">/path/to/crash-file.pklz</span></code> is the path to the crash file you wish to view (with any necessary options, e.g., <code class="docutils literal notranslate"><span class="pre">--image</span></code> to specify a C-PAC image to use).</p>
+<p>Otherwise, you need to enter the container by typing:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">docker run -i -t --entrypoint=&#39;/bin/bash&#39; --rm -v /Users/You/some_folder:/outputs fcpindi/c-pac:latest</span>
 </pre></div>
 </div>
@@ -62,7 +63,7 @@
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">nipypecli crash crash-file.pklz</span>
 </pre></div>
 </div>
-<p>Where <code class="file docutils literal notranslate"><span class="pre">crash-file.pklz</span></code> is the name of the crash file you wish to view.</p>
+<p>where <code class="file docutils literal notranslate"><span class="pre">crash-file.pklz</span></code> is the name of the crash file you wish to view.</p>
 </div>
 <div class="section" id="common-issues">
 <h2>Common Issues<a class="headerlink" href="#common-issues" title="Permalink to this headline">¶</a></h2>
