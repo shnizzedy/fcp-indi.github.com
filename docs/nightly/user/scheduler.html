@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Glossary &#8212; C-PAC 1.6.2 Beta documentation</title>
+    <title>Scheduling and Progress Tracking &#8212; C-PAC 1.6.2 Beta documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -29,7 +29,7 @@
           <a href="../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Glossary</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Scheduling and Progress Tracking</a></li> 
       </ul>
     </div>  
 
@@ -38,18 +38,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="glossary">
-<h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="atlas">Atlas</a></li>
-<li class="toctree-l1"><a class="reference internal" href="derivative">Derivative</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeline">Pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="strategy">Strategy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="template">Template</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow">Workflow</a></li>
-</ul>
-</div>
+  <div class="section" id="scheduling-and-progress-tracking">
+<h1>Scheduling and Progress Tracking<a class="headerlink" href="#scheduling-and-progress-tracking" title="Permalink to this headline">¶</a></h1>
+<div class="flowchart-container"><object data="../_static/flowcharts/scheduler.svg" type="image/svg+xml"></object></div><p>During pipeline execution, we want to monitor each node’s execution. WebSocket (WS) allows the server to push information to the connected clients, essential in an asynchronous setup.</p>
+<p>When starting a run with the <code class="docutils literal notranslate"><span class="pre">--monitoring</span></code> flag, the execution hangs until the WebSocket connects. This is preferred so no data is lost (i.e. C-PAC starts running before the WS connects).</p>
+<p>If running the <a class="reference internal" href="quick#cpac-python-package"><span class="std std-ref">cpac Python package</span></a>, cpac will automatically find an available port on which to connect. If running a Docker or Singularity container directly, you must expose any ports used for monitoring. The default WebSocket monitoring port is <code class="docutils literal notranslate"><span class="pre">8080</span></code>.</p>
 </div>
 
 
@@ -64,7 +57,7 @@
             </a></p>
   <h3><a href="../index">Table of Contents</a></h3>
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../user/index">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/index">Welcome to CPAC’s developer documentation!</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../developer/index#indices-and-tables">Indices and tables</a></li>
 </ul>
@@ -93,7 +86,7 @@
           <a href="../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Glossary</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Scheduling and Progress Tracking</a></li> 
       </ul>
     </div>
 
