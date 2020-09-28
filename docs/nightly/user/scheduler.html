@@ -42,7 +42,36 @@
 <h1>Scheduling and Progress Tracking<a class="headerlink" href="#scheduling-and-progress-tracking" title="Permalink to this headline">¶</a></h1>
 <div class="flowchart-container"><object data="../_static/flowcharts/scheduler.svg" type="image/svg+xml"></object></div><p>During pipeline execution, we want to monitor each node’s execution. WebSocket (WS) allows the server to push information to the connected clients, essential in an asynchronous setup.</p>
 <p>When starting a run with the <code class="docutils literal notranslate"><span class="pre">--monitoring</span></code> flag, the execution hangs until the WebSocket connects. This is preferred so no data is lost (i.e. C-PAC starts running before the WS connects).</p>
-<p>If running the <a class="reference internal" href="quick#cpac-python-package"><span class="std std-ref">cpac Python package</span></a>, cpac will automatically find an available port on which to connect. If running a Docker or Singularity container directly, you must expose any ports used for monitoring. The default WebSocket monitoring port is <code class="docutils literal notranslate"><span class="pre">8080</span></code>.</p>
+<p>If running the <a class="reference internal" href="quick#cpac-python-package"><span class="std std-ref">cpac Python package</span></a>, cpac will automatically find an available port on which to connect. If running a Docker container directly, you must expose any ports used for monitoring. The default WebSocket monitoring port is <code class="docutils literal notranslate"><span class="pre">8080</span></code>.</p>
+<p>For example, you can run</p>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>cpac run /path/to/BIDS_directory /path/to/outputs participant --monitoring
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>docker run <span class="se">\</span>
+  -it --rm -p <span class="m">8080</span>:8080 <span class="se">\</span>
+  fcpindi/c-pac:latest <span class="se">\</span>
+  /path/to/BIDS_directory /path/to/outputs participant <span class="se">\</span>
+  --monitoring
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>singularity run --fakeroot <span class="se">\</span>
+  --network bridge <span class="se">\</span>
+  --network-args <span class="s2">&quot;portmap=8080:8080/tcp&quot;</span> <span class="se">\</span>
+  fcpindi_c-pac.simg <span class="se">\</span>
+  /path/to/BIDS_directory /path/to/outputs participant <span class="se">\</span>
+  --monitoring
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Singularity requires the <code class="docutils literal notranslate"><span class="pre">--fakeroot</span></code> option to use <code class="docutils literal notranslate"><span class="pre">network-args.portmap</span></code>. If <code class="docutils literal notranslate"><span class="pre">--fakeroot</span></code> gives an error like</p>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>ERROR  : Failed to create container namespaces
+</pre></div>
+</div>
+<p>see <a class="reference external" href="https://github.com/hpcng/singularity/issues/4361">hpcng/singularity#4361</a></p>
+</div>
 </div>
 
 
