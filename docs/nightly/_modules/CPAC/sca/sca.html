@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.sca.sca &#8212; C-PAC 1.6.2 Beta documentation</title>
+    <title>CPAC.sca.sca &#8212; C-PAC 1.6.2.a Beta documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -28,7 +28,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.sca.sca</a></li> 
       </ul>
@@ -96,14 +96,22 @@
 <span class="sd">       a single Z score file is returned, otherwise z-scores for all ROIs are returned as a list of</span>
 <span class="sd">       nifti files</span>
 
+<span class="sd">    .. exec::</span>
+<span class="sd">        from CPAC.sca import create_sca</span>
+<span class="sd">        wf = create_sca()</span>
+<span class="sd">        wf.write_graph(</span>
+<span class="sd">            graph2use=&#39;orig&#39;,</span>
+<span class="sd">            dotfilename=&#39;./images/generated/sca.dot&#39;</span>
+<span class="sd">        )</span>
+
 <span class="sd">    Workflow:</span>
 
-<span class="sd">    .. image:: ../images/sca_graph.dot.png</span>
+<span class="sd">    .. image:: ../../images/sca.png</span>
 <span class="sd">        :width: 500</span>
 
 <span class="sd">    Detailed Workflow:</span>
 
-<span class="sd">    .. image:: ../images/sca_detailed_graph.dot.png</span>
+<span class="sd">    .. image:: ../../images/sca_detailed.png</span>
 <span class="sd">        :width: 500</span>
 
 <span class="sd">    Examples</span>
@@ -259,15 +267,22 @@
 <span class="sd">    timeseries to the subjects functional file to get spatial maps of voxels</span>
 <span class="sd">    showing activation patterns related to those in the timeseries.</span>
 
+<span class="sd">    .. exec::</span>
+<span class="sd">        from CPAC.sca import create_temporal_reg</span>
+<span class="sd">        wf = create_temporal_reg()</span>
+<span class="sd">        wf.write_graph(</span>
+<span class="sd">            graph2use=&#39;orig&#39;,</span>
+<span class="sd">            dotfilename=&#39;./images/generated/create_temporal_regression.dot&#39;</span>
+<span class="sd">        )</span>
 
 <span class="sd">    Workflow:</span>
 
-<span class="sd">    .. image:: ../images/create_temporal_regression.png</span>
+<span class="sd">    .. image:: ../../images/create_temporal_regression.png</span>
 <span class="sd">        :width: 500</span>
 
 <span class="sd">    Detailed Workflow:</span>
 
-<span class="sd">    .. image:: ../images/detailed_graph_create_temporal_regression.png</span>
+<span class="sd">    .. image:: ../../images/create_temporal_regression_detailed.png</span>
 <span class="sd">        :width: 500</span>
 
 <span class="sd">    References</span>
@@ -441,7 +456,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.sca.sca</a></li> 
       </ul>

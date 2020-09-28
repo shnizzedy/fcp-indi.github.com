@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Easy thresh &#8212; C-PAC 1.6.2 Beta documentation</title>
+    <title>Easy thresh &#8212; C-PAC 1.6.2.a Beta documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="group_analysis" title="Group Analysis"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" accesskey="U">Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Easy thresh</a></li> 
@@ -53,9 +53,9 @@
 <dl class="py function">
 <dt id="CPAC.easy_thresh.copy_geom">
 <code class="sig-prename descclassname">CPAC.easy_thresh.</code><code class="sig-name descname">copy_geom</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">infile_a</span></em>, <em class="sig-param"><span class="n">infile_b</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/easy_thresh/easy_thresh#copy_geom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.easy_thresh.copy_geom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to call fsl fslcpgeom command to copy 
-certain parts of the header information (image dimensions, 
-voxel dimensions, voxel dimensions units string, image 
+<dd><p>Method to call fsl fslcpgeom command to copy
+certain parts of the header information (image dimensions,
+voxel dimensions, voxel dimensions units string, image
 orientation/origin or qform/sform info) from one image to another</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -85,7 +85,7 @@ in the header.</p>
 <dl class="py function">
 <dt id="CPAC.easy_thresh.easy_thresh">
 <code class="sig-prename descclassname">CPAC.easy_thresh.</code><code class="sig-name descname">easy_thresh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wf_name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/easy_thresh/easy_thresh#easy_thresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.easy_thresh.easy_thresh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Workflow for carrying out cluster-based thresholding 
+<dd><p>Workflow for carrying out cluster-based thresholding
 and colour activation overlaying</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -111,8 +111,8 @@ and colour activation overlaying</p>
     <span class="n">mask</span> <span class="n">generated</span> <span class="kn">from</span> <span class="mi">4</span><span class="n">D</span> <span class="n">Merged</span> <span class="n">derivative</span> <span class="n">file</span>
 
 <span class="n">inputspec</span><span class="o">.</span><span class="n">z_threshold</span> <span class="p">:</span> <span class="nb">float</span>
-    <span class="n">Z</span> <span class="n">Statistic</span> <span class="n">threshold</span> <span class="n">value</span> <span class="k">for</span> <span class="n">cluster</span> <span class="n">thresholding</span><span class="o">.</span> <span class="n">It</span> <span class="ow">is</span> <span class="n">used</span> <span class="n">to</span> 
-    <span class="n">determine</span> <span class="n">what</span> <span class="n">level</span> <span class="n">of</span> <span class="n">activation</span> <span class="n">would</span> <span class="n">be</span> <span class="n">statistically</span> <span class="n">significant</span><span class="o">.</span> 
+    <span class="n">Z</span> <span class="n">Statistic</span> <span class="n">threshold</span> <span class="n">value</span> <span class="k">for</span> <span class="n">cluster</span> <span class="n">thresholding</span><span class="o">.</span> <span class="n">It</span> <span class="ow">is</span> <span class="n">used</span> <span class="n">to</span>
+    <span class="n">determine</span> <span class="n">what</span> <span class="n">level</span> <span class="n">of</span> <span class="n">activation</span> <span class="n">would</span> <span class="n">be</span> <span class="n">statistically</span> <span class="n">significant</span><span class="o">.</span>
     <span class="n">Increasing</span> <span class="n">this</span> <span class="n">will</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">higher</span> <span class="n">estimates</span> <span class="n">of</span> <span class="n">required</span> <span class="n">effect</span><span class="o">.</span>
 
 <span class="n">inputspec</span><span class="o">.</span><span class="n">p_threshold</span> <span class="p">:</span> <span class="nb">float</span>
@@ -127,13 +127,13 @@ and colour activation overlaying</p>
    <span class="n">the</span> <span class="n">thresholded</span> <span class="n">Z</span> <span class="n">statistic</span> <span class="n">image</span> <span class="k">for</span> <span class="n">each</span> <span class="n">t</span> <span class="n">contrast</span>
 
 <span class="n">outputspec</span><span class="o">.</span><span class="n">cluster_index</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nifti</span> <span class="n">files</span><span class="p">)</span>
-    <span class="n">image</span> <span class="n">of</span> <span class="n">clusters</span> <span class="k">for</span> <span class="n">each</span> <span class="n">t</span> <span class="n">contrast</span><span class="p">;</span> <span class="n">the</span> <span class="n">values</span> 
-    <span class="ow">in</span> <span class="n">the</span> <span class="n">clusters</span> <span class="n">are</span> <span class="n">the</span> <span class="n">index</span> <span class="n">numbers</span> <span class="k">as</span> <span class="n">used</span> 
+    <span class="n">image</span> <span class="n">of</span> <span class="n">clusters</span> <span class="k">for</span> <span class="n">each</span> <span class="n">t</span> <span class="n">contrast</span><span class="p">;</span> <span class="n">the</span> <span class="n">values</span>
+    <span class="ow">in</span> <span class="n">the</span> <span class="n">clusters</span> <span class="n">are</span> <span class="n">the</span> <span class="n">index</span> <span class="n">numbers</span> <span class="k">as</span> <span class="n">used</span>
     <span class="ow">in</span> <span class="n">the</span> <span class="n">cluster</span> <span class="nb">list</span><span class="o">.</span>
 
 <span class="n">outputspec</span><span class="o">.</span><span class="n">overlay_threshold</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nifti</span> <span class="n">files</span><span class="p">)</span>
     <span class="mi">3</span><span class="n">D</span> <span class="n">color</span> <span class="n">rendered</span> <span class="n">stats</span> <span class="n">overlay</span> <span class="n">image</span> <span class="k">for</span> <span class="n">t</span> <span class="n">contrast</span>
-    <span class="n">After</span> <span class="n">reloading</span> <span class="n">this</span> <span class="n">image</span><span class="p">,</span> <span class="n">use</span> <span class="n">the</span> <span class="n">Statistics</span> <span class="n">Color</span> 
+    <span class="n">After</span> <span class="n">reloading</span> <span class="n">this</span> <span class="n">image</span><span class="p">,</span> <span class="n">use</span> <span class="n">the</span> <span class="n">Statistics</span> <span class="n">Color</span>
     <span class="n">Rendering</span> <span class="n">GUI</span> <span class="n">to</span> <span class="n">reload</span> <span class="n">the</span> <span class="n">color</span> <span class="n">look</span><span class="o">-</span><span class="n">up</span><span class="o">-</span><span class="n">table</span>
 
 <span class="n">outputspec</span><span class="o">.</span><span class="n">overlay_rendered_image</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nifti</span> <span class="n">files</span><span class="p">)</span>
@@ -156,8 +156,8 @@ and colour activation overlaying</p>
 </div>
 </li>
 <li><p>Create mask. For details see <a class="reference external" href="http://www.fmrib.ox.ac.uk/fslcourse/lectures/practicals/intro/index.htm#fslutils">fslmaths</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fslmaths</span> <span class="o">../</span><span class="n">flameo</span><span class="o">/</span><span class="n">stats</span><span class="o">/</span><span class="n">zstat1</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span> 
-         <span class="o">-</span><span class="n">mas</span> <span class="n">merge_mask</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fslmaths</span> <span class="o">../</span><span class="n">flameo</span><span class="o">/</span><span class="n">stats</span><span class="o">/</span><span class="n">zstat1</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
+         <span class="o">-</span><span class="n">mas</span> <span class="n">merge_mask</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
          <span class="n">zstat1_mask</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
 
 <span class="n">arguments</span>
@@ -171,16 +171,16 @@ and colour activation overlaying</p>
 </div>
 </li>
 <li><p>Cluster based thresholding. For details see <a class="reference external" href="http://www.fmrib.ox.ac.uk/fsl/feat5/detail.html#poststats">FEAT</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span> <span class="o">--</span><span class="n">dlh</span> <span class="o">=</span> <span class="mf">0.0023683100</span> 
-        <span class="o">--</span><span class="ow">in</span> <span class="o">=</span> <span class="n">zstat1_mask</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span> 
-        <span class="o">--</span><span class="n">oindex</span> <span class="o">=</span> <span class="n">zstat1_cluster_index</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span> <span class="o">--</span><span class="n">dlh</span> <span class="o">=</span> <span class="mf">0.0023683100</span>
+        <span class="o">--</span><span class="ow">in</span> <span class="o">=</span> <span class="n">zstat1_mask</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
+        <span class="o">--</span><span class="n">oindex</span> <span class="o">=</span> <span class="n">zstat1_cluster_index</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
         <span class="o">--</span><span class="n">olmax</span> <span class="o">=</span> <span class="n">zstat1_cluster_localmax</span><span class="o">.</span><span class="n">txt</span>
-        <span class="o">--</span><span class="n">othresh</span> <span class="o">=</span> <span class="n">zstat1_cluster_threshold</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span> 
-        <span class="o">--</span><span class="n">pthresh</span> <span class="o">=</span> <span class="mf">0.0500000000</span> 
-        <span class="o">--</span><span class="n">thresh</span> <span class="o">=</span> <span class="mf">2.3000000000</span> 
+        <span class="o">--</span><span class="n">othresh</span> <span class="o">=</span> <span class="n">zstat1_cluster_threshold</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
+        <span class="o">--</span><span class="n">pthresh</span> <span class="o">=</span> <span class="mf">0.0500000000</span>
+        <span class="o">--</span><span class="n">thresh</span> <span class="o">=</span> <span class="mf">2.3000000000</span>
         <span class="o">--</span><span class="n">volume</span> <span class="o">=</span> <span class="mi">197071</span>
 
-<span class="n">arguments</span> 
+<span class="n">arguments</span>
 <span class="o">--</span><span class="ow">in</span>    <span class="p">:</span>    <span class="n">filename</span> <span class="n">of</span> <span class="nb">input</span> <span class="n">volume</span>
 <span class="o">--</span><span class="n">dlh</span>   <span class="p">:</span>    <span class="n">smoothness</span> <span class="n">estimate</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">det</span><span class="p">(</span><span class="n">Lambda</span><span class="p">))</span>
 <span class="o">--</span><span class="n">oindex</span>  <span class="p">:</span>  <span class="n">filename</span> <span class="k">for</span> <span class="n">output</span> <span class="n">of</span> <span class="n">cluster</span> <span class="n">index</span>
@@ -195,7 +195,7 @@ and colour activation overlaying</p>
 </ul>
 <blockquote>
 <div><p>Z statistic image is thresholded to show which voxels or clusters of voxels are activated at a particular significance level.
-A Z statistic threshold is used to define contiguous clusters. Then each cluster’s estimated significance level (from GRF-theory) 
+A Z statistic threshold is used to define contiguous clusters. Then each cluster’s estimated significance level (from GRF-theory)
 is compared with the cluster probability threshold. Significant clusters are then used to mask the original Z statistic image.</p>
 </div></blockquote>
 <ul>
@@ -208,25 +208,30 @@ is compared with the cluster probability threshold. Significant clusters are the
 </div>
 </li>
 <li><p>Rendering. For details see <a class="reference external" href="http://www.fmrib.ox.ac.uk/fsl/feat5/detail.html#poststats">FEAT</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">overlay</span> <span class="mi">1</span> <span class="mi">0</span> <span class="n">MNI152_T1_2mm_brain</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span> 
-       <span class="o">-</span><span class="n">a</span> <span class="n">zstat1_cluster_threshold</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span> 
-       <span class="mf">2.30</span> <span class="mf">15.67</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">overlay</span> <span class="mi">1</span> <span class="mi">0</span> <span class="n">MNI152_T1_2mm_brain</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
+       <span class="o">-</span><span class="n">a</span> <span class="n">zstat1_cluster_threshold</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
+       <span class="mf">2.30</span> <span class="mf">15.67</span>
        <span class="n">zstat1_cluster_threshold_overlay</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
 
-<span class="n">slicer</span> <span class="n">zstat1_cluster_threshold_overlay</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span> 
-       <span class="o">-</span><span class="n">L</span>  <span class="o">-</span><span class="n">A</span> <span class="mi">750</span> 
+<span class="n">slicer</span> <span class="n">zstat1_cluster_threshold_overlay</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
+       <span class="o">-</span><span class="n">L</span>  <span class="o">-</span><span class="n">A</span> <span class="mi">750</span>
        <span class="n">zstat1_cluster_threshold_overlay</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
-<p>The Z statistic range selected for rendering is automatically calculated by default, 
-to run from red (minimum Z statistic after thresholding) to yellow (maximum Z statistic, here 
+<p>The Z statistic range selected for rendering is automatically calculated by default,
+to run from red (minimum Z statistic after thresholding) to yellow (maximum Z statistic, here
 maximum intensity).</p>
 </li>
 </ul>
 <p>High Level Workflow Graph:</p>
-<a class="reference internal image-reference" href="developer/workflows/../images/easy_thresh.dot.png"><img alt="developer/workflows/../images/easy_thresh.dot.png" src="developer/workflows/../images/easy_thresh.dot.png" style="width: 800px;" /></a>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>Unable to execute python code at exec.py:31:</p>
+<p>easy_thresh() missing 1 required positional argument: ‘wf_name’</p>
+</div>
+<a class="reference internal image-reference" href="developer/workflows/../../images/generated/easy_thresh.png"><img alt="developer/workflows/../../images/generated/easy_thresh.png" src="developer/workflows/../../images/generated/easy_thresh.png" style="width: 800px;" /></a>
 <p>Detailed Workflow Graph:</p>
-<a class="reference internal image-reference" href="developer/workflows/../images/easy_thresh_detailed.dot.png"><img alt="developer/workflows/../images/easy_thresh_detailed.dot.png" src="developer/workflows/../images/easy_thresh_detailed.dot.png" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="developer/workflows/../../images/generated.easy_thresh_detailed.png"><img alt="developer/workflows/../../images/generated.easy_thresh_detailed.png" src="developer/workflows/../../images/generated.easy_thresh_detailed.png" style="width: 800px;" /></a>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">easy_thresh</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">preproc</span> <span class="o">=</span> <span class="n">easy_thresh</span><span class="o">.</span><span class="n">easy_thresh</span><span class="p">(</span><span class="s2">&quot;new_workflow&quot;</span><span class="p">)</span>
@@ -243,7 +248,7 @@ maximum intensity).</p>
 <dl class="py function">
 <dt id="CPAC.easy_thresh.get_standard_background_img">
 <code class="sig-prename descclassname">CPAC.easy_thresh.</code><code class="sig-name descname">get_standard_background_img</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_file</span></em>, <em class="sig-param"><span class="n">file_parameters</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/easy_thresh/easy_thresh#get_standard_background_img"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.easy_thresh.get_standard_background_img" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to get the standard brain image from FSL 
+<dd><p>Method to get the standard brain image from FSL
 standard data directory</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -286,7 +291,7 @@ for input to the overlay.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>img_min_max</strong><span class="classifier">tuple (float)</span></dt><dd><p>tuple of zthreshold and maximum intensity 
+<dt><strong>img_min_max</strong><span class="classifier">tuple (float)</span></dt><dd><p>tuple of zthreshold and maximum intensity
 value of z statistic image</p>
 </dd>
 </dl>
@@ -370,7 +375,7 @@ value of z statistic image</p>
         <li class="right" >
           <a href="group_analysis" title="Group Analysis"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" >Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Easy thresh</a></li> 

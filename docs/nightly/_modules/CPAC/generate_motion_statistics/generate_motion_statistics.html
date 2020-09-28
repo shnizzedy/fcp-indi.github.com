@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.generate_motion_statistics.generate_motion_statistics &#8212; C-PAC 1.6.2 Beta documentation</title>
+    <title>CPAC.generate_motion_statistics.generate_motion_statistics &#8212; C-PAC 1.6.2.a Beta documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -28,7 +28,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.generate_motion_statistics.generate_motion_statistics</a></li> 
       </ul>
@@ -177,12 +177,12 @@
 
 <span class="sd">    High Level Workflow Graph:</span>
 
-<span class="sd">    .. image:: ./images/generated/motion_statistics.png</span>
+<span class="sd">    .. image:: ../../images/generated/motion_statistics.png</span>
 <span class="sd">       :width: 1000</span>
 
 <span class="sd">    Detailed Workflow Graph:</span>
 
-<span class="sd">    .. image:: ./images/generated/motion_statistics_detailed.png</span>
+<span class="sd">    .. image:: ../../images/generated/motion_statistics_detailed.png</span>
 <span class="sd">       :width: 1000</span>
 
 <span class="sd">    Examples</span>
@@ -265,7 +265,7 @@
                                     <span class="n">function</span><span class="o">=</span><span class="n">calculate_FD_J</span><span class="p">,</span>
                                     <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calculate_FDJ&#39;</span><span class="p">)</span>
-    
+
     <span class="n">calculate_FDJ</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">motion_correct_tool</span> <span class="o">=</span> <span class="n">motion_correct_tool</span>
     <span class="k">if</span> <span class="n">motion_correct_tool</span> <span class="o">==</span> <span class="s1">&#39;3dvolreg&#39;</span><span class="p">:</span>
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;transformations&#39;</span><span class="p">,</span>
@@ -453,7 +453,7 @@
 
     <span class="k">elif</span> <span class="n">motion_correct_tool</span><span class="o">==</span><span class="s1">&#39;mcflirt&#39;</span><span class="p">:</span>
         <span class="n">maxdisp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">max_displacement</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># TODO: mcflirt outputs absdisp, instead of maxdisp</span>
-        <span class="n">reldisp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">max_displacement</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
+        <span class="n">reldisp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">max_displacement</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="n">abs_relative</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
     <span class="n">max_relative</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">abs_relative</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
@@ -468,9 +468,9 @@
         <span class="p">(</span><span class="s1">&#39;Max_Relative_RMS_Displacement&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">rms</span><span class="p">)),</span>
         <span class="p">(</span><span class="s1">&#39;Movements_gt_threshold&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">abs_relative</span><span class="p">(</span><span class="n">rms</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">)),</span>
         <span class="p">(</span><span class="s1">&#39;Mean_Relative_Mean_Rotation&#39;</span><span class="p">,</span> <span class="n">avg_relative</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mot</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))),</span>
-        <span class="p">(</span><span class="s1">&#39;Mean_Relative_Maxdisp&#39;</span><span class="p">,</span> <span class="n">avg_relative</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated </span>
-        <span class="p">(</span><span class="s1">&#39;Max_Relative_Maxdisp&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated </span>
-        <span class="p">(</span><span class="s1">&#39;Max_Abs_Maxdisp&#39;</span><span class="p">,</span> <span class="n">max_abs</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated </span>
+        <span class="p">(</span><span class="s1">&#39;Mean_Relative_Maxdisp&#39;</span><span class="p">,</span> <span class="n">avg_relative</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated</span>
+        <span class="p">(</span><span class="s1">&#39;Max_Relative_Maxdisp&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated</span>
+        <span class="p">(</span><span class="s1">&#39;Max_Abs_Maxdisp&#39;</span><span class="p">,</span> <span class="n">max_abs</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated</span>
         <span class="p">(</span><span class="s1">&#39;Max Relative_Roll&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">mot</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
         <span class="p">(</span><span class="s1">&#39;Max_Relative_Pitch&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">mot</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
         <span class="p">(</span><span class="s1">&#39;Max_Relative_Yaw&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">mot</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>
@@ -547,7 +547,7 @@
     <span class="k">if</span> <span class="n">motion_correct_tool</span> <span class="o">==</span> <span class="s1">&#39;3dvolreg&#39;</span><span class="p">:</span>
 
         <span class="n">fdj_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">fdj</span><span class="p">)</span>
-        
+
         <span class="c1"># Mean FD Jenkinson</span>
         <span class="n">meanFD_Jenkinson</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fdj_data</span><span class="p">)</span>
 
@@ -660,7 +660,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.generate_motion_statistics.generate_motion_statistics</a></li> 
       </ul>

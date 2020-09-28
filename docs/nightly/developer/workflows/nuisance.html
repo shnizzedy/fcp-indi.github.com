@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nuisance Signal Removal &#8212; C-PAC 1.6.2 Beta documentation</title>
+    <title>Nuisance Signal Removal &#8212; C-PAC 1.6.2.a Beta documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="basc" title="Bootstrap Analysis of Stable Clusters"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" accesskey="U">Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Nuisance Signal Removal</a></li> 
@@ -84,6 +84,25 @@ this value is read from the nifti file provided.</p>
 <dt>timestep: float</dt><dd><p>‘Repetition time (TR) of series (in sec) - derived from image header if unspecified’</p>
 </dd>
 <dt>period_cut: float</dt><dd><p>Minimum period (in sec) for DCT high-pass filter, nipype default value: 128</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="CPAC.nuisance.create_regressor_workflow">
+<code class="sig-prename descclassname">CPAC.nuisance.</code><code class="sig-name descname">create_regressor_workflow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nuisance_selectors</span></em>, <em class="sig-param"><span class="n">use_ants</span></em>, <em class="sig-param"><span class="n">ventricle_mask_exist</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'nuisance_regressors'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/nuisance/nuisance#create_regressor_workflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.nuisance.create_regressor_workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workflow for the removal of various signals considered to be noise from resting state
+fMRI data.  The residual signals for linear regression denoising is performed in a single
+model.  Therefore the residual time-series will be orthogonal to all signals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>:param nuisance_selectors: dictionary describing nuisance regression to be performed</strong></dt><dd></dd>
+<dt><strong>:param use_ants: flag indicating whether FNIRT or ANTS is used</strong></dt><dd></dd>
+<dt><strong>:param name: Name of the workflow, defaults to ‘nuisance’</strong></dt><dd></dd>
+<dt><strong>:return: nuisance</strong><span class="classifier">nipype.pipeline.engine.Workflow</span></dt><dd><p>Nuisance workflow.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -220,7 +239,7 @@ this operation.</p>
         <li class="right" >
           <a href="basc" title="Bootstrap Analysis of Stable Clusters"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" >Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Nuisance Signal Removal</a></li> 

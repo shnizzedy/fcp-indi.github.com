@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Functional Preprocessing &#8212; C-PAC 1.6.2 Beta documentation</title>
+    <title>Functional Preprocessing &#8212; C-PAC 1.6.2.a Beta documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="anat_preproc" title="Anatomical Preprocessing"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" accesskey="U">Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Functional Preprocessing</a></li> 
@@ -218,12 +218,12 @@ and movement parameters. It also outputs the aligned 4D volume and movement and 
 <div class="admonition error">
 <p class="admonition-title">Error</p>
 <p>Unable to execute python code at exec.py:31:</p>
-<p>create_func_preproc() missing 3 required positional arguments: ‘skullstrip_tool’, ‘motion_correct_tool’, and ‘motion_correct_ref’</p>
+<p>‘NoneType’ object has no attribute ‘bold_bet_frac’</p>
 </div>
 <p>High Level Workflow Graph:</p>
-<a class="reference internal image-reference" href="developer/workflows/./images/generated/func_preproc.png"><img alt="developer/workflows/./images/generated/func_preproc.png" src="developer/workflows/./images/generated/func_preproc.png" style="width: 1000px;" /></a>
+<a class="reference internal image-reference" href="developer/workflows/../../images/generated/func_preproc.png"><img alt="developer/workflows/../../images/generated/func_preproc.png" src="developer/workflows/../../images/generated/func_preproc.png" style="width: 1000px;" /></a>
 <p>Detailed Workflow Graph:</p>
-<a class="reference internal image-reference" href="developer/workflows/./images/generated/func_preproc_detailed.png"><img alt="developer/workflows/./images/generated/func_preproc_detailed.png" src="developer/workflows/./images/generated/func_preproc_detailed.png" style="width: 1000px;" /></a>
+<a class="reference internal image-reference" href="developer/workflows/../../images/generated/func_preproc_detailed.png"><img alt="developer/workflows/../../images/generated/func_preproc_detailed.png" src="developer/workflows/../../images/generated/func_preproc_detailed.png" style="width: 1000px;" /></a>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">func_preproc</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">preproc</span> <span class="o">=</span> <span class="n">create_func_preproc</span><span class="p">(</span><span class="n">bet</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -346,7 +346,7 @@ in the configuration file</p>
         <li class="right" >
           <a href="anat_preproc" title="Anatomical Preprocessing"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" >Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Functional Preprocessing</a></li> 

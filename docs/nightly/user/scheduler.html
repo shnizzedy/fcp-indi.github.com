@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scheduling and Progress Tracking &#8212; C-PAC 1.6.2 Beta documentation</title>
+    <title>Scheduling and Progress Tracking &#8212; C-PAC 1.6.2.a Beta documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -28,7 +28,7 @@
         <li class="right" >
           <a href="../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Scheduling and Progress Tracking</a></li> 
       </ul>
     </div>  
@@ -50,8 +50,10 @@
 <p>or</p>
 <div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>docker run <span class="se">\</span>
   -it --rm -p <span class="m">8080</span>:8080 <span class="se">\</span>
+  -v /path/to/BIDS_directory:/bids_dir <span class="se">\</span>
+  -v /path/to/outputs:/outputs <span class="se">\</span>
   fcpindi/c-pac:latest <span class="se">\</span>
-  /path/to/BIDS_directory /path/to/outputs participant <span class="se">\</span>
+  /bids_dir /outputs participant <span class="se">\</span>
   --monitoring
 </pre></div>
 </div>
@@ -59,8 +61,10 @@
 <div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>singularity run --fakeroot <span class="se">\</span>
   --network bridge <span class="se">\</span>
   --network-args <span class="s2">&quot;portmap=8080:8080/tcp&quot;</span> <span class="se">\</span>
+  -B /path/to/BIDS_directory:/bids_dir <span class="se">\</span>
+  -B /path/to/outputs:/outputs <span class="se">\</span>
   fcpindi_c-pac.simg <span class="se">\</span>
-  /path/to/BIDS_directory /path/to/outputs participant <span class="se">\</span>
+  /bids_dir /outputs participant <span class="se">\</span>
   --monitoring
 </pre></div>
 </div>
@@ -70,7 +74,7 @@
 <div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>ERROR  : Failed to create container namespaces
 </pre></div>
 </div>
-<p>see <a class="reference external" href="https://github.com/hpcng/singularity/issues/4361">hpcng/singularity#4361</a></p>
+<p>see <a class="reference external" href="https://github.com/hpcng/singularity/issues/4361">hpcng/singularity#4361</a> for potential guidance.</p>
 </div>
 </div>
 
@@ -114,7 +118,7 @@
         <li class="right" >
           <a href="../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.6.2 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Scheduling and Progress Tracking</a></li> 
       </ul>
     </div>
