@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.anat_preproc.anat_preproc &#8212; C-PAC 1.6.2.a Beta documentation</title>
+    <title>CPAC.anat_preproc.anat_preproc &#8212; C-PAC 1.7.0 Beta documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -28,7 +28,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.anat_preproc.anat_preproc</a></li> 
       </ul>
@@ -631,8 +631,17 @@
 <span class="sd">               -prefix mprage_RPI_3dc.nii.gz</span>
 
 <span class="sd">    .. exec::</span>
+<span class="sd">        import yaml</span>
+<span class="sd">        from urllib.request import urlopen</span>
 <span class="sd">        from CPAC.anat_preproc import create_anat_preproc</span>
-<span class="sd">        wf = create_anat_preproc()</span>
+<span class="sd">        from CPAC.utils.configuration import Configuration</span>
+
+<span class="sd">        wf = create_anat_preproc(</span>
+<span class="sd">            config=Configuration(yaml.safe_load(</span>
+<span class="sd">                &#39;https://raw.githubusercontent.com/FCP-INDI/C-PAC/develop/&#39;</span>
+<span class="sd">                &#39;dev/docker_data/default_pipeline.yml&#39;</span>
+<span class="sd">            ))</span>
+<span class="sd">        )</span>
 <span class="sd">        wf.write_graph(</span>
 <span class="sd">            graph2use=&#39;orig&#39;,</span>
 <span class="sd">            dotfilename=&#39;./images/generated/anatpreproc.dot&#39;</span>
@@ -657,9 +666,13 @@
 
     <span class="n">preproc</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">wf_name</span><span class="p">)</span>
 
-    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;anat&#39;</span><span class="p">,</span> 
-                                                       <span class="s1">&#39;brain_mask&#39;</span><span class="p">,</span> 
-                                                       <span class="s1">&#39;template_cmass&#39;</span><span class="p">]),</span> 
+    <span class="n">inputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;anat&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;brain_mask&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;template_brain_only_for_anat&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;template_skull_for_anat&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;template_brain_only_for_acpc&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;template_skull_for_acpc&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;template_cmass&#39;</span><span class="p">]),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
     <span class="n">outputnode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;refit&#39;</span><span class="p">,</span>
@@ -826,7 +839,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.anat_preproc.anat_preproc</a></li> 
       </ul>
