@@ -637,10 +637,10 @@
 <span class="sd">        from CPAC.utils.configuration import Configuration</span>
 
 <span class="sd">        wf = create_anat_preproc(</span>
-<span class="sd">            config=Configuration(yaml.safe_load(</span>
+<span class="sd">            config=Configuration(yaml.safe_load(urlopen(</span>
 <span class="sd">                &#39;https://raw.githubusercontent.com/FCP-INDI/C-PAC/develop/&#39;</span>
 <span class="sd">                &#39;dev/docker_data/default_pipeline.yml&#39;</span>
-<span class="sd">            ))</span>
+<span class="sd">            )))</span>
 <span class="sd">        )</span>
 <span class="sd">        wf.write_graph(</span>
 <span class="sd">            graph2use=&#39;orig&#39;,</span>
