@@ -773,19 +773,16 @@
 <span class="sd">               -odt char</span>
 
 <span class="sd">    .. exec::</span>
-<span class="sd">        import os</span>
 <span class="sd">        import yaml</span>
+<span class="sd">        from urllib.request import urlopen</span>
 <span class="sd">        from CPAC.func_preproc import create_func_preproc, __file__ as func_file</span>
 <span class="sd">        from CPAC.utils.configuration import Configuration</span>
 
 <span class="sd">        wf = create_func_preproc(&#39;fsl&#39;, &#39;3dvolreg&#39;, &#39;mean&#39;,</span>
-<span class="sd">            Configuration(yaml.safe_load(open(</span>
-<span class="sd">                os.path.join(</span>
-<span class="sd">                    os.path.dirname(os.path.dirname(os.path.dirname(</span>
-<span class="sd">                        func_file</span>
-<span class="sd">                    ))), &#39;dev&#39;, &#39;docker_data&#39;, &#39;default_pipeline.yml&#39;</span>
-<span class="sd">                ), &#39;r&#39;</span>
-<span class="sd">            )))</span>
+<span class="sd">            Configuration(yaml.safe_load(</span>
+<span class="sd">                &#39;https://raw.githubusercontent.com/FCP-INDI/C-PAC/develop/&#39;</span>
+<span class="sd">                &#39;dev/docker_data/default_pipeline.yml&#39;</span>
+<span class="sd">            ))</span>
 <span class="sd">        )</span>
 <span class="sd">        wf.write_graph(</span>
 <span class="sd">            graph2use=&#39;orig&#39;,</span>
