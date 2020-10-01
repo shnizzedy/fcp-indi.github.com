@@ -74,8 +74,23 @@
 <div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>ERROR  : Failed to create container namespaces
 </pre></div>
 </div>
-<p>see <a class="reference external" href="https://github.com/hpcng/singularity/issues/4361">hpcng/singularity#4361</a> for potential guidance.</p>
+<blockquote>
+<div><p>See <a class="reference external" href="https://github.com/hpcng/singularity/issues/4361">hpcng/singularity#4361</a> for potential guidance.</p>
+</div></blockquote>
 </div>
+<p>Once your container starts running, C-PAC should log some setup information and then pause on the message</p>
+<blockquote>
+<div><div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>Waiting <span class="k">for</span> monitoring websocket to connect<span class="o">]</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>One WebSocket monitoring tool is <a class="reference external" href="https://github.com/vi/websocat#installation">WebSocat</a>. To use WebSocat to monitor, run</p>
+<blockquote>
+<div><div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>websocat ws://localhost:8080/log
+</pre></div>
+</div>
+</div></blockquote>
+<p>(replacing <code class="docutils literal notranslate"><span class="pre">8080</span></code> with whatever port you’re using) in a terminal. C-PAC will start running and WebSocat will display realtime monitoring messages.</p>
 </div>
 
 
