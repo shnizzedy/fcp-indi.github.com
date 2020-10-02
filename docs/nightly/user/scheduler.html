@@ -58,9 +58,7 @@
 </pre></div>
 </div>
 <p>or</p>
-<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>singularity run --fakeroot <span class="se">\</span>
-  --network bridge <span class="se">\</span>
-  --network-args <span class="s2">&quot;portmap=8080:8080/tcp&quot;</span> <span class="se">\</span>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>singularity run <span class="se">\</span>
   -B /path/to/BIDS_directory:/bids_dir <span class="se">\</span>
   -B /path/to/outputs:/outputs <span class="se">\</span>
   fcpindi_c-pac.simg <span class="se">\</span>
@@ -86,7 +84,7 @@
 </div></blockquote>
 <p>One WebSocket monitoring tool is <a class="reference external" href="https://github.com/vi/websocat#installation">WebSocat</a>. To use WebSocat to monitor, run</p>
 <blockquote>
-<div><div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>websocat ws://localhost:8080/log
+<div><div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span>websocat ws://127.0.0.1:8080/log
 </pre></div>
 </div>
 </div></blockquote>
