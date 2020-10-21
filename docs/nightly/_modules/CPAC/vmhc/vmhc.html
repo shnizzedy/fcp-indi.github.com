@@ -70,11 +70,11 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 
-<span class="sd">    vmhc_workflow : workflow</span>
+<span class="sd">    vmhc_workflow : Workflow</span>
 
 <span class="sd">        Voxel Mirrored Homotopic Connectivity Analysis Workflow</span>
 
-
+<span class="sd">    strat : Strategy</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -223,10 +223,17 @@
 
 <span class="sd">    .. exec::</span>
 <span class="sd">        import nipype.pipeline.engine as pe</span>
+<span class="sd">        from CPAC.utils.interfaces.function import Function</span>
 <span class="sd">        from CPAC.utils.test_mocks import configuration_strategy_mock</span>
 <span class="sd">        from CPAC.vmhc import create_vmhc</span>
-<span class="sd">        pipeline_config_object, strat = configuration_strategy_mock(method=&#39;ANTS&#39;)</span>
-<span class="sd">        wf = create_vmhc(pe.Workflow(), 0, strat, pipeline_config_object)</span>
+<span class="sd">        pipeline_config_object, strat = configuration_strategy_mock(</span>
+<span class="sd">            method=&quot;ANTS&quot;)</span>
+<span class="sd">        pipeline_config_object.update(&#39;smoothing_method&#39;, [&#39;AFNI&#39;])</span>
+<span class="sd">        pipeline_config_object.update(&#39;maxCoresPerParticipant&#39;, &#39;1&#39;)</span>
+<span class="sd">        strat.set_leaf_properties(</span>
+<span class="sd">            pe.Node(Function([]), &#39;vhmc_leaf_node&#39;), &#39;vhmc_outfile&#39;)</span>
+<span class="sd">        wf = create_vmhc(</span>
+<span class="sd">            pe.Workflow(&#39;vmhc&#39;), 0, strat, pipeline_config_object)[0]</span>
 <span class="sd">        wf.write_graph(</span>
 <span class="sd">            graph2use=&#39;orig&#39;,</span>
 <span class="sd">            dotfilename=&#39;./images/generated/vmhc.dot&#39;</span>
