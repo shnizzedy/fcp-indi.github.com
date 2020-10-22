@@ -827,14 +827,22 @@
 
 <span class="sd">    1. Calculates a nonlinear anatomical-to-template registration.</span>
 
+<span class="sd">    .. exec::</span>
+<span class="sd">        from CPAC.registration import create_wf_calculate_ants_warp</span>
+<span class="sd">        wf = create_wf_calculate_ants_warp()</span>
+<span class="sd">        wf.write_graph(</span>
+<span class="sd">            graph2use=&#39;orig&#39;,</span>
+<span class="sd">            dotfilename=&#39;./images/generated/calculate_ants_warp.dot&#39;</span>
+<span class="sd">        )</span>
+
 <span class="sd">    Workflow Graph:</span>
 
-<span class="sd">    .. image::</span>
+<span class="sd">    .. image:: ../../images/generated/calculate_ants_warp.png</span>
 <span class="sd">        :width: 500</span>
 
 <span class="sd">    Detailed Workflow Graph:</span>
 
-<span class="sd">    .. image::</span>
+<span class="sd">    .. image:: ../../images/generated/calculate_ants_warp_detailed.png</span>
 <span class="sd">        :width: 500</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
