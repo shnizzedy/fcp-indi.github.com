@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Median Angle Correction &#8212; C-PAC 1.6.2.a Beta documentation</title>
+    <title>Median Angle Correction &#8212; C-PAC 1.7.1 Beta documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="mdmr" title="Multivariate Distance Matrix Regression (MDMR)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" accesskey="U">Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Median Angle Correction</a></li> 
@@ -125,7 +125,7 @@ the group.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">outputspec</span><span class="o">.</span><span class="n">subject</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nifti</span> <span class="n">file</span><span class="p">)</span>
     <span class="n">Median</span> <span class="n">angle</span> <span class="n">corrected</span> <span class="n">nifti</span> <span class="n">file</span> <span class="n">of</span> <span class="n">the</span> <span class="n">given</span> <span class="n">subject</span>
 <span class="n">outputspec</span><span class="o">.</span><span class="n">pc_angles</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="o">.</span><span class="n">npy</span> <span class="n">file</span><span class="p">)</span>
-    <span class="n">Numpy</span> <span class="n">file</span> <span class="p">(</span><span class="o">.</span><span class="n">npy</span> <span class="n">file</span><span class="p">)</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">angles</span> <span class="p">(</span><span class="ow">in</span> <span class="n">radians</span><span class="p">)</span> <span class="n">of</span> <span class="nb">all</span> <span class="n">voxels</span> <span class="k">with</span>
+    <span class="n">Numpy</span> <span class="n">file</span> <span class="p">(</span><span class="o">.</span><span class="n">npy</span> <span class="n">file</span><span class="p">)</span> <span class="n">containing</span> <span class="n">the</span> <span class="n">angles</span> <span class="p">(</span><span class="ow">in</span> <span class="n">radians</span><span class="p">)</span> <span class="n">of</span> <span class="nb">all</span> <span class="n">voxels</span> <span class="k">with</span> 
     <span class="n">the</span> <span class="mi">5</span> <span class="n">largest</span> <span class="n">principal</span> <span class="n">components</span><span class="o">.</span>
 </pre></div>
 </div>
@@ -176,7 +176,7 @@ the group.</p>
 <ol class="arabic simple">
 <li><p>Compute the median angle and mean bold amplitude of each subject in the group.</p></li>
 <li><p>Fit a linear model with median angle as the dependent variable.</p></li>
-<li><p>Calculate the corresponding median_angle on the fitted model for the subject
+<li><p>Calculate the corresponding median_angle on the fitted model for the subject 
 with the smallest mean bold amplitude of the group.</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
@@ -206,7 +206,7 @@ based on <a class="reference internal" href="#r0716992fcf09-1" id="id1">[1]</a>.
 <dd class="field-even"><dl class="simple">
 <dt><strong>corrected_file</strong><span class="classifier">string</span></dt><dd><p>Path of corrected file (nifti file).</p>
 </dd>
-<dt><strong>angles_file</strong><span class="classifier">string</span></dt><dd><p>Path of numpy file (.npy file) containing the angles (in radians) of all voxels with
+<dt><strong>angles_file</strong><span class="classifier">string</span></dt><dd><p>Path of numpy file (.npy file) containing the angles (in radians) of all voxels with 
 the 5 largest principal components.</p>
 </dd>
 </dl>
@@ -298,7 +298,7 @@ the 5 largest principal components.</p>
         <li class="right" >
           <a href="mdmr" title="Multivariate Distance Matrix Regression (MDMR)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" >Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Median Angle Correction</a></li> 

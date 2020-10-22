@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scrubbing &#8212; C-PAC 1.6.2.a Beta documentation</title>
+    <title>Scrubbing &#8212; C-PAC 1.7.1 Beta documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="generate_motion_statistics" title="Generate Motion and Power Statistics"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" accesskey="U">Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Scrubbing</a></li> 
@@ -77,14 +77,14 @@ of discarded time points from the movement parameters file obtained during motio
     <span class="n">path</span> <span class="n">to</span> <span class="n">file</span> <span class="n">containing</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">time</span> <span class="n">points</span> <span class="k">for</span> <span class="n">which</span> <span class="n">FD</span> <span class="o">&gt;</span> <span class="n">threshold</span>
 <span class="n">inputspec</span><span class="o">.</span><span class="n">movement_parameters</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">mat</span> <span class="n">file</span><span class="p">)</span>
     <span class="n">path</span> <span class="n">to</span> <span class="n">file</span> <span class="n">containing</span> <span class="mi">1</span><span class="n">D</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">six</span> <span class="n">movement</span><span class="o">/</span><span class="n">motion</span> <span class="n">parameters</span>
-    <span class="p">(</span><span class="mi">3</span> <span class="n">Translation</span><span class="p">,</span> <span class="mi">3</span> <span class="n">Rotations</span><span class="p">)</span> <span class="ow">in</span> <span class="n">different</span> <span class="n">columns</span>
+    <span class="p">(</span><span class="mi">3</span> <span class="n">Translation</span><span class="p">,</span> <span class="mi">3</span> <span class="n">Rotations</span><span class="p">)</span> <span class="ow">in</span> <span class="n">different</span> <span class="n">columns</span> 
 <span class="n">inputspec</span><span class="o">.</span><span class="n">preprocessed</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nifti</span> <span class="n">file</span><span class="p">)</span>
     <span class="n">preprocessed</span> <span class="nb">input</span> <span class="n">image</span> <span class="n">path</span>
 </pre></div>
 </div>
 <p>Workflow Outputs:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">outputspec</span><span class="o">.</span><span class="n">preprocessed</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nifti</span> <span class="n">file</span><span class="p">)</span>
-    <span class="n">preprocessed</span> <span class="n">scrubbed</span> <span class="n">output</span> <span class="n">image</span>
+    <span class="n">preprocessed</span> <span class="n">scrubbed</span> <span class="n">output</span> <span class="n">image</span> 
 <span class="n">outputspec</span><span class="o">.</span><span class="n">scrubbed_movement_parameters</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">mat</span> <span class="n">file</span><span class="p">)</span>
     <span class="n">path</span> <span class="n">to</span> <span class="mi">1</span><span class="n">D</span> <span class="n">file</span> <span class="n">containing</span> <span class="n">six</span> <span class="n">movement</span><span class="o">/</span><span class="n">motion</span> <span class="n">parameters</span>
     <span class="k">for</span> <span class="n">the</span> <span class="n">timepoints</span> <span class="n">which</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">discarded</span> <span class="n">by</span> <span class="n">scrubbing</span>
@@ -95,7 +95,7 @@ of discarded time points from the movement parameters file obtained during motio
 <li><p>Remove all movement parameters for all the time frames other than those that are present
 in the frames_in_1D file</p></li>
 <li><p>Remove the discarded timepoints from the input image. For details see <a class="reference external" href="http://afni.nimh.nih.gov/pub/dist/doc/program_help/3dcalc.html">3dcalc</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">3</span><span class="n">dcalc</span> <span class="o">-</span><span class="n">a</span> <span class="n">bandpassed_demeaned_filtered</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">287</span><span class="p">,</span><span class="mi">288</span><span class="p">,</span><span class="mi">289</span><span class="p">,</span><span class="mi">290</span><span class="p">,</span><span class="mi">291</span><span class="p">,</span><span class="mi">292</span><span class="p">,</span><span class="mi">293</span><span class="p">,</span><span class="mi">294</span><span class="p">,</span><span class="mi">295</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">3</span><span class="n">dcalc</span> <span class="o">-</span><span class="n">a</span> <span class="n">bandpassed_demeaned_filtered</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">287</span><span class="p">,</span><span class="mi">288</span><span class="p">,</span><span class="mi">289</span><span class="p">,</span><span class="mi">290</span><span class="p">,</span><span class="mi">291</span><span class="p">,</span><span class="mi">292</span><span class="p">,</span><span class="mi">293</span><span class="p">,</span><span class="mi">294</span><span class="p">,</span><span class="mi">295</span><span class="p">]</span> 
        <span class="o">-</span><span class="n">expr</span> <span class="s1">&#39;a&#39;</span> <span class="o">-</span><span class="n">prefix</span> <span class="n">bandpassed_demeaned_filtered_3dc</span><span class="o">.</span><span class="n">nii</span><span class="o">.</span><span class="n">gz</span>
 </pre></div>
 </div>
@@ -113,7 +113,7 @@ in the frames_in_1D file</p></li>
 <dl class="py function">
 <dt id="CPAC.scrubbing.get_indx">
 <code class="sig-prename descclassname">CPAC.scrubbing.</code><code class="sig-name descname">get_indx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scrub_input</span></em>, <em class="sig-param"><span class="n">frames_in_1D_file</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/scrubbing/scrubbing#get_indx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.scrubbing.get_indx" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to get the list of time
+<dd><p>Method to get the list of time 
 frames that are to be included</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -136,7 +136,7 @@ looks something like ” 4dfile.nii.gz[0,1,2,..100] “</p>
 <dt id="CPAC.scrubbing.get_mov_parameters">
 <code class="sig-prename descclassname">CPAC.scrubbing.</code><code class="sig-name descname">get_mov_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">infile_a</span></em>, <em class="sig-param"><span class="n">infile_b</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/scrubbing/scrubbing#get_mov_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.scrubbing.get_mov_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to get the new movement parameters
-file after removing the offending time frames
+file after removing the offending time frames 
 (i.e., those exceeding FD 0.5mm/0.2mm threshold)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,7 +233,7 @@ for the valid time frames</p>
         <li class="right" >
           <a href="generate_motion_statistics" title="Generate Motion and Power Statistics"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.6.2.a Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" >Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Scrubbing</a></li> 
