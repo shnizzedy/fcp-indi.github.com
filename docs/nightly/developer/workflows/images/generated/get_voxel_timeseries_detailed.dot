@@ -1,0 +1,11 @@
+digraph structs {
+node [shape=record];
+voxel_timeseriesinput_mask [label="{IN}|{ input_mask | utility |  }|{OUT|<outmask> mask}"];
+voxel_timeseriesinputspec [label="{IN}|{ inputspec | utility |  }|{OUT|<outoutputtype> output_type|<outrest> rest}"];
+voxel_timeseriestimeseries_voxel [label="{IN|<indatafile> data_file|<inoutputtype> output_type|<intemplate> template}|{ timeseries_voxel | utility |  }|{OUT|<outoutfile> out_file}"];
+voxel_timeseriesoutputspec [label="{IN|<inmaskoutputs> mask_outputs}|{ outputspec | utility |  }|{OUT}"];
+voxel_timeseriesinput_mask:outmask:e -> voxel_timeseriestimeseries_voxel:intemplate:w;
+voxel_timeseriesinputspec:outoutputtype:e -> voxel_timeseriestimeseries_voxel:inoutputtype:w;
+voxel_timeseriesinputspec:outrest:e -> voxel_timeseriestimeseries_voxel:indatafile:w;
+voxel_timeseriestimeseries_voxel:outoutfile:e -> voxel_timeseriesoutputspec:inmaskoutputs:w;
+}

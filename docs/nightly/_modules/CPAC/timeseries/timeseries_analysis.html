@@ -82,7 +82,23 @@
 <span class="sd">            npz files.By default it outputs mean of voxels</span>
 <span class="sd">            across each time point in a afni compatible 1D file.</span>
 
-<span class="sd">        High Level Workflow Graph:</span>
+<span class="sd">    .. exec::</span>
+<span class="sd">        from CPAC.timeseries import get_voxel_timeseries</span>
+<span class="sd">        wf = get_voxel_timeseries()</span>
+<span class="sd">        wf.write_graph(</span>
+<span class="sd">            graph2use=&#39;orig&#39;,</span>
+<span class="sd">            dotfilename=&#39;./images/generated/get_voxel_timeseries.dot&#39;</span>
+<span class="sd">        )</span>
+
+<span class="sd">    High Level Workflow Graph:</span>
+<span class="sd">    </span>
+<span class="sd">    .. image:: ../../images/generated/get_voxel_timeseries.png</span>
+<span class="sd">       :width: 500</span>
+
+<span class="sd">    Detailed Workflow Graph:</span>
+
+<span class="sd">    .. image:: ../../images/generated/get_voxel_timeseries.png</span>
+<span class="sd">       :width: 500</span>
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>

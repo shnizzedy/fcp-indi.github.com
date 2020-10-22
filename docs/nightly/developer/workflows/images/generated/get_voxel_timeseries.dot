@@ -1,0 +1,9 @@
+strict digraph  {
+"inputspec (utility)";
+"timeseries_voxel (utility)";
+"outputspec (utility)";
+"input_mask (utility)";
+"inputspec (utility)" -> "timeseries_voxel (utility)";
+"timeseries_voxel (utility)" -> "outputspec (utility)";
+"input_mask (utility)" -> "timeseries_voxel (utility)";
+}
