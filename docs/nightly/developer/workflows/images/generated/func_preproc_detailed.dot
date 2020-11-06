@@ -1,6 +1,6 @@
 digraph structs {
 node [shape=record];
-func_preprocinputspec [label="{IN}|{ inputspec | utility |  }|{OUT|<outanatbrain> anat_brain|<outanatomicalbrainmask> anatomical_brain_mask|<outfunc> func|<outrawfunc> raw_func|<outtwopass> twopass}"];
+func_preprocinputspec [label="{IN}|{ inputspec | utility |  }|{OUT|<outanatbrain> anat_brain|<outanathead> anat_head|<outanatomicalbrainmask> anatomical_brain_mask|<outfunc> func|<outrawfunc> raw_func|<outtwopass> twopass}"];
 func_preprocfunc_deoblique [label="{IN|<ininfile> in_file}|{ func_deoblique | afni |  }|{OUT|<outoutfile> out_file}"];
 func_preprocfunc_reorient [label="{IN|<ininfile> in_file}|{ func_reorient | afni |  }|{OUT|<outoutfile> out_file}"];
 func_preprocfunc_get_mean_RPI [label="{IN|<ininfile> in_file}|{ func_get_mean_RPI | afni |  }|{OUT|<outoutfile> out_file}"];
@@ -20,7 +20,7 @@ func_preprocmd1d_concat [label="{IN|<ininfiles> in_files}|{ md1d_concat | interf
 func_preprocout_md1d [label="{IN|<inoutfile> out_file}|{ out_md1d | utility |  }|{OUT|<outoutfile> out_file}"];
 func_preprocmotion_concat [label="{IN|<ininfiles> in_files}|{ motion_concat | afni |  }|{OUT|<outoutfile> out_file}"];
 func_preprocout_motion_A [label="{IN|<inoutfile> out_file}|{ out_motion_A | utility |  }|{OUT|<outoutfile> out_file}"];
-func_preprocfunc_preproc_skullstrip [label="{IN|<ininputspecanatbrain> inputspec.anat_brain|<ininputspecanatomicalbrainmask> inputspec.anatomical_brain_mask|<ininputspecfunc> inputspec.func|<ininputspecrawfunc> inputspec.raw_func}|{ func_preproc_skullstrip |  |  }|{OUT|<outoutputspecfuncbrain> outputspec.func_brain|<outoutputspecfuncbrainmask> outputspec.func_brain_mask}"];
+func_preprocfunc_preproc_skullstrip [label="{IN|<ininputspecanatbrain> inputspec.anat_brain|<ininputspecanathead> inputspec.anat_head|<ininputspecanatomicalbrainmask> inputspec.anatomical_brain_mask|<ininputspecfunc> inputspec.func|<ininputspecrawfunc> inputspec.raw_func}|{ func_preproc_skullstrip |  |  }|{OUT|<outoutputspecfuncbrain> outputspec.func_brain|<outoutputspecfuncbrainmask> outputspec.func_brain_mask}"];
 func_preprocfunc_normalize [label="{IN|<ininfile> in_file}|{ func_normalize | fsl |  }|{OUT|<outoutfile> out_file}"];
 func_preprocfunc_mask_normalize [label="{IN|<ininfile> in_file}|{ func_mask_normalize | fsl |  }|{OUT|<outoutfile> out_file}"];
 func_preprocfunc_mean [label="{IN|<ininfile> in_file}|{ func_mean | afni |  }|{OUT|<outoutfile> out_file}"];
@@ -49,6 +49,7 @@ func_preprocfunc_reorient:outoutfile:e -> func_preprocfunc_get_mean_RPI:ininfile
 func_preprocfunc_reorient:outoutfile:e -> func_preprocoutputspec:inreorient:w;
 func_preprocfunc_reorient:outoutfile:e -> func_preprocsplit:infuncfile:w;
 func_preprocinputspec:outanatbrain:e -> func_preprocfunc_preproc_skullstrip:ininputspecanatbrain:w;
+func_preprocinputspec:outanathead:e -> func_preprocfunc_preproc_skullstrip:ininputspecanathead:w;
 func_preprocinputspec:outanatomicalbrainmask:e -> func_preprocfunc_preproc_skullstrip:ininputspecanatomicalbrainmask:w;
 func_preprocinputspec:outfunc:e -> func_preprocfunc_deoblique:ininfile:w;
 func_preprocinputspec:outrawfunc:e -> func_preprocfunc_preproc_skullstrip:ininputspecrawfunc:w;

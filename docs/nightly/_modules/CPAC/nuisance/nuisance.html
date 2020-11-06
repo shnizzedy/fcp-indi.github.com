@@ -6,8 +6,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CPAC.nuisance.nuisance &#8212; C-PAC 1.7.1 Beta documentation</title>
-    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
     
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -670,6 +670,7 @@
         <span class="s1">&#39;lat_ventricles_mask_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;functional_brain_mask_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;func_to_anat_linear_xfm_file_path&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;anat_to_func_linear_xfm_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;mni_to_anat_linear_xfm_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;anat_to_mni_initial_xfm_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;anat_to_mni_rigid_xfm_file_path&#39;</span><span class="p">,</span>
@@ -709,6 +710,7 @@
 
         <span class="s2">&quot;Transformations&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s2">&quot;func_to_anat_linear_xfm&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">inputspec</span><span class="p">,</span> <span class="s2">&quot;func_to_anat_linear_xfm_file_path&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;anat_to_func_linear_xfm&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">inputspec</span><span class="p">,</span> <span class="s2">&quot;anat_to_func_linear_xfm_file_path&quot;</span><span class="p">),</span>
             <span class="s2">&quot;mni_to_anat_linear_xfm&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">inputspec</span><span class="p">,</span> <span class="s2">&quot;mni_to_anat_linear_xfm_file_path&quot;</span><span class="p">),</span>
             <span class="s2">&quot;anat_to_mni_initial_xfm&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">inputspec</span><span class="p">,</span> <span class="s2">&quot;anat_to_mni_initial_xfm_file_path&quot;</span><span class="p">),</span>
             <span class="s2">&quot;anat_to_mni_rigid_xfm&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">inputspec</span><span class="p">,</span> <span class="s2">&quot;anat_to_mni_rigid_xfm_file_path&quot;</span><span class="p">),</span>
@@ -1650,7 +1652,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.0.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>
