@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Version 0.1.6 Alpha - 2013.01.21 &#8212; C-PAC 1.7.1 Beta documentation</title>
+    <title>Latest Release: Version 1.7.2 Beta (Nov 10, 2020) &#8212; C-PAC 1.7.1 Beta documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -17,8 +17,8 @@
     
     <link rel="index" title="Index" href="../../genindex" />
     <link rel="search" title="Search" href="../../search" />
-    <link rel="next" title="Version 0.1.1 Alpha - 2012.10.15" href="v0.1.1" />
-    <link rel="prev" title="Version 0.1.7 Alpha - 2013.02.05" href="v0.1.7" /> 
+    <link rel="next" title="C-PAC Quickstart" href="../quick" />
+    <link rel="prev" title="Welcome to C-PAC’s user guide!" href="../index" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -30,15 +30,14 @@
           <a href="../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="v0.1.1" title="Version 0.1.1 Alpha - 2012.10.15"
+          <a href="../quick" title="C-PAC Quickstart"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="v0.1.7" title="Version 0.1.7 Alpha - 2013.02.05"
+          <a href="../index" title="Welcome to C-PAC’s user guide!"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../rnotes" accesskey="U">Release Notes</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Version 0.1.6 Alpha - 2013.01.21</a></li> 
+          <li class="nav-item nav-item-1"><a href="../index" accesskey="U">Welcome to C-PAC’s user guide!</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a></li> 
       </ul>
     </div>  
 
@@ -47,28 +46,31 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="version-0-1-6-alpha-2013-01-21">
-<h1>Version 0.1.6 Alpha - 2013.01.21<a class="headerlink" href="#version-0-1-6-alpha-2013-01-21" title="Permalink to this headline">¶</a></h1>
-<ol class="arabic simple">
-<li><p>Fix logger in extract_data.py tool</p></li>
-<li><p>Nuisance code Refactoring</p></li>
-<li><p>Fixed ROI names in SCA</p></li>
-<li><p>Added Import for create_fsl_model in local __init__.py</p></li>
-<li><p>Added New Pipeline names</p></li>
-<li><p>Fixed Pipeline Naming bug when package is installed</p></li>
-<li><p>Centrality fix to handle NAN correlation values</p></li>
-<li><p>Generate ROI nifti files using user co-ordinates</p></li>
-<li><p>Fix output directory structure to handle multiple model run with single subject list</p></li>
-<li><p>Fix in Group Analysis, to get 4D EPI as per input subject list</p></li>
-<li><p>Boundary Based Registration becomes the default registration</p></li>
-<li><p>New Alff/fAlff workflow</p></li>
-<li><p>Updates in config file to accomodate new features</p></li>
-<li><p>Fix to append unit of time(in TR) in slice timing correction: get_scan_parameters</p></li>
-<li><p>Minor changes in create_fsl_model : replace ‘#’ in output csv name with ‘__’</p></li>
-<li><p>Feature addition to clear subject level working directory</p></li>
-<li><p>Added Exception to handle missing dependancy for pygraphviz</p></li>
-<li><p>Added extract_parameters.py script to consolidate motion parameters</p></li>
-</ol>
+  <div class="section" id="latest-release-version-1-7-2-beta-nov-10-2020">
+<h1>Latest Release: Version 1.7.2 Beta (Nov 10, 2020)<a class="headerlink" href="#latest-release-version-1-7-2-beta-nov-10-2020" title="Permalink to this headline">¶</a></h1>
+<p><strong>New Features</strong></p>
+<ul class="simple">
+<li><p><strong>Anatomical-Based BOLD Masking.</strong> Adapted from the DCAN Labs implementation, a new BOLD masking option is now available. Users can select this method to produce a BOLD mask that is produced by transforming the anatomical brain mask to BOLD space.</p></li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul class="simple">
+<li><p>The motion estimate filter can now be forked, where the user can run a pipeline both with and without this processing step.</p></li>
+<li><p>Template-to-native space transformations within the pipeline have been made more robust to possible mis-transformations that would sometimes occur when the template-space images did not have much anatomical contrast.</p></li>
+</ul>
+<p><strong>Error Fixes</strong></p>
+<ul class="simple">
+<li><p>The time series despiking step (performed by AFNI 3dDespike) is now able to be forked again.</p></li>
+<li><p>An error preventing EPI field maps for blip-up/down distortion correction from being parsed into the data configuration when labeled with unconventional <code class="docutils literal notranslate"><span class="pre">dir-</span></code> tags has been fixed.</p></li>
+</ul>
+<p><strong>Coming Soon</strong></p>
+<ul class="simple">
+<li><p>Pipeline Dashboard</p></li>
+<li><p>Surface-Based Processing</p></li>
+<li><p>BIDS-Derivatives Compatibility</p></li>
+</ul>
+<p>In addition, the C-PAC Docker and Singularity images, as well as the AWS AMI, have all been updated. These provide a <a class="reference external" href="http://fcp-indi.github.io/docs/user/quick.html">quick way to get started</a>.</p>
+<p>And as always, you can contact us here for user support and discussion:
+<a class="reference external" href="https://groups.google.com/forum/#!forum/cpax_forum">https://groups.google.com/forum/#!forum/cpax_forum</a></p>
 </div>
 
 
@@ -85,7 +87,10 @@
   <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index">User Guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index#the-c-pac-mission">The C-PAC Mission</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index#latest-release-version-1-7-2-beta-nov-10-2020">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index#latest-release-version-1-7-2-beta-nov-10-2020">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../index#the-c-pac-team">The C-PAC Team</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../index#funding-acknowledgements">Funding Acknowledgements</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index#user-guide-index">User Guide Index</a><ul class="current">
@@ -137,7 +142,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../rnotes#version-0-1-7-alpha-2013-02-05">Version 0.1.7 Alpha - 2013.02.05</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../rnotes#version-0-1-6-alpha-2013-01-21">Version 0.1.6 Alpha - 2013.01.21</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="../rnotes#version-0-1-1-alpha-2012-10-15">Version 0.1.1 Alpha - 2012.10.15</a><ul class="current">
-<li class="toctree-l5"><a class="reference internal" href="v1.7.2">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a></li>
 <li class="toctree-l5"><a class="reference internal" href="v1.7.1">Version 1.7.1 Beta (Sep 30, 2020)</a></li>
 <li class="toctree-l5"><a class="reference internal" href="v1.7.0">Version 1.7.0 Beta (Jul 23, 2020)</a></li>
 <li class="toctree-l5"><a class="reference internal" href="v1.6.2a">Version 1.6.2a Beta (Jun 25, 2020)</a></li>
@@ -173,7 +178,7 @@
 <li class="toctree-l5"><a class="reference internal" href="v0.1.9">Version 0.1.9 Alpha - 2013.03.18</a></li>
 <li class="toctree-l5"><a class="reference internal" href="v0.1.8">Version 0.1.8 Alpha - 2013.2.20</a></li>
 <li class="toctree-l5"><a class="reference internal" href="v0.1.7">Version 0.1.7 Alpha - 2013.02.05</a></li>
-<li class="toctree-l5 current"><a class="current reference internal" href="#">Version 0.1.6 Alpha - 2013.01.21</a></li>
+<li class="toctree-l5"><a class="reference internal" href="v0.1.6">Version 0.1.6 Alpha - 2013.01.21</a></li>
 <li class="toctree-l5"><a class="reference internal" href="v0.1.1">Version 0.1.1 Alpha - 2012.10.15</a></li>
 </ul>
 </li>
@@ -213,15 +218,14 @@
           <a href="../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="v0.1.1" title="Version 0.1.1 Alpha - 2012.10.15"
+          <a href="../quick" title="C-PAC Quickstart"
              >next</a> |</li>
         <li class="right" >
-          <a href="v0.1.7" title="Version 0.1.7 Alpha - 2013.02.05"
+          <a href="../index" title="Welcome to C-PAC’s user guide!"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../rnotes" >Release Notes</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Version 0.1.6 Alpha - 2013.01.21</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a></li> 
       </ul>
     </div>
 

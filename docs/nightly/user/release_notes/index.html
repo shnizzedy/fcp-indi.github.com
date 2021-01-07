@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Latest Release: Version 1.7.1 Beta (Sep 30, 2020) &#8212; C-PAC 1.7.1 Beta documentation</title>
+    <title>Latest Release: Version 1.7.2 Beta (Nov 10, 2020) &#8212; C-PAC 1.7.1 Beta documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -14,7 +14,6 @@
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     
     <link rel="index" title="Index" href="../../genindex" />
     <link rel="search" title="Search" href="../../search" /> 
@@ -29,7 +28,7 @@
           <a href="../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Latest Release: Version 1.7.1 Beta (Sep 30, 2020)</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a></li> 
       </ul>
     </div>  
 
@@ -38,8 +37,34 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="latest-release-version-1-7-1-beta-sep-30-2020">
-<h1>Latest Release: Version 1.7.1 Beta (Sep 30, 2020)<a class="headerlink" href="#latest-release-version-1-7-1-beta-sep-30-2020" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="latest-release-version-1-7-2-beta-nov-10-2020">
+<h1>Latest Release: Version 1.7.2 Beta (Nov 10, 2020)<a class="headerlink" href="#latest-release-version-1-7-2-beta-nov-10-2020" title="Permalink to this headline">¶</a></h1>
+<p><strong>New Features</strong></p>
+<ul class="simple">
+<li><p><strong>Anatomical-Based BOLD Masking.</strong> Adapted from the DCAN Labs implementation, a new BOLD masking option is now available. Users can select this method to produce a BOLD mask that is produced by transforming the anatomical brain mask to BOLD space.</p></li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul class="simple">
+<li><p>The motion estimate filter can now be forked, where the user can run a pipeline both with and without this processing step.</p></li>
+<li><p>Template-to-native space transformations within the pipeline have been made more robust to possible mis-transformations that would sometimes occur when the template-space images did not have much anatomical contrast.</p></li>
+</ul>
+<p><strong>Error Fixes</strong></p>
+<ul class="simple">
+<li><p>The time series despiking step (performed by AFNI 3dDespike) is now able to be forked again.</p></li>
+<li><p>An error preventing EPI field maps for blip-up/down distortion correction from being parsed into the data configuration when labeled with unconventional <code class="docutils literal notranslate"><span class="pre">dir-</span></code> tags has been fixed.</p></li>
+</ul>
+<p><strong>Coming Soon</strong></p>
+<ul class="simple">
+<li><p>Pipeline Dashboard</p></li>
+<li><p>Surface-Based Processing</p></li>
+<li><p>BIDS-Derivatives Compatibility</p></li>
+</ul>
+<p>In addition, the C-PAC Docker and Singularity images, as well as the AWS AMI, have all been updated. These provide a <a class="reference external" href="http://fcp-indi.github.io/docs/user/quick.html">quick way to get started</a>.</p>
+<p>And as always, you can contact us here for user support and discussion:
+<a class="reference external" href="https://groups.google.com/forum/#!forum/cpax_forum">https://groups.google.com/forum/#!forum/cpax_forum</a></p>
+</div>
+<div class="section" id="version-1-7-1-beta-sep-30-2020">
+<h1>Version 1.7.1 Beta (Sep 30, 2020)<a class="headerlink" href="#version-1-7-1-beta-sep-30-2020" title="Permalink to this headline">¶</a></h1>
 <p><strong>New Features</strong></p>
 <ul class="simple">
 <li><p><strong>ACPC Alignment.</strong> Anterior and Posterior Commissure (ACPC) alignment for anatomical preprocessing is now available. This technique may be beneficial for registration quality, primarily in non-human primate data.</p>
@@ -922,13 +947,13 @@ The CPAC development team.</p>
           <a href="../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Latest Release: Version 1.7.1 Beta (Sep 30, 2020)</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Latest Release: Version 1.7.2 Beta (Nov 10, 2020)</a></li> 
       </ul>
     </div>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>
