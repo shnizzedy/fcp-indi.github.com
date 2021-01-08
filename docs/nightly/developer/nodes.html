@@ -47,7 +47,7 @@
           <div class="body" role="main">
             
   <div class="section" id="nodes">
-<span id="id1"></span><h1>Nodes<a class="headerlink" href="#nodes" title="Permalink to this headline">¶</a></h1>
+<h1>Nodes<a class="headerlink" href="#nodes" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="nipype.pipeline.engine.nodes.Node">
 <em class="property">class </em><code class="sig-prename descclassname">nipype.pipeline.engine.nodes.</code><code class="sig-name descname">Node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interface</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">iterables</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">itersource</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">synchronize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">overwrite</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">needed_outputs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">run_without_submitting</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">n_procs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mem_gb</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node" title="Permalink to this definition">¶</a></dt>
@@ -66,6 +66,79 @@ re-executed.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">realign</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> 
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fullname</strong></dt><dd></dd>
+<dt><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.inputs" title="nipype.pipeline.engine.nodes.Node.inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inputs</span></code></a></dt><dd><p>Return the inputs of the underlying interface</p>
+</dd>
+<dt><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.interface" title="nipype.pipeline.engine.nodes.Node.interface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interface</span></code></a></dt><dd><p>Return the underlying interface object</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">itername</span></code></dt><dd><p>Name for expanded iterable</p>
+</dd>
+<dt><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.mem_gb" title="nipype.pipeline.engine.nodes.Node.mem_gb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mem_gb</span></code></a></dt><dd><p>Get estimated memory (GB)</p>
+</dd>
+<dt><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.n_procs" title="nipype.pipeline.engine.nodes.Node.n_procs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_procs</span></code></a></dt><dd><p>Get the estimated number of processes/threads</p>
+</dd>
+<dt><strong>name</strong></dt><dd></dd>
+<dt><strong>needed_outputs</strong></dt><dd></dd>
+<dt><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.outputs" title="nipype.pipeline.engine.nodes.Node.outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">outputs</span></code></a></dt><dd><p>Return the output fields of the underlying interface</p>
+</dd>
+<dt><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.result" title="nipype.pipeline.engine.nodes.Node.result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">result</span></code></a></dt><dd><p>Get result from result file (do not hold it in memory)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">clone</span></code>(name)</p></td>
+<td><p>Clone an EngineBase object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.get_output" title="nipype.pipeline.engine.nodes.Node.get_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_output</span></code></a>(parameter)</p></td>
+<td><p>Retrieve a particular output of the node</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.hash_exists" title="nipype.pipeline.engine.nodes.Node.hash_exists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hash_exists</span></code></a>([updatehash])</p></td>
+<td><p>Decorate the new <cite>is_cached</cite> method with hash updating to maintain backwards compatibility.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.help" title="nipype.pipeline.engine.nodes.Node.help"><code class="xref py py-obj docutils literal notranslate"><span class="pre">help</span></code></a>()</p></td>
+<td><p>Print interface help</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.is_cached" title="nipype.pipeline.engine.nodes.Node.is_cached"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_cached</span></code></a>([rm_outdated])</p></td>
+<td><p>Check if the interface has been run previously, and whether cached results are up-to-date.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.output_dir" title="nipype.pipeline.engine.nodes.Node.output_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_dir</span></code></a>()</p></td>
+<td><p>Return the location of the output directory for the node</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.run" title="nipype.pipeline.engine.nodes.Node.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>([updatehash])</p></td>
+<td><p>Execute the node in its directory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.set_input" title="nipype.pipeline.engine.nodes.Node.set_input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_input</span></code></a>(parameter, val)</p></td>
+<td><p>Set interface input value</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#nipype.pipeline.engine.nodes.Node.update" title="nipype.pipeline.engine.nodes.Node.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>(**opts)</p></td>
+<td><p>Update inputs</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 56%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>load</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>save</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <dl class="py method">
 <dt id="nipype.pipeline.engine.nodes.Node.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interface</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">iterables</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">itersource</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">synchronize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">overwrite</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">needed_outputs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">run_without_submitting</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">n_procs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mem_gb</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.__init__" title="Permalink to this definition">¶</a></dt>
@@ -131,6 +204,102 @@ multiprocessing pool</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.get_output">
+<code class="sig-name descname">get_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.get_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.get_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a particular output of the node</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.hash_exists">
+<code class="sig-name descname">hash_exists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">updatehash</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.hash_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.hash_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorate the new <cite>is_cached</cite> method with hash updating
+to maintain backwards compatibility.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.help">
+<code class="sig-name descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print interface help</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.inputs">
+<em class="property">property </em><code class="sig-name descname">inputs</code><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the inputs of the underlying interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.interface">
+<em class="property">property </em><code class="sig-name descname">interface</code><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.interface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the underlying interface object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.is_cached">
+<code class="sig-name descname">is_cached</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rm_outdated</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.is_cached"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.is_cached" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the interface has been run previously, and whether
+cached results are up-to-date.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.mem_gb">
+<em class="property">property </em><code class="sig-name descname">mem_gb</code><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.mem_gb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get estimated memory (GB)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.n_procs">
+<em class="property">property </em><code class="sig-name descname">n_procs</code><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.n_procs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the estimated number of processes/threads</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.output_dir">
+<code class="sig-name descname">output_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.output_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.output_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the location of the output directory for the node</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.outputs">
+<em class="property">property </em><code class="sig-name descname">outputs</code><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.outputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the output fields of the underlying interface</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.result">
+<em class="property">property </em><code class="sig-name descname">result</code><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get result from result file (do not hold it in memory)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">updatehash</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the node in its directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>updatehash: boolean</strong></dt><dd><p>When the hash stored in the output directory as a result of a previous run
+does not match that calculated for this execution, updatehash=True only
+updates the hash without re-running.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.set_input">
+<code class="sig-name descname">set_input</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parameter</span></em>, <em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.set_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.set_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set interface input value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="nipype.pipeline.engine.nodes.Node.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">opts</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nipype/pipeline/engine/nodes#Node.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nipype.pipeline.engine.nodes.Node.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update inputs</p>
 </dd></dl>
 
 </dd></dl>
