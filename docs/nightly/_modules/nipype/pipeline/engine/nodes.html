@@ -107,7 +107,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<div class="viewcode-block" id="Node.__init__"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">interface</span><span class="p">,</span>
                  <span class="n">name</span><span class="p">,</span>
                  <span class="n">iterables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -223,7 +223,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_hashed_inputs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_needed_outputs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">needed_outputs</span> <span class="o">=</span> <span class="n">needed_outputs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="kc">None</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">interface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -289,7 +289,7 @@
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_interface</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="s1">&#39;num_threads&#39;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_interface</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_procs</span>
 
-<div class="viewcode-block" id="Node.output_dir"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.output_dir">[docs]</a>    <span class="k">def</span> <span class="nf">output_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">output_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the location of the output directory for the node&quot;&quot;&quot;</span>
         <span class="c1"># Output dir is cached</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span><span class="p">:</span>
@@ -308,23 +308,23 @@
             <span class="n">outputdir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputdir</span><span class="p">,</span> <span class="o">*</span><span class="n">params_str</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputdir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_dir</span>
 
-<div class="viewcode-block" id="Node.set_input"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.set_input">[docs]</a>    <span class="k">def</span> <span class="nf">set_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set interface input value&quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;[Node] </span><span class="si">%s</span><span class="s1"> - setting input </span><span class="si">%s</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span>
                      <span class="n">to_str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">val</span><span class="p">))</span></div>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Node.get_output"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.get_output">[docs]</a>    <span class="k">def</span> <span class="nf">get_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Retrieve a particular output of the node&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">outputs</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Node.help"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.help">[docs]</a>    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print interface help&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_interface</span><span class="o">.</span><span class="n">help</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_interface</span><span class="o">.</span><span class="n">help</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Node.is_cached"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.is_cached">[docs]</a>    <span class="k">def</span> <span class="nf">is_cached</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rm_outdated</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_cached</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rm_outdated</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the interface has been run previously, and whether</span>
 <span class="sd">        cached results are up-to-date.</span>
@@ -399,9 +399,9 @@
                 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">hashfiles</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="k">assert</span><span class="p">(</span><span class="n">cached</span><span class="p">)</span>  <span class="c1"># At this point, node is cached (may not be up-to-date)</span>
-        <span class="k">return</span> <span class="n">cached</span><span class="p">,</span> <span class="n">updated</span></div>
+        <span class="k">return</span> <span class="n">cached</span><span class="p">,</span> <span class="n">updated</span>
 
-<div class="viewcode-block" id="Node.hash_exists"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.hash_exists">[docs]</a>    <span class="k">def</span> <span class="nf">hash_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updatehash</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">hash_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updatehash</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decorate the new `is_cached` method with hash updating</span>
 <span class="sd">        to maintain backwards compatibility.</span>
@@ -422,9 +422,9 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;[Node] Updating hash: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hashvalue</span><span class="p">)</span>
             <span class="n">_save_hashfile</span><span class="p">(</span><span class="n">hashfile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hashed_inputs</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">cached</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hashvalue</span><span class="p">,</span> <span class="n">hashfile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hashed_inputs</span></div>
+        <span class="k">return</span> <span class="n">cached</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hashvalue</span><span class="p">,</span> <span class="n">hashfile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hashed_inputs</span>
 
-<div class="viewcode-block" id="Node.run"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updatehash</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updatehash</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Execute the node in its directory.</span>
 
 <span class="sd">        Parameters</span>
@@ -522,7 +522,7 @@
         <span class="n">write_report</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">report_type</span><span class="o">=</span><span class="s1">&#39;postexec&#39;</span><span class="p">,</span> <span class="n">is_mapnode</span><span class="o">=</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MapNode</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;[Node] Finished &quot;</span><span class="si">%s</span><span class="s1">&quot;.&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullname</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span></div>
+        <span class="k">return</span> <span class="n">result</span>
 
     <span class="k">def</span> <span class="nf">_get_hashval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a hash of the input state&quot;&quot;&quot;</span>
@@ -739,9 +739,9 @@
         <span class="k">if</span> <span class="n">execute</span> <span class="ow">and</span> <span class="n">linksonly</span><span class="p">:</span>
             <span class="n">emptydirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">noexist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Node.update"><a class="viewcode-back" href="../../../../developer/nodes#nipype.pipeline.engine.nodes.Node.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">opts</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">opts</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Update inputs&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">opts</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">opts</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">JoinNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
