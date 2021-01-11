@@ -55,6 +55,1101 @@
 </dd>
 </dl>
 <p>The full list of mappings is as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">runOnGrid</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">system_config</span>
+   <span class="o">-</span> <span class="n">on_grid</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">FSLDIR</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">FSLDIR</span>
+<span class="n">resourceManager</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">system_config</span>
+   <span class="o">-</span> <span class="n">on_grid</span>
+   <span class="o">-</span> <span class="n">resource_manager</span>
+<span class="n">parallelEnvironment</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">system_config</span>
+   <span class="o">-</span> <span class="n">on_grid</span>
+   <span class="o">-</span> <span class="n">SGE</span>
+   <span class="o">-</span> <span class="n">parallel_environment</span>
+<span class="n">queue</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">system_config</span>
+   <span class="o">-</span> <span class="n">on_grid</span>
+   <span class="o">-</span> <span class="n">SGE</span>
+   <span class="o">-</span> <span class="n">queue</span>
+<span class="n">maximumMemoryPerParticipant</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">system_config</span>
+   <span class="o">-</span> <span class="n">maximum_memory_per_participant</span>
+<span class="n">maxCoresPerParticipant</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">system_config</span>
+   <span class="o">-</span> <span class="n">max_cores_per_participant</span>
+<span class="n">numParticipantsAtOnce</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">system_config</span>
+   <span class="o">-</span> <span class="n">num_participants_at_once</span>
+<span class="n">num_ants_threads</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">system_config</span>
+   <span class="o">-</span> <span class="n">num_ants_threads</span>
+<span class="n">pipelineName</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">pipeline_name</span>
+<span class="n">workingDirectory</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">working_directory</span>
+   <span class="o">-</span> <span class="n">path</span>
+<span class="n">crashLogDirectory</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">crash_log_directory</span>
+   <span class="o">-</span> <span class="n">path</span>
+<span class="n">outputDirectory</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">output_directory</span>
+   <span class="o">-</span> <span class="n">path</span>
+<span class="n">run_logging</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">log_directory</span>
+   <span class="o">-</span> <span class="n">run_logging</span>
+<span class="n">logDirectory</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">log_directory</span>
+   <span class="o">-</span> <span class="n">path</span>
+<span class="n">awsOutputBucketCredentials</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">Amazon</span><span class="o">-</span><span class="n">AWS</span>
+   <span class="o">-</span> <span class="n">aws_output_bucket_credentials</span>
+<span class="n">s3Encryption</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">Amazon</span><span class="o">-</span><span class="n">AWS</span>
+   <span class="o">-</span> <span class="n">s3_encryption</span>
+<span class="n">write_func_outputs</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">output_directory</span>
+   <span class="o">-</span> <span class="n">write_func_outputs</span>
+<span class="n">write_debugging_outputs</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">output_directory</span>
+   <span class="o">-</span> <span class="n">write_debugging_outputs</span>
+<span class="n">output_tree</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">output_directory</span>
+   <span class="o">-</span> <span class="n">output_tree</span>
+<span class="n">generateQualityControlImages</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">output_directory</span>
+   <span class="o">-</span> <span class="n">generate_quality_control_images</span>
+<span class="n">removeWorkingDir</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">pipeline_setup</span>
+   <span class="o">-</span> <span class="n">working_directory</span>
+   <span class="o">-</span> <span class="n">remove_working_dir</span>
+<span class="n">runAnatomical</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">non_local_means_filtering</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">non_local_means_filtering</span>
+<span class="n">n4_bias_field_correction</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">n4_bias_field_correction</span>
+<span class="n">acpc_align</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">acpc_alignment</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">acpc_brainsize</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">acpc_alignment</span>
+   <span class="o">-</span> <span class="n">brain_size</span>
+<span class="n">acpc_template_skull</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">acpc_alignment</span>
+   <span class="o">-</span> <span class="n">template_skull</span>
+<span class="n">acpc_template_brain</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">acpc_alignment</span>
+   <span class="o">-</span> <span class="n">template_brain</span>
+<span class="n">already_skullstripped</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">already_skullstripped</span>
+<span class="n">skullstrip_option</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">using</span>
+<span class="n">unet_model</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">UNet</span>
+   <span class="o">-</span> <span class="n">unet_model</span>
+<span class="n">niworkflows_ants_template_path</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">niworkflows</span><span class="o">-</span><span class="n">ants</span>
+   <span class="o">-</span> <span class="n">template_path</span>
+<span class="n">niworkflows_ants_mask_path</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">niworkflows</span><span class="o">-</span><span class="n">ants</span>
+   <span class="o">-</span> <span class="n">mask_path</span>
+<span class="n">niworkflows_ants_regmask_path</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">niworkflows</span><span class="o">-</span><span class="n">ants</span>
+   <span class="o">-</span> <span class="n">regmask_path</span>
+<span class="n">skullstrip_mask_vol</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">mask_vol</span>
+<span class="n">skullstrip_shrink_factor</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">shrink_factor</span>
+<span class="n">skullstrip_var_shrink_fac</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">var_shrink_fac</span>
+<span class="n">skullstrip_shrink_factor_bot_lim</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">shrink_factor_bot_lim</span>
+<span class="n">skullstrip_avoid_vent</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">avoid_vent</span>
+<span class="n">skullstrip_n_iterations</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">n_iterations</span>
+<span class="n">skullstrip_pushout</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">pushout</span>
+<span class="n">skullstrip_touchup</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">touchup</span>
+<span class="n">skullstrip_fill_hole</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">fill_hole</span>
+<span class="n">skullstrip_NN_smooth</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">NN_smooth</span>
+<span class="n">skullstrip_smooth_final</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">smooth_final</span>
+<span class="n">skullstrip_avoid_eyes</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">avoid_eyes</span>
+<span class="n">skullstrip_use_edge</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">use_edge</span>
+<span class="n">skullstrip_exp_frac</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">exp_frac</span>
+<span class="n">skullstrip_push_to_edge</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">push_to_edge</span>
+<span class="n">skullstrip_use_skull</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">use_skull</span>
+<span class="n">skullstrip_perc_int</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">perc_int</span>
+<span class="n">skullstrip_max_inter_iter</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">max_inter_iter</span>
+<span class="n">skullstrip_fac</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">fac</span>
+<span class="n">skullstrip_blur_fwhm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">blur_fwhm</span>
+<span class="n">skullstrip_monkey</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dSkullStrip</span>
+   <span class="o">-</span> <span class="n">monkey</span>
+<span class="n">bet_frac</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">frac</span>
+<span class="n">bet_mask_boolean</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">mask_boolean</span>
+<span class="n">bet_mesh_boolean</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">mesh_boolean</span>
+<span class="n">bet_outline</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">outline</span>
+<span class="n">bet_padding</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">padding</span>
+<span class="n">bet_radius</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">radius</span>
+<span class="n">bet_reduce_bias</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">reduce_bias</span>
+<span class="n">bet_remove_eyes</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">remove_eyes</span>
+<span class="n">bet_robust</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">robust</span>
+<span class="n">bet_skull</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">skull</span>
+<span class="n">bet_surfaces</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">surfaces</span>
+<span class="n">bet_threshold</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">threshold</span>
+<span class="n">bet_vertical_gradient</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">vertical_gradient</span>
+<span class="n">run_longitudinal</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">longitudinal_template_generation</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">longitudinal_template_average_method</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">longitudinal_template_generation</span>
+   <span class="o">-</span> <span class="n">average_method</span>
+<span class="n">longitudinal_template_dof</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">longitudinal_template_generation</span>
+   <span class="o">-</span> <span class="n">dof</span>
+<span class="n">longitudinal_template_interp</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">longitudinal_template_generation</span>
+   <span class="o">-</span> <span class="n">interp</span>
+<span class="n">longitudinal_template_cost</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">longitudinal_template_generation</span>
+   <span class="o">-</span> <span class="n">cost</span>
+<span class="n">longitudinal_template_thread_pool</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">longitudinal_template_generation</span>
+   <span class="o">-</span> <span class="n">thread_pool</span>
+<span class="n">longitudinal_template_convergence_threshold</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">longitudinal_template_generation</span>
+   <span class="o">-</span> <span class="n">convergence_threshold</span>
+<span class="n">resolution_for_anat</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">resolution_for_anat</span>
+<span class="n">template_brain_only_for_anat</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">template_brain_only_for_anat</span>
+<span class="n">template_skull_for_anat</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">template_skull_for_anat</span>
+<span class="n">regOption</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">using</span>
+<span class="n">ANTs_para_T1_registration</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">ANTs</span>
+   <span class="o">-</span> <span class="n">T1_registration</span>
+<span class="n">ANTs_para_EPI_registration</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">ANTs</span>
+   <span class="o">-</span> <span class="n">EPI_registration</span>
+<span class="n">use_lesion_mask</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">ANTs</span>
+   <span class="o">-</span> <span class="n">use_lesion_mask</span>
+<span class="n">fsl_linear_reg_only</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">FNIRT</span>
+   <span class="o">-</span> <span class="n">fsl_linear_reg_only</span>
+<span class="n">fnirtConfig</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">FNIRT</span>
+   <span class="o">-</span> <span class="n">fnirt_config</span>
+<span class="n">ref_mask</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">FNIRT</span>
+   <span class="o">-</span> <span class="n">ref_mask</span>
+<span class="n">regWithSkull</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">reg_with_skull</span>
+<span class="n">runSegmentationPreprocessing</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">segmentation_method</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">using</span>
+<span class="n">ANTs_prior_seg_template_brain_list</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">ANTs_Prior_Based</span>
+   <span class="o">-</span> <span class="n">template_brain_list</span>
+<span class="n">ANTs_prior_seg_template_segmentation_list</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">ANTs_Prior_Based</span>
+   <span class="o">-</span> <span class="n">template_segmentation_list</span>
+<span class="n">ANTs_prior_seg_CSF_label</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">ANTs_Prior_Based</span>
+   <span class="o">-</span> <span class="n">CSF_label</span>
+<span class="n">ANTs_prior_seg_left_GM_label</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">ANTs_Prior_Based</span>
+   <span class="o">-</span> <span class="n">left_GM_label</span>
+<span class="n">ANTs_prior_seg_right_GM_label</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">ANTs_Prior_Based</span>
+   <span class="o">-</span> <span class="n">right_GM_label</span>
+<span class="n">ANTs_prior_seg_left_WM_label</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">ANTs_Prior_Based</span>
+   <span class="o">-</span> <span class="n">left_WM_label</span>
+<span class="n">ANTs_prior_seg_right_WM_label</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">ANTs_Prior_Based</span>
+   <span class="o">-</span> <span class="n">right_WM_label</span>
+<span class="n">template_based_segmentation</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">Template_Based</span>
+   <span class="o">-</span> <span class="n">template_for_segmentation</span>
+<span class="n">template_based_segmentation_WHITE</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">Template_Based</span>
+   <span class="o">-</span> <span class="n">WHITE</span>
+<span class="n">template_based_segmentation_GRAY</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">Template_Based</span>
+   <span class="o">-</span> <span class="n">GRAY</span>
+<span class="n">template_based_segmentation_CSF</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">segmentation</span>
+   <span class="o">-</span> <span class="n">Template_Based</span>
+   <span class="o">-</span> <span class="n">CSF</span>
+<span class="n">seg_use_priors</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">use_priors</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">priors_path</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">use_priors</span>
+   <span class="o">-</span> <span class="n">priors_path</span>
+<span class="n">PRIORS_WHITE</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">use_priors</span>
+   <span class="o">-</span> <span class="n">WM_path</span>
+<span class="n">PRIORS_GRAY</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">use_priors</span>
+   <span class="o">-</span> <span class="n">GM_path</span>
+<span class="n">PRIORS_CSF</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">use_priors</span>
+   <span class="o">-</span> <span class="n">CSF_path</span>
+<span class="n">seg_use_threshold</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">3</span><span class="o">-</span><span class="n">custom_thresholding</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">seg_CSF_threshold_value</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">3</span><span class="o">-</span><span class="n">custom_thresholding</span>
+   <span class="o">-</span> <span class="n">CSF_threshold_value</span>
+<span class="n">seg_WM_threshold_value</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">3</span><span class="o">-</span><span class="n">custom_thresholding</span>
+   <span class="o">-</span> <span class="n">WM_threshold_value</span>
+<span class="n">seg_GM_threshold_value</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">3</span><span class="o">-</span><span class="n">custom_thresholding</span>
+   <span class="o">-</span> <span class="n">GM_threshold_value</span>
+<span class="n">seg_csf_use_erosion</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_csf</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">brain_use_erosion</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_anatomical_brain_mask</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">brain_mask_erosion_prop</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_anatomical_brain_mask</span>
+   <span class="o">-</span> <span class="n">brain_mask_erosion_prop</span>
+<span class="n">brain_mask_erosion_mm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_anatomical_brain_mask</span>
+   <span class="o">-</span> <span class="n">brain_mask_erosion_mm</span>
+<span class="n">brain_erosion_mm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_anatomical_brain_mask</span>
+   <span class="o">-</span> <span class="n">brain_erosion_mm</span>
+<span class="n">csf_erosion_prop</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_csf</span>
+   <span class="o">-</span> <span class="n">csf_erosion_prop</span>
+<span class="n">csf_mask_erosion_mm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_csf</span>
+   <span class="o">-</span> <span class="n">csf_mask_erosion_mm</span>
+<span class="n">csf_erosion_mm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_csf</span>
+   <span class="o">-</span> <span class="n">csf_erosion_mm</span>
+<span class="n">seg_wm_use_erosion</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_wm</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">wm_erosion_prop</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_wm</span>
+   <span class="o">-</span> <span class="n">wm_erosion_prop</span>
+<span class="n">wm_mask_erosion_mm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_wm</span>
+   <span class="o">-</span> <span class="n">wm_mask_erosion_mm</span>
+<span class="n">wm_erosion_mm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_wm</span>
+   <span class="o">-</span> <span class="n">wm_erosion_mm</span>
+<span class="n">seg_gm_use_erosion</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_gm</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">gm_erosion_prop</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_gm</span>
+   <span class="o">-</span> <span class="n">gm_erosion_prop</span>
+<span class="n">gm_mask_erosion_mm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_gm</span>
+   <span class="o">-</span> <span class="n">gm_mask_erosion_mm</span>
+<span class="n">gm_erosion_mm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">segmentation_workflow</span>
+   <span class="o">-</span> <span class="mi">4</span><span class="o">-</span><span class="n">erosion</span>
+   <span class="o">-</span> <span class="n">erode_gm</span>
+   <span class="o">-</span> <span class="n">gm_erosion_mm</span>
+<span class="n">runFunctional</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">runScaling</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">scaling</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">scaling_factor</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">scaling</span>
+   <span class="o">-</span> <span class="n">scaling_factor</span>
+<span class="n">runMotionStatisticsFirst</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">motion_estimates_and_correction</span>
+   <span class="o">-</span> <span class="n">calculate_motion_first</span>
+<span class="n">motion_correction</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">motion_estimates_and_correction</span>
+   <span class="o">-</span> <span class="n">motion_correction</span>
+   <span class="o">-</span> <span class="n">using</span>
+<span class="n">motion_correction_reference</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">motion_estimates_and_correction</span>
+   <span class="o">-</span> <span class="n">motion_correction</span>
+   <span class="o">-</span> <span class="n">motion_correction_reference</span>
+<span class="n">motion_correction_reference_volume</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">motion_estimates_and_correction</span>
+   <span class="o">-</span> <span class="n">motion_correction</span>
+   <span class="o">-</span> <span class="n">motion_correction_reference_volume</span>
+<span class="n">functional_volreg_twopass</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">motion_estimates_and_correction</span>
+   <span class="o">-</span> <span class="n">motion_correction</span>
+   <span class="o">-</span> <span class="n">AFNI</span><span class="o">-</span><span class="mi">3</span><span class="n">dvolreg</span>
+   <span class="o">-</span> <span class="n">functional_volreg_twopass</span>
+<span class="n">motion_estimate_filter</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">motion_estimates_and_correction</span>
+   <span class="o">-</span> <span class="n">motion_estimate_filter</span>
+<span class="n">runDespike</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">despiking</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">slice_timing_correction</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">slice_timing_correction</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">startIdx</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">truncation</span>
+   <span class="o">-</span> <span class="n">start_tr</span>
+<span class="n">stopIdx</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">truncation</span>
+   <span class="o">-</span> <span class="n">stop_tr</span>
+<span class="n">distortion_correction</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">distortion_correction</span>
+   <span class="o">-</span> <span class="n">using</span>
+<span class="n">fmap_distcorr_skullstrip</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">distortion_correction</span>
+   <span class="o">-</span> <span class="n">PhaseDiff</span>
+   <span class="o">-</span> <span class="n">fmap_skullstrip_option</span>
+<span class="n">fmap_distcorr_frac</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">distortion_correction</span>
+   <span class="o">-</span> <span class="n">PhaseDiff</span>
+   <span class="o">-</span> <span class="n">fmap_skullstrip_frac</span>
+<span class="n">fmap_distcorr_threshold</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">distortion_correction</span>
+   <span class="o">-</span> <span class="n">PhaseDiff</span>
+   <span class="o">-</span> <span class="n">fmap_skullstrip_threshold</span>
+<span class="n">runRegisterFuncToAnat</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">coregistration</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">functional_registration</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+<span class="n">runBBReg</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">coregistration</span>
+   <span class="o">-</span> <span class="n">boundary_based_registration</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">boundaryBasedRegistrationSchedule</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">coregistration</span>
+   <span class="o">-</span> <span class="n">boundary_based_registration</span>
+   <span class="o">-</span> <span class="n">bbr_schedule</span>
+<span class="n">anatRegANTSinterpolation</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">ANTs</span>
+   <span class="o">-</span> <span class="n">interpolation</span>
+<span class="n">anatRegFSLinterpolation</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">registration_workflow</span>
+   <span class="o">-</span> <span class="n">registration</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">FNIRT</span>
+   <span class="o">-</span> <span class="n">interpolation</span>
+<span class="n">funcRegANTSinterpolation</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">ANTs_pipelines</span>
+   <span class="o">-</span> <span class="n">interpolation</span>
+<span class="n">funcRegFSLinterpolation</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">FNIRT_pipelines</span>
+   <span class="o">-</span> <span class="n">interpolation</span>
+<span class="n">func_reg_input</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">coregistration</span>
+   <span class="o">-</span> <span class="n">func_input_prep</span>
+   <span class="o">-</span> <span class="nb">input</span>
+<span class="n">func_reg_input_volume</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">coregistration</span>
+   <span class="o">-</span> <span class="n">func_input_prep</span>
+   <span class="o">-</span> <span class="n">Selected</span> <span class="n">Functional</span> <span class="n">Volume</span>
+   <span class="o">-</span> <span class="n">func_reg_input_volume</span>
+<span class="n">n4_correct_func_reg_input</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">coregistration</span>
+   <span class="o">-</span> <span class="n">func_input_prep</span>
+   <span class="o">-</span> <span class="n">Mean</span> <span class="n">Functional</span>
+   <span class="o">-</span> <span class="n">n4_correct_func</span>
+<span class="n">functionalMasking</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">func_masking</span>
+   <span class="o">-</span> <span class="n">using</span>
+<span class="n">bold_bet_functional_mean_boolean</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">func_masking</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">functional_mean_boolean</span>
+<span class="n">bold_bet_frac</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">frac</span>
+<span class="n">bold_bet_mesh_boolean</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">mesh_boolean</span>
+<span class="n">bold_bet_outline</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">outline</span>
+<span class="n">bold_bet_padding</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">padding</span>
+<span class="n">bold_bet_radius</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">radius</span>
+<span class="n">bold_bet_reduce_bias</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">reduce_bias</span>
+<span class="n">bold_bet_remove_eyes</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">remove_eyes</span>
+<span class="n">bold_bet_robust</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">robust</span>
+<span class="n">bold_bet_skull</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">skull</span>
+<span class="n">bold_bet_surfaces</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">surfaces</span>
+<span class="n">bold_bet_threshold</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">threshold</span>
+<span class="n">bold_bet_vertical_gradient</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">brain_extraction</span>
+   <span class="o">-</span> <span class="n">extraction</span>
+   <span class="o">-</span> <span class="n">FSL</span><span class="o">-</span><span class="n">BET</span>
+   <span class="o">-</span> <span class="n">vertical_gradient</span>
+<span class="n">anatomical_mask_dilation</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_preproc</span>
+   <span class="o">-</span> <span class="n">func_masking</span>
+   <span class="o">-</span> <span class="n">Anatomical_Refined</span>
+   <span class="o">-</span> <span class="n">anatomical_mask_dilation</span>
+<span class="n">runRegisterFuncToTemplate</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">target_template</span>
+   <span class="o">-</span> <span class="n">using</span>
+<span class="n">resolution_for_func_preproc</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">output_resolution</span>
+   <span class="o">-</span> <span class="n">func_preproc_outputs</span>
+<span class="n">resolution_for_func_derivative</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">output_resolution</span>
+   <span class="o">-</span> <span class="n">func_derivative_outputs</span>
+<span class="n">template_for_resample</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">output_resolution</span>
+   <span class="o">-</span> <span class="n">template_for_resample</span>
+<span class="n">template_brain_only_for_func</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">target_template</span>
+   <span class="o">-</span> <span class="n">T1_template</span>
+   <span class="o">-</span> <span class="n">template_brain</span>
+<span class="n">template_skull_for_func</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">target_template</span>
+   <span class="o">-</span> <span class="n">T1_template</span>
+   <span class="o">-</span> <span class="n">template_skull</span>
+<span class="n">template_epi</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">target_template</span>
+   <span class="o">-</span> <span class="n">EPI_template</span>
+   <span class="o">-</span> <span class="n">template_epi</span>
+<span class="n">identityMatrix</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">functional_registration</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">func_registration_to_template</span>
+   <span class="o">-</span> <span class="n">FNIRT_pipelines</span>
+   <span class="o">-</span> <span class="n">identity_matrix</span>
+<span class="n">runICA</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">nuisance_corrections</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">ICA</span><span class="o">-</span><span class="n">AROMA</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">aroma_denoise_type</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">nuisance_corrections</span>
+   <span class="o">-</span> <span class="mi">1</span><span class="o">-</span><span class="n">ICA</span><span class="o">-</span><span class="n">AROMA</span>
+   <span class="o">-</span> <span class="n">denoising_type</span>
+<span class="n">runNuisance</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">nuisance_corrections</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">nuisance_regression</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">lateral_ventricles_mask</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">nuisance_corrections</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">nuisance_regression</span>
+   <span class="o">-</span> <span class="n">lateral_ventricles_mask</span>
+<span class="n">Regressors</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">nuisance_corrections</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">nuisance_regression</span>
+   <span class="o">-</span> <span class="n">Regressors</span>
+<span class="n">filtering_order</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">nuisance_corrections</span>
+   <span class="o">-</span> <span class="mi">2</span><span class="o">-</span><span class="n">nuisance_regression</span>
+   <span class="o">-</span> <span class="n">bandpass_filtering_order</span>
+<span class="n">runROITimeseries</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">timeseries_extraction</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">realignment</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">timeseries_extraction</span>
+   <span class="o">-</span> <span class="n">realignment</span>
+<span class="n">tsa_roi_paths</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">timeseries_extraction</span>
+   <span class="o">-</span> <span class="n">tse_roi_paths</span>
+<span class="n">roiTSOutputs</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">timeseries_extraction</span>
+   <span class="o">-</span> <span class="n">roi_tse_outputs</span>
+<span class="n">runSCA</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">seed_based_correlation_analysis</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">sca_roi_paths</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">seed_based_correlation_analysis</span>
+   <span class="o">-</span> <span class="n">sca_roi_paths</span>
+<span class="n">mrsNorm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">seed_based_correlation_analysis</span>
+   <span class="o">-</span> <span class="n">norm_timeseries_for_DR</span>
+<span class="n">runVMHC</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">voxel_mirrored_homotopic_connectivity</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">template_symmetric_brain_only</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">voxel_mirrored_homotopic_connectivity</span>
+   <span class="o">-</span> <span class="n">symmetric_registration</span>
+   <span class="o">-</span> <span class="n">template_symmetric_brain_only</span>
+<span class="n">template_symmetric_brain_for_resample</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">voxel_mirrored_homotopic_connectivity</span>
+   <span class="o">-</span> <span class="n">symmetric_registration</span>
+   <span class="o">-</span> <span class="n">template_symmetric_brain_for_resample</span>
+<span class="n">template_symmetric_skull</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">voxel_mirrored_homotopic_connectivity</span>
+   <span class="o">-</span> <span class="n">symmetric_registration</span>
+   <span class="o">-</span> <span class="n">template_symmetric_skull</span>
+<span class="n">template_symmetric_skull_for_resample</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">voxel_mirrored_homotopic_connectivity</span>
+   <span class="o">-</span> <span class="n">symmetric_registration</span>
+   <span class="o">-</span> <span class="n">template_symmetric_skull_for_resample</span>
+<span class="n">dilated_symmetric_brain_mask</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">voxel_mirrored_homotopic_connectivity</span>
+   <span class="o">-</span> <span class="n">symmetric_registration</span>
+   <span class="o">-</span> <span class="n">dilated_symmetric_brain_mask</span>
+<span class="n">dilated_symmetric_brain_mask_for_resample</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">voxel_mirrored_homotopic_connectivity</span>
+   <span class="o">-</span> <span class="n">symmetric_registration</span>
+   <span class="o">-</span> <span class="n">dilated_symmetric_brain_mask_for_resample</span>
+<span class="n">configFileTwomm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">voxel_mirrored_homotopic_connectivity</span>
+   <span class="o">-</span> <span class="n">symmetric_registration</span>
+   <span class="o">-</span> <span class="n">FNIRT_pipelines</span>
+   <span class="o">-</span> <span class="n">config_file</span>
+<span class="n">runALFF</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">amplitude_low_frequency_fluctuation</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">highPassFreqALFF</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">amplitude_low_frequency_fluctuation</span>
+   <span class="o">-</span> <span class="n">highpass_cutoff</span>
+<span class="n">lowPassFreqALFF</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">amplitude_low_frequency_fluctuation</span>
+   <span class="o">-</span> <span class="n">lowpass_cutoff</span>
+<span class="n">runReHo</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">regional_homogeneity</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">clusterSize</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">regional_homogeneity</span>
+   <span class="o">-</span> <span class="n">cluster_size</span>
+<span class="n">runNetworkCentrality</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">templateSpecificationFile</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">template_specification_file</span>
+<span class="n">degWeightOptions</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">degree_centrality</span>
+   <span class="o">-</span> <span class="n">weight_options</span>
+<span class="n">degCorrelationThresholdOption</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">degree_centrality</span>
+   <span class="o">-</span> <span class="n">correlation_threshold_option</span>
+<span class="n">degCorrelationThreshold</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">degree_centrality</span>
+   <span class="o">-</span> <span class="n">correlation_threshold</span>
+<span class="n">eigWeightOptions</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">eigenvector_centrality</span>
+   <span class="o">-</span> <span class="n">weight_options</span>
+<span class="n">eigCorrelationThresholdOption</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">eigenvector_centrality</span>
+   <span class="o">-</span> <span class="n">correlation_threshold_option</span>
+<span class="n">eigCorrelationThreshold</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">eigenvector_centrality</span>
+   <span class="o">-</span> <span class="n">correlation_threshold</span>
+<span class="n">lfcdWeightOptions</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">local_functional_connectivity_density</span>
+   <span class="o">-</span> <span class="n">weight_options</span>
+<span class="n">lfcdCorrelationThresholdOption</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">local_functional_connectivity_density</span>
+   <span class="o">-</span> <span class="n">correlation_threshold_option</span>
+<span class="n">lfcdCorrelationThreshold</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">local_functional_connectivity_density</span>
+   <span class="o">-</span> <span class="n">correlation_threshold</span>
+<span class="n">memoryAllocatedForDegreeCentrality</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">network_centrality</span>
+   <span class="o">-</span> <span class="n">memory_allocation</span>
+<span class="n">run_smoothing</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">post_processing</span>
+   <span class="o">-</span> <span class="n">spatial_smoothing</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">smoothing_method</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">post_processing</span>
+   <span class="o">-</span> <span class="n">spatial_smoothing</span>
+   <span class="o">-</span> <span class="n">smoothing_method</span>
+<span class="n">fwhm</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">post_processing</span>
+   <span class="o">-</span> <span class="n">spatial_smoothing</span>
+   <span class="o">-</span> <span class="n">fwhm</span>
+<span class="n">smoothing_order</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">post_processing</span>
+   <span class="o">-</span> <span class="n">spatial_smoothing</span>
+   <span class="o">-</span> <span class="n">smoothing_order</span>
+<span class="n">runZScoring</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">post_processing</span>
+   <span class="o">-</span> <span class="n">z</span><span class="o">-</span><span class="n">scoring</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">run_pypeer</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">PyPEER</span>
+   <span class="o">-</span> <span class="n">run</span>
+<span class="n">peer_eye_scan_names</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">PyPEER</span>
+   <span class="o">-</span> <span class="n">eye_scan_names</span>
+<span class="n">peer_data_scan_names</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">PyPEER</span>
+   <span class="o">-</span> <span class="n">data_scan_names</span>
+<span class="n">eye_mask_path</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">PyPEER</span>
+   <span class="o">-</span> <span class="n">eye_mask_path</span>
+<span class="n">peer_stimulus_path</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">PyPEER</span>
+   <span class="o">-</span> <span class="n">stimulus_path</span>
+<span class="n">peer_gsr</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">PyPEER</span>
+   <span class="o">-</span> <span class="n">minimal_nuisance_correction</span>
+   <span class="o">-</span> <span class="n">peer_gsr</span>
+<span class="n">peer_scrub</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">PyPEER</span>
+   <span class="o">-</span> <span class="n">minimal_nuisance_correction</span>
+   <span class="o">-</span> <span class="n">peer_scrub</span>
+<span class="n">peer_scrub_thresh</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">PyPEER</span>
+   <span class="o">-</span> <span class="n">minimal_nuisance_correction</span>
+   <span class="o">-</span> <span class="n">scrub_thresh</span>
+<span class="n">anatomical_preproc</span><span class="p">:</span>
+   <span class="o">-</span> <span class="n">anatomical_preproc</span>
+   <span class="o">-</span> <span class="n">run</span>
+</pre></div>
+</div>
 
 
             <div class="clearer"></div>
