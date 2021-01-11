@@ -39,6 +39,20 @@
             
   <div class="section" id="design-a-pipeline">
 <h1>Design A Pipeline<a class="headerlink" href="#design-a-pipeline" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The C-PAC pipeline configuration was changed to a nested format with import capabilities in v1.8.0. With this change, the following configuration keys are deprecated:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TR</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fdCalc</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reGenerateOutputs</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">runMedianAngleCorrection</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">slice_timing_pattern</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">targetAngleDeg</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">runSymbolicLinks</span></code></p></li>
+</ul>
+<p>Mappings for all other C-PAC 1.7 keys can be found <span class="xref std std-doc">here</span>.</p>
+</div>
 <p>C-PAC offers a graphical interface you can use to quickly and easily modify the default pipeline or create your own from scratch:</p>
 <p><a class="reference external" href="https://fcp-indi.github.io/C-PAC_GUI/versions/latest/browser/#/">https://fcp-indi.github.io/C-PAC_GUI/versions/latest/browser/#/</a></p>
 <div class="figure align-default">
