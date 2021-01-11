@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.func_preproc.func_preproc &#8212; C-PAC 1.7.1 Beta documentation</title>
+    <title>CPAC.func_preproc.func_preproc &#8212; C-PAC 1.8.0.dev Beta documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.func_preproc.func_preproc</a></li> 
       </ul>
@@ -190,85 +190,6 @@
 
     <span class="k">return</span> <span class="n">wf</span>
 
-<span class="k">def</span> <span class="nf">anat_based_mask</span><span class="p">(</span><span class="n">wf_name</span><span class="o">=</span><span class="s1">&#39;bold_mask&#39;</span><span class="p">):</span>
-<span class="c1"># reference DCAN lab BOLD mask</span>
-<span class="c1"># https://github.com/DCAN-Labs/DCAN-HCP/blob/master/fMRIVolume/scripts/DistortionCorrectionAndEPIToT1wReg_FLIRTBBRAndFreeSurferBBRbased.sh</span>
-    <span class="n">wf</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">wf_name</span><span class="p">)</span>
-
-    <span class="n">input_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;func&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;anat_brain&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;anat_head&#39;</span><span class="p">]),</span>
-                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
-
-    <span class="n">output_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;func_brain_mask&#39;</span><span class="p">]),</span>
-                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
-
-    <span class="c1"># 0. Take single volume of func </span>
-    <span class="n">func_single_volume</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">Calc</span><span class="p">(),</span>
-                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_single_volume&#39;</span><span class="p">)</span>
-
-    <span class="n">func_single_volume</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
-        <span class="n">expr</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>
-        <span class="n">single_idx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI_GZ&#39;</span>
-    <span class="p">)</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;func&#39;</span><span class="p">,</span>
-                <span class="n">func_single_volume</span><span class="p">,</span> <span class="s1">&#39;in_file_a&#39;</span><span class="p">)</span>
-
-    <span class="c1"># 1. Register func head to anat head to get func2anat matrix</span>
-    <span class="n">linear_reg_func_to_anat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_to_anat_linear_reg&#39;</span><span class="p">)</span>
-    <span class="n">linear_reg_func_to_anat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dof</span> <span class="o">=</span> <span class="mi">6</span>
-    <span class="n">linear_reg_func_to_anat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">interp</span> <span class="o">=</span> <span class="s1">&#39;spline&#39;</span>
-    <span class="n">linear_reg_func_to_anat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">searchr_x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
-    <span class="n">linear_reg_func_to_anat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">searchr_y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
-    <span class="n">linear_reg_func_to_anat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">searchr_z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_single_volume</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> 
-                <span class="n">linear_reg_func_to_anat</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;anat_head&#39;</span><span class="p">,</span> 
-                <span class="n">linear_reg_func_to_anat</span><span class="p">,</span> <span class="s1">&#39;reference&#39;</span><span class="p">)</span>
-
-    <span class="c1"># 2. Inverse func to anat affine, to get anat-to-func transform </span>
-    <span class="n">inv_func_to_anat_affine</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">ConvertXFM</span><span class="p">(),</span>
-                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inv_func2anat_affine&#39;</span><span class="p">)</span>
-    <span class="n">inv_func_to_anat_affine</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">invert_xfm</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">linear_reg_func_to_anat</span><span class="p">,</span> <span class="s1">&#39;out_matrix_file&#39;</span><span class="p">,</span>
-                <span class="n">inv_func_to_anat_affine</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
-
-    <span class="c1"># 3. get BOLD mask</span>
-    <span class="c1"># 3.1 Apply anat-to-func transform to transfer anatomical brain to functional space </span>
-    <span class="n">reg_anat_brain_to_func</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">ApplyWarp</span><span class="p">(),</span>
-                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;reg_anat_brain_to_func&#39;</span><span class="p">)</span>
-    <span class="n">reg_anat_brain_to_func</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">interp</span> <span class="o">=</span> <span class="s1">&#39;nn&#39;</span>
-    <span class="n">reg_anat_brain_to_func</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">relwarp</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;anat_brain&#39;</span><span class="p">,</span> 
-                <span class="n">reg_anat_brain_to_func</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;func&#39;</span><span class="p">,</span> 
-                <span class="n">reg_anat_brain_to_func</span><span class="p">,</span> <span class="s1">&#39;ref_file&#39;</span><span class="p">)</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inv_func_to_anat_affine</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> 
-                <span class="n">reg_anat_brain_to_func</span><span class="p">,</span> <span class="s1">&#39;premat&#39;</span><span class="p">)</span>
-
-    <span class="c1"># 3.2 Binarize transfered image and fill holes to get BOLD mask. </span>
-    <span class="c1"># Binarize</span>
-    <span class="n">func_mask_bin</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">ImageMaths</span><span class="p">(),</span>
-                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_mask&#39;</span><span class="p">)</span>
-    <span class="n">func_mask_bin</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">op_string</span> <span class="o">=</span> <span class="s1">&#39;-bin&#39;</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">reg_anat_brain_to_func</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> 
-                <span class="n">func_mask_bin</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
-
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_mask_bin</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> 
-                <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;func_brain_mask&#39;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">wf</span>
-
 
 <span class="k">def</span> <span class="nf">normalize_motion_parameters</span><span class="p">(</span><span class="n">in_file</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -295,10 +216,10 @@
 <span class="k">def</span> <span class="nf">skullstrip_functional</span><span class="p">(</span><span class="n">skullstrip_tool</span><span class="o">=</span><span class="s1">&#39;afni&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wf_name</span><span class="o">=</span><span class="s1">&#39;skullstrip_functional&#39;</span><span class="p">):</span>
 
     <span class="n">skullstrip_tool</span> <span class="o">=</span> <span class="n">skullstrip_tool</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;afni&#39;</span> <span class="ow">and</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;fsl&#39;</span> <span class="ow">and</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;fsl_afni&#39;</span> <span class="ow">and</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;anatomical_refined&#39;</span> <span class="ow">and</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;anatomical_based&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;afni&#39;</span> <span class="ow">and</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;fsl&#39;</span> <span class="ow">and</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;fsl_afni&#39;</span> <span class="ow">and</span> <span class="n">skullstrip_tool</span> <span class="o">!=</span> <span class="s1">&#39;anatomical_refined&#39;</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">[!] Error: The &#39;tool&#39; parameter of the &quot;</span>
                         <span class="s2">&quot;&#39;skullstrip_functional&#39; workflow must be either &quot;</span>
-                        <span class="s2">&quot;&#39;afni&#39; or &#39;fsl&#39; or &#39;fsl_afni&#39; or &#39;anatomical_refined&#39; or &#39;anatomical_based&#39;.</span><span class="se">\n\n</span><span class="s2">Tool input: &quot;</span>
+                        <span class="s2">&quot;&#39;afni&#39; or &#39;fsl&#39; or &#39;fsl_afni&#39; or &#39;anatomical_refined&#39;.</span><span class="se">\n\n</span><span class="s2">Tool input: &quot;</span>
                         <span class="s2">&quot;</span><span class="si">{0}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">skullstrip_tool</span><span class="p">))</span>
                
     <span class="n">wf</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">wf_name</span><span class="p">)</span>
@@ -306,8 +227,7 @@
     <span class="n">input_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;raw_func&#39;</span><span class="p">,</span>
                                                         <span class="s1">&#39;func&#39;</span><span class="p">,</span>
                                                         <span class="s1">&#39;anatomical_brain_mask&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;anat_brain&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;anat_head&#39;</span><span class="p">]),</span>
+                                                        <span class="s1">&#39;anat_brain&#39;</span><span class="p">]),</span>
                          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
     <span class="n">output_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;func_brain&#39;</span><span class="p">,</span>
@@ -346,18 +266,18 @@
         <span class="n">func_get_brain_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="n">inputnode_bet</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
-                <span class="n">frac</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_frac</span><span class="p">,</span> <span class="c1"># 0.3</span>
-                <span class="n">mesh_boolean</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_mesh_boolean</span><span class="p">,</span>
-                <span class="n">outline</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_outline</span><span class="p">,</span>
-                <span class="n">padding</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_padding</span><span class="p">,</span>
-                <span class="n">radius</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_radius</span><span class="p">,</span>
-                <span class="n">reduce_bias</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_reduce_bias</span><span class="p">,</span>
-                <span class="n">remove_eyes</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_remove_eyes</span><span class="p">,</span>
-                <span class="n">robust</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_robust</span><span class="p">,</span>
-                <span class="n">skull</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_skull</span><span class="p">,</span>
-                <span class="n">surfaces</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_surfaces</span><span class="p">,</span>
-                <span class="n">threshold</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_threshold</span><span class="p">,</span>
-                <span class="n">vertical_gradient</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">bold_bet_vertical_gradient</span><span class="p">,</span>
+                <span class="n">frac</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;frac&#39;</span><span class="p">],</span> <span class="c1"># 0.3</span>
+                <span class="n">mesh_boolean</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;mesh_boolean&#39;</span><span class="p">],</span>
+                <span class="n">outline</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;outline&#39;</span><span class="p">],</span>
+                <span class="n">padding</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;padding&#39;</span><span class="p">],</span>
+                <span class="n">radius</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;radius&#39;</span><span class="p">],</span>
+                <span class="n">reduce_bias</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;reduce_bias&#39;</span><span class="p">],</span>
+                <span class="n">remove_eyes</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;remove_eyes&#39;</span><span class="p">],</span>
+                <span class="n">robust</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;robust&#39;</span><span class="p">],</span>
+                <span class="n">skull</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;skull&#39;</span><span class="p">],</span>
+                <span class="n">surfaces</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;surfaces&#39;</span><span class="p">],</span>
+                <span class="n">threshold</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;threshold&#39;</span><span class="p">],</span>
+                <span class="n">vertical_gradient</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;vertical_gradient&#39;</span><span class="p">],</span>
             <span class="p">)</span>
 
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">([</span>
@@ -377,7 +297,7 @@
             <span class="p">])</span>
         <span class="p">])</span>
 
-        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">bold_bet_functional_mean_boolean</span> <span class="p">:</span> 
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;functional_mean_boolean&#39;</span><span class="p">]:</span>
             <span class="n">func_skull_mean</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni_utils</span><span class="o">.</span><span class="n">TStat</span><span class="p">(),</span>
                                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_mean_skull_</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
             <span class="n">func_skull_mean</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="s1">&#39;-mean&#39;</span>
@@ -498,8 +418,8 @@
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_tmp_brain_mask</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> 
                     <span class="n">refined_bold_mask</span><span class="p">,</span> <span class="s1">&#39;inputspec.init_func_brain_mask&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Dialate anatomical mask, if &#39;anatomical_mask_dilation : True&#39; in config file</span>
-        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">anatomical_mask_dilation</span> <span class="p">:</span>
+        <span class="c1"># Dialate anatomical mask</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;Anatomical_Refined&#39;</span><span class="p">][</span><span class="s1">&#39;anatomical_mask_dilation&#39;</span><span class="p">]:</span>
             <span class="n">anat_mask_dilate</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">MaskTool</span><span class="p">(),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_mask_dilate&#39;</span><span class="p">)</span>
             <span class="n">anat_mask_dilate</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dilate_inputs</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
@@ -526,24 +446,6 @@
 
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_mask_final</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> 
                     <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;func_brain_mask&#39;</span><span class="p">)</span>
-    
-    <span class="c1"># simply transforms the anatomical brain mask to the functional BOLD data.</span>
-    <span class="k">elif</span> <span class="n">skullstrip_tool</span> <span class="o">==</span> <span class="s1">&#39;anatomical_based&#39;</span><span class="p">:</span>
-
-        <span class="c1"># refined_bold_mask : input motion corrected func </span>
-        <span class="n">bold_mask</span> <span class="o">=</span> <span class="n">anat_based_mask</span><span class="p">(</span><span class="n">wf_name</span><span class="o">=</span><span class="s1">&#39;bold_mask&#39;</span><span class="p">)</span>
-
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;func&#39;</span><span class="p">,</span>
-                    <span class="n">bold_mask</span><span class="p">,</span> <span class="s1">&#39;inputspec.func&#39;</span><span class="p">)</span>
-
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;anat_brain&#39;</span><span class="p">,</span> 
-                    <span class="n">bold_mask</span><span class="p">,</span> <span class="s1">&#39;inputspec.anat_brain&#39;</span><span class="p">)</span>
-
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;anat_head&#39;</span><span class="p">,</span> 
-                    <span class="n">bold_mask</span><span class="p">,</span> <span class="s1">&#39;inputspec.anat_head&#39;</span><span class="p">)</span>
-
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">bold_mask</span><span class="p">,</span> <span class="s1">&#39;outputspec.func_brain_mask&#39;</span><span class="p">,</span> 
-                    <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;func_brain_mask&#39;</span><span class="p">)</span>
 
     <span class="n">func_edge_detect</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni_utils</span><span class="o">.</span><span class="n">Calc</span><span class="p">(),</span>
                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_extract_brain&#39;</span><span class="p">)</span>
@@ -565,15 +467,12 @@
     <span class="k">elif</span> <span class="n">skullstrip_tool</span> <span class="o">==</span> <span class="s1">&#39;anatomical_refined&#39;</span><span class="p">:</span>
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_mask_final</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
                     <span class="n">func_edge_detect</span><span class="p">,</span> <span class="s1">&#39;in_file_b&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">skullstrip_tool</span> <span class="o">==</span> <span class="s1">&#39;anatomical_based&#39;</span><span class="p">:</span>
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">bold_mask</span><span class="p">,</span> <span class="s1">&#39;outputspec.func_brain_mask&#39;</span><span class="p">,</span> 
-                    <span class="n">func_edge_detect</span><span class="p">,</span> <span class="s1">&#39;in_file_b&#39;</span><span class="p">)</span>
 
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_edge_detect</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>  <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;func_brain&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">wf</span>
 
-<span class="c1"># TODO</span>
+
 <span class="k">def</span> <span class="nf">create_scale_func_wf</span><span class="p">(</span><span class="n">scaling_factor</span><span class="p">,</span> <span class="n">wf_name</span><span class="o">=</span><span class="s1">&#39;scale_func&#39;</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;Workflow to scale func data.</span>
@@ -873,17 +772,8 @@
 <span class="sd">               -odt char</span>
 
 <span class="sd">    .. exec::</span>
-<span class="sd">        import yaml</span>
-<span class="sd">        from urllib.request import urlopen</span>
 <span class="sd">        from CPAC.func_preproc import create_func_preproc</span>
-<span class="sd">        from CPAC.utils.configuration import Configuration</span>
-
-<span class="sd">        wf = create_func_preproc(&#39;fsl&#39;, &#39;3dvolreg&#39;, &#39;mean&#39;,</span>
-<span class="sd">            config=Configuration(yaml.safe_load(urlopen(</span>
-<span class="sd">                &#39;https://raw.githubusercontent.com/FCP-INDI/C-PAC/develop/&#39;</span>
-<span class="sd">                &#39;dev/docker_data/default_pipeline.yml&#39;</span>
-<span class="sd">            )))</span>
-<span class="sd">        )</span>
+<span class="sd">        wf = create_func_preproc()</span>
 <span class="sd">        wf.write_graph(</span>
 <span class="sd">            graph2use=&#39;orig&#39;,</span>
 <span class="sd">            dotfilename=&#39;./images/generated/func_preproc.dot&#39;</span>
@@ -891,12 +781,12 @@
 
 <span class="sd">    High Level Workflow Graph:</span>
 
-<span class="sd">    .. image:: ../../images/generated/func_preproc.png</span>
+<span class="sd">    .. image:: ../images/generated/func_preproc.png</span>
 <span class="sd">       :width: 1000</span>
 
 <span class="sd">    Detailed Workflow Graph:</span>
 
-<span class="sd">    .. image:: ../../images/generated/func_preproc_detailed.png</span>
+<span class="sd">    .. image:: ../images/generated/func_preproc_detailed.png</span>
 <span class="sd">       :width: 1000</span>
 
 <span class="sd">    Examples</span>
@@ -933,7 +823,6 @@
                                                         <span class="s1">&#39;twopass&#39;</span><span class="p">,</span>
                                                         <span class="s1">&#39;anatomical_brain_mask&#39;</span><span class="p">,</span>
                                                         <span class="s1">&#39;anat_brain&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;anat_head&#39;</span><span class="p">,</span>
                                                         <span class="s1">&#39;TR&#39;</span><span class="p">]),</span>
                          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
@@ -948,7 +837,6 @@
                                                          <span class="s1">&#39;mask&#39;</span><span class="p">,</span>
                                                          <span class="s1">&#39;skullstrip&#39;</span><span class="p">,</span>
                                                          <span class="s1">&#39;func_mean&#39;</span><span class="p">,</span>
-                                                         <span class="s1">&#39;get_func_volume&#39;</span><span class="p">,</span>
                                                          <span class="s1">&#39;preprocessed&#39;</span><span class="p">,</span>
                                                          <span class="s1">&#39;preprocessed_median&#39;</span><span class="p">,</span>
                                                          <span class="s1">&#39;preprocessed_mask&#39;</span><span class="p">,</span>
@@ -978,7 +866,7 @@
     <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_reorient</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;reorient&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">maxCoresPerParticipant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">pipeline_setup</span><span class="p">[</span><span class="s1">&#39;system_config&#39;</span><span class="p">][</span><span class="s1">&#39;max_cores_per_participant&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">chunk_imports</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;import nibabel as nb&#39;</span><span class="p">]</span>
             <span class="n">chunk</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;func_file&#39;</span><span class="p">,</span>
                                                   <span class="s1">&#39;n_cpus&#39;</span><span class="p">],</span>
@@ -987,7 +875,7 @@
                                      <span class="n">imports</span><span class="o">=</span><span class="n">chunk_imports</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;chunk&#39;</span><span class="p">)</span>
 
-            <span class="n">chunk</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_cpus</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">maxCoresPerParticipant</span><span class="p">)</span>
+            <span class="n">chunk</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">n_cpus</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">pipeline_setup</span><span class="p">[</span><span class="s1">&#39;system_config&#39;</span><span class="p">][</span><span class="s1">&#39;max_cores_per_participant&#39;</span><span class="p">])</span>
             <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_reorient</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">chunk</span><span class="p">,</span> <span class="s1">&#39;func_file&#39;</span><span class="p">)</span>
 
             <span class="n">split_imports</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;import os&#39;</span><span class="p">,</span> <span class="s1">&#39;import subprocess&#39;</span><span class="p">]</span>
@@ -1117,7 +1005,7 @@
 
         <span class="n">func_get_selected_RPI</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
             <span class="n">expr</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>
-            <span class="n">single_idx</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">motion_correction_reference_volume</span><span class="p">,</span>
+            <span class="n">single_idx</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction_reference_volume&#39;</span><span class="p">],</span>
             <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI_GZ&#39;</span>
         <span class="p">)</span>
 
@@ -1156,7 +1044,7 @@
                         <span class="n">func_motion_correct_A</span><span class="p">,</span> <span class="s1">&#39;basefile&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">maxCoresPerParticipant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">pipeline_setup</span><span class="p">[</span><span class="s1">&#39;system_config&#39;</span><span class="p">][</span><span class="s1">&#39;max_cores_per_participant&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">motion_concat</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni_utils</span><span class="o">.</span><span class="n">TCat</span><span class="p">(),</span>
                                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;motion_concat&#39;</span><span class="p">)</span>
                 <span class="n">motion_concat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
@@ -1300,13 +1188,13 @@
                                          <span class="n">imports</span><span class="o">=</span><span class="n">notch_imports</span><span class="p">),</span>
                                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;filter_motion_params&#39;</span><span class="p">)</span>
 
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_type</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;filter_type&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fc_RR_min</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;breathing_rate_min&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fc_RR_max</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;breathing_rate_max&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">center_freq</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;center_frequency&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">freq_bw</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;filter_bandwidth&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lowpass_cutoff</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;lowpass_cutoff&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_order</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;filter_order&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_type</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;filter_type&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fc_RR_min</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;breathing_rate_min&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fc_RR_max</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;breathing_rate_max&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">center_freq</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;center_frequency&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">freq_bw</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;filter_bandwidth&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lowpass_cutoff</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;lowpass_cutoff&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_order</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;filter_order&#39;</span><span class="p">]</span>
 
                 <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">notch</span><span class="p">,</span> <span class="s1">&#39;filter_info&#39;</span><span class="p">,</span>
                                 <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;motion_filter_info&#39;</span><span class="p">)</span>
@@ -1391,13 +1279,13 @@
                                          <span class="n">imports</span><span class="o">=</span><span class="n">notch_imports</span><span class="p">),</span>
                                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;filter_motion_params&#39;</span><span class="p">)</span>
 
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_type</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;filter_type&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fc_RR_min</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;breathing_rate_min&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fc_RR_max</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;breathing_rate_max&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">center_freq</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;center_frequency&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">freq_bw</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;filter_bandwidth&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lowpass_cutoff</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;lowpass_cutoff&#39;</span><span class="p">]</span>
-                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_order</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;filter_order&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_type</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;filter_type&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fc_RR_min</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;breathing_rate_min&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fc_RR_max</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;breathing_rate_max&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">center_freq</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;center_frequency&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">freq_bw</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;filter_bandwidth&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lowpass_cutoff</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;lowpass_cutoff&#39;</span><span class="p">]</span>
+                <span class="n">notch</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">filter_order</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;filter_order&#39;</span><span class="p">]</span>
 
                 <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">notch</span><span class="p">,</span> <span class="s1">&#39;filter_info&#39;</span><span class="p">,</span>
                                 <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;motion_filter_info&#39;</span><span class="p">)</span>
@@ -1433,8 +1321,6 @@
     <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;anat_brain&#39;</span><span class="p">,</span>
                     <span class="n">skullstrip_func</span><span class="p">,</span> <span class="s1">&#39;inputspec.anat_brain&#39;</span><span class="p">)</span>                
 
-    <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;anat_head&#39;</span><span class="p">,</span>
-                    <span class="n">skullstrip_func</span><span class="p">,</span> <span class="s1">&#39;inputspec.anat_head&#39;</span><span class="p">)</span>                
 
     <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">skullstrip_func</span><span class="p">,</span> <span class="s1">&#39;outputspec.func_brain&#39;</span><span class="p">,</span>
                     <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;skullstrip&#39;</span><span class="p">)</span>
@@ -1451,35 +1337,7 @@
     <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">skullstrip_func</span><span class="p">,</span> <span class="s1">&#39;outputspec.func_brain&#39;</span><span class="p">,</span> 
                     <span class="n">func_mean</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s2">&quot;Selected Functional Volume&quot;</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">func_reg_input</span><span class="p">:</span>
-        <span class="n">get_func_volume</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">Calc</span><span class="p">(),</span>
-                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;get_func_volume&#39;</span><span class="p">)</span>
-
-        <span class="n">get_func_volume</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
-            <span class="n">expr</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>
-            <span class="n">single_idx</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">func_reg_input_volume</span><span class="p">,</span>
-            <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI_GZ&#39;</span>
-        <span class="p">)</span>
-        <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">skullstrip_func</span><span class="p">,</span> <span class="s1">&#39;outputspec.func_brain&#39;</span><span class="p">,</span> 
-                        <span class="n">get_func_volume</span><span class="p">,</span> <span class="s1">&#39;in_file_a&#39;</span><span class="p">)</span>
-    
-        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">n4_correct_func_reg_input</span> <span class="p">:</span>
-
-            <span class="n">get_func_volume_n4_corrected</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ants</span><span class="o">.</span><span class="n">N4BiasFieldCorrection</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">copy_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bspline_fitting_distance</span><span class="o">=</span><span class="mi">200</span><span class="p">),</span> <span class="n">shrink_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
-                                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;get_func_volume_n4_corrected&#39;</span><span class="p">)</span>
-            <span class="n">get_func_volume_n4_corrected</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="s1">&#39;-r True&#39;</span>
-            
-            <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">get_func_volume</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> 
-                            <span class="n">get_func_volume_n4_corrected</span><span class="p">,</span> <span class="s1">&#39;input_image&#39;</span><span class="p">)</span>
-            <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">get_func_volume_n4_corrected</span><span class="p">,</span> <span class="s1">&#39;output_image&#39;</span><span class="p">,</span>
-                            <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;get_func_volume&#39;</span><span class="p">)</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">get_func_volume</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
-                            <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;get_func_volume&#39;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">n4_correct_func_reg_input</span> <span class="p">:</span>
-
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">functional_registration</span><span class="p">[</span><span class="s1">&#39;1-coregistration&#39;</span><span class="p">][</span><span class="s1">&#39;func_input_prep&#39;</span><span class="p">][</span><span class="s1">&#39;Mean Functional&#39;</span><span class="p">][</span><span class="s1">&#39;n4_correct_func&#39;</span><span class="p">]:</span>
         <span class="n">func_mean_n4_corrected</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span> <span class="o">=</span> <span class="n">ants</span><span class="o">.</span><span class="n">N4BiasFieldCorrection</span><span class="p">(</span><span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">copy_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bspline_fitting_distance</span><span class="o">=</span><span class="mi">200</span><span class="p">),</span> <span class="n">shrink_factor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
                                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_mean_n4_corrected&#39;</span><span class="p">)</span>
         <span class="n">func_mean_n4_corrected</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="s1">&#39;-r True&#39;</span>
@@ -1503,34 +1361,6 @@
 
     <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_normalize</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
                     <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;preprocessed&#39;</span><span class="p">)</span>
-
-    <span class="c1"># TODO XL review forking</span>
-    <span class="k">if</span> <span class="s1">&#39;func&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">run_longitudinal</span><span class="p">:</span>
-        <span class="c1"># get median brain for longitudinal</span>
-        <span class="n">func_get_preprocessed_median</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni_utils</span><span class="o">.</span><span class="n">TStat</span><span class="p">(),</span>
-                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_get_preprocessed_median&#39;</span><span class="p">)</span>
-
-        <span class="n">func_get_preprocessed_median</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="s1">&#39;-median&#39;</span>
-        <span class="n">func_get_preprocessed_median</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
-
-        <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_normalize</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
-                        <span class="n">func_get_preprocessed_median</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
-
-        <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_get_preprocessed_median</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
-                    <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;preprocessed_median&#39;</span><span class="p">)</span>   
-
-        <span class="c1"># get median skull for longitudinal</span>
-        <span class="n">func_get_motion_correct_median</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni_utils</span><span class="o">.</span><span class="n">TStat</span><span class="p">(),</span>
-                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_get_motion_correct_median&#39;</span><span class="p">)</span>
-
-        <span class="n">func_get_motion_correct_median</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="s1">&#39;-median&#39;</span>
-        <span class="n">func_get_motion_correct_median</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
-
-        <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_motion_correct_A</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
-                        <span class="n">func_get_motion_correct_median</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
-
-        <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">func_get_motion_correct_median</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
-                    <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;motion_correct_median&#39;</span><span class="p">)</span>
 
     <span class="n">func_mask_normalize</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">ImageMaths</span><span class="p">(),</span>
                                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;func_mask_normalize&#39;</span><span class="p">)</span>
@@ -1642,26 +1472,26 @@
     <span class="c1"># Grab the number of volumes</span>
     <span class="n">nvols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hdr</span><span class="o">.</span><span class="n">get_data_shape</span><span class="p">()[</span><span class="mi">3</span><span class="p">])</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">start_idx</span> <span class="o">==</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">start_idx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">start_idx</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">nvols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">start_idx</span> <span class="o">==</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">start_idx</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">start_idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">nvols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
         <span class="n">startidx</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">startidx</span> <span class="o">=</span> <span class="n">start_idx</span>
+        <span class="n">startidx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">start_idx</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">stop_idx</span> <span class="o">==</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">stop_idx</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">nvols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">stop_idx</span> <span class="o">==</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">stop_idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">nvols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
         <span class="n">stopidx</span> <span class="o">=</span> <span class="n">nvols</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">stopidx</span> <span class="o">=</span> <span class="n">stop_idx</span>
+        <span class="n">stopidx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">stop_idx</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">stopidx</span><span class="p">,</span> <span class="n">startidx</span></div>
 
 
 <span class="k">def</span> <span class="nf">connect_func_init</span><span class="p">(</span><span class="n">workflow</span><span class="p">,</span> <span class="n">strat_list</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">unique_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-    <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">runScaling</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;scaling&#39;</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">num_strat</span><span class="p">,</span> <span class="n">strat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">strat_list</span><span class="p">):</span>
             <span class="c1"># scale func data based on configuration information</span>
             <span class="n">scale_func_wf</span> <span class="o">=</span> <span class="n">create_scale_func_wf</span><span class="p">(</span>
-                <span class="n">scaling_factor</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">scaling_factor</span><span class="p">,</span>
+                <span class="n">scaling_factor</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;scaling&#39;</span><span class="p">][</span><span class="s1">&#39;scaling_factor&#39;</span><span class="p">],</span>
                 <span class="n">wf_name</span><span class="o">=</span><span class="s2">&quot;scale_func_</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">num_strat</span><span class="p">)</span>
             <span class="p">)</span>
 
@@ -1711,27 +1541,27 @@
 
     <span class="k">for</span> <span class="n">num_strat</span><span class="p">,</span> <span class="n">strat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">strat_list</span><span class="p">):</span>
 
-        <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">runMotionStatisticsFirst</span><span class="p">:</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;calculate_motion_first&#39;</span><span class="p">]:</span>
             <span class="n">new_strat_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">strat</span><span class="o">.</span><span class="n">fork</span><span class="p">()]</span>
 
-        <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">runMotionStatisticsFirst</span><span class="p">:</span>
+        <span class="k">if</span> <span class="kc">True</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;calculate_motion_first&#39;</span><span class="p">]:</span>
 
-            <span class="k">for</span> <span class="n">skullstrip_tool</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functionalMasking</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">skullstrip_tool</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;using&#39;</span><span class="p">]:</span>
 
                 <span class="n">skullstrip_tool</span> <span class="o">=</span> <span class="n">skullstrip_tool</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-                <span class="k">for</span> <span class="n">motion_correct_ref</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">motion_correction_reference</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">motion_correct_ref</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction_reference&#39;</span><span class="p">]:</span>
 
                     <span class="n">motion_correct_ref</span> <span class="o">=</span> <span class="n">motion_correct_ref</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
                     <span class="k">if</span> <span class="s2">&quot; &quot;</span> <span class="ow">in</span> <span class="n">motion_correct_ref</span><span class="p">:</span>
                         <span class="n">motion_correct_ref</span> <span class="o">=</span> <span class="n">motion_correct_ref</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
 
-                    <span class="k">for</span> <span class="n">motion_correct_tool</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">motion_correction</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">motion_correct_tool</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction&#39;</span><span class="p">][</span><span class="s1">&#39;using&#39;</span><span class="p">]:</span>
 
                         <span class="n">motion_correct_tool</span> <span class="o">=</span> <span class="n">motion_correct_tool</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-                        <span class="k">for</span> <span class="n">motion_estimate_filter_option</span> <span class="ow">in</span>  <span class="n">c</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
+                        <span class="k">for</span> <span class="n">motion_estimate_filter_option</span> <span class="ow">in</span>  <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
 
                             <span class="k">if</span> <span class="n">motion_estimate_filter_option</span><span class="p">:</span>
                                 <span class="n">func_preproc_workflow_name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;func_preproc_before_stc_</span><span class="si">{</span><span class="n">skullstrip_tool</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">motion_correct_ref</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">motion_correct_tool</span><span class="si">}</span><span class="s1">_motion_filter_</span><span class="si">{</span><span class="n">num_strat</span><span class="si">}</span><span class="s1">&#39;</span>
@@ -1767,16 +1597,12 @@
                             <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
                                             <span class="s1">&#39;inputspec.anatomical_brain_mask&#39;</span><span class="p">)</span>
 
-                            <span class="n">node</span><span class="p">,</span> <span class="n">out_file</span> <span class="o">=</span> <span class="n">new_strat</span><span class="p">[</span><span class="s1">&#39;anatomical_skull_leaf&#39;</span><span class="p">]</span>
-                            <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
-                                            <span class="s1">&#39;inputspec.anat_head&#39;</span><span class="p">)</span>
-
                             <span class="n">node</span><span class="p">,</span> <span class="n">out_file</span> <span class="o">=</span> <span class="n">strat</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">]</span>
                             <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
                                             <span class="s1">&#39;inputspec.TR&#39;</span><span class="p">)</span>
 
                             <span class="n">func_preproc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">twopass</span> <span class="o">=</span> \
-                                <span class="nb">getattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;functional_volreg_twopass&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                                <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction&#39;</span><span class="p">][</span><span class="s1">&#39;AFNI-3dvolreg&#39;</span><span class="p">][</span><span class="s1">&#39;functional_volreg_twopass&#39;</span><span class="p">]</span>
 
                             <span class="n">new_strat</span><span class="o">.</span><span class="n">update_resource_pool</span><span class="p">({</span>
                                 <span class="s1">&#39;bold_masking_method&#39;</span><span class="p">:</span> <span class="n">skullstrip_tool</span><span class="p">,</span>
@@ -1861,10 +1687,10 @@
 
     <span class="k">for</span> <span class="n">num_strat</span><span class="p">,</span> <span class="n">strat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">strat_list</span><span class="p">):</span>
 
-        <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">runDespike</span><span class="p">:</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;despiking&#39;</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
             <span class="n">new_strat_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">strat</span><span class="o">.</span><span class="n">fork</span><span class="p">()]</span>
 
-        <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">runDespike</span><span class="p">:</span>
+        <span class="k">if</span> <span class="kc">True</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;despiking&#39;</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
             <span class="n">new_strat</span> <span class="o">=</span> <span class="n">strat</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
 
             <span class="n">despike</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">preprocess</span><span class="o">.</span><span class="n">Despike</span><span class="p">(),</span>
@@ -1891,10 +1717,10 @@
 
     <span class="k">for</span> <span class="n">num_strat</span><span class="p">,</span> <span class="n">strat</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">strat_list</span><span class="p">):</span>
 
-        <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">slice_timing_correction</span><span class="p">:</span>
+        <span class="k">if</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;slice_timing_correction&#39;</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
             <span class="n">new_strat_list</span> <span class="o">+=</span> <span class="p">[</span><span class="n">strat</span><span class="o">.</span><span class="n">fork</span><span class="p">()]</span>
 
-        <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">slice_timing_correction</span><span class="p">:</span>
+        <span class="k">if</span> <span class="kc">True</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;slice_timing_correction&#39;</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
             <span class="n">new_strat</span> <span class="o">=</span> <span class="n">strat</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="n">unique_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1995,23 +1821,18 @@
             <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
                             <span class="s1">&#39;inputspec.anatomical_brain_mask&#39;</span><span class="p">)</span>
 
-            <span class="n">node</span><span class="p">,</span> <span class="n">out_file</span> <span class="o">=</span> <span class="n">strat</span><span class="p">[</span><span class="s1">&#39;anatomical_skull_leaf&#39;</span><span class="p">]</span>
-            <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
-                            <span class="s1">&#39;inputspec.anat_head&#39;</span><span class="p">)</span>
-
             <span class="n">node</span><span class="p">,</span> <span class="n">out_file</span> <span class="o">=</span> <span class="n">strat</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">]</span>
             <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
                              <span class="s1">&#39;inputspec.TR&#39;</span><span class="p">)</span>
 
             <span class="n">func_preproc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">twopass</span> <span class="o">=</span> \
-                <span class="nb">getattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;functional_volreg_twopass&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction&#39;</span><span class="p">][</span><span class="s1">&#39;AFNI-3dvolreg&#39;</span><span class="p">][</span><span class="s1">&#39;functional_volreg_twopass&#39;</span><span class="p">]</span>
 
             <span class="n">strat</span><span class="o">.</span><span class="n">append_name</span><span class="p">(</span><span class="n">func_preproc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">strat</span><span class="o">.</span><span class="n">set_leaf_properties</span><span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.preprocessed&#39;</span><span class="p">)</span>
 
             <span class="n">strat</span><span class="o">.</span><span class="n">update_resource_pool</span><span class="p">({</span>
                 <span class="s1">&#39;mean_functional&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.func_mean&#39;</span><span class="p">),</span>
-                <span class="s1">&#39;selected_func_volume&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.get_func_volume&#39;</span><span class="p">),</span>
                 <span class="s1">&#39;functional_preprocessed_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.preprocessed_mask&#39;</span><span class="p">),</span>                              
                 <span class="s1">&#39;functional_preprocessed&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.preprocessed&#39;</span><span class="p">),</span>
                 <span class="s1">&#39;functional_brain_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.mask&#39;</span><span class="p">),</span>
@@ -2019,33 +1840,27 @@
                 <span class="s1">&#39;motion_estimate_filter_info_design&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.motion_filter_info&#39;</span><span class="p">),</span>
                 <span class="s1">&#39;motion_estimate_filter_info_plot&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.motion_filter_plot&#39;</span><span class="p">)</span>
             <span class="p">})</span>
-
-            <span class="k">if</span> <span class="s1">&#39;func&#39;</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">run_longitudinal</span><span class="p">:</span>
-                <span class="n">strat</span><span class="o">.</span><span class="n">update_resource_pool</span><span class="p">({</span>
-                    <span class="s1">&#39;functional_preprocessed_median&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.preprocessed_median&#39;</span><span class="p">),</span>
-                    <span class="s1">&#39;motion_correct_median&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.motion_correct_median&#39;</span><span class="p">),</span>                                
-                <span class="p">})</span>
-
+            
             <span class="n">new_strat_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">strat</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
 
-            <span class="k">for</span> <span class="n">skullstrip_tool</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functionalMasking</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">skullstrip_tool</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;func_masking&#39;</span><span class="p">][</span><span class="s1">&#39;using&#39;</span><span class="p">]:</span>
                 
                 <span class="n">skullstrip_tool</span> <span class="o">=</span> <span class="n">skullstrip_tool</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-                <span class="k">for</span> <span class="n">motion_correct_ref</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">motion_correction_reference</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">motion_correct_ref</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction_reference&#39;</span><span class="p">]:</span>
 
                     <span class="n">motion_correct_ref</span> <span class="o">=</span> <span class="n">motion_correct_ref</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
                     <span class="k">if</span> <span class="s2">&quot; &quot;</span> <span class="ow">in</span> <span class="n">motion_correct_ref</span><span class="p">:</span>
                         <span class="n">motion_correct_ref</span> <span class="o">=</span> <span class="n">motion_correct_ref</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
 
-                    <span class="k">for</span> <span class="n">motion_correct_tool</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">motion_correction</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">motion_correct_tool</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction&#39;</span><span class="p">][</span><span class="s1">&#39;using&#39;</span><span class="p">]:</span>
 
                         <span class="n">motion_correct_tool</span> <span class="o">=</span> <span class="n">motion_correct_tool</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
                         
-                        <span class="k">for</span> <span class="n">motion_estimate_filter_option</span> <span class="ow">in</span>  <span class="n">c</span><span class="o">.</span><span class="n">motion_estimate_filter</span><span class="p">[</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
+                        <span class="k">for</span> <span class="n">motion_estimate_filter_option</span> <span class="ow">in</span>  <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_estimate_filter&#39;</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]:</span>
 
                             <span class="k">if</span> <span class="n">motion_estimate_filter_option</span><span class="p">:</span>
                                 <span class="k">if</span> <span class="n">unique_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -2077,12 +1892,8 @@
                             <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
                                             <span class="s1">&#39;inputspec.func&#39;</span><span class="p">)</span>
                             
-                            <span class="k">if</span> <span class="n">skullstrip_tool</span> <span class="o">==</span> <span class="s1">&#39;anatomical_refined&#39;</span> <span class="ow">or</span> <span class="n">skullstrip_tool</span> <span class="o">==</span> <span class="s1">&#39;anatomical_based&#39;</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">skullstrip_tool</span> <span class="o">==</span> <span class="s1">&#39;anatomical_refined&#39;</span><span class="p">:</span>
                                 
-                                <span class="n">node</span><span class="p">,</span> <span class="n">out_file</span> <span class="o">=</span> <span class="n">new_strat</span><span class="p">[</span><span class="s1">&#39;anatomical_skull_leaf&#39;</span><span class="p">]</span>
-                                <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
-                                                <span class="s1">&#39;inputspec.anat_head&#39;</span><span class="p">)</span>
-
                                 <span class="n">node</span><span class="p">,</span> <span class="n">out_file</span> <span class="o">=</span> <span class="n">new_strat</span><span class="p">[</span><span class="s1">&#39;anatomical_brain&#39;</span><span class="p">]</span>
                                 <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">func_preproc</span><span class="p">,</span>
                                                 <span class="s1">&#39;inputspec.anat_brain&#39;</span><span class="p">)</span>
@@ -2096,7 +1907,7 @@
                                             <span class="s1">&#39;inputspec.TR&#39;</span><span class="p">)</span>
 
                             <span class="n">func_preproc</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">twopass</span> <span class="o">=</span> \
-                                <span class="nb">getattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;functional_volreg_twopass&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                                <span class="n">c</span><span class="o">.</span><span class="n">functional_preproc</span><span class="p">[</span><span class="s1">&#39;motion_estimates_and_correction&#39;</span><span class="p">][</span><span class="s1">&#39;motion_correction&#39;</span><span class="p">][</span><span class="s1">&#39;AFNI-3dvolreg&#39;</span><span class="p">][</span><span class="s1">&#39;functional_volreg_twopass&#39;</span><span class="p">]</span>
 
                             <span class="n">new_strat</span><span class="o">.</span><span class="n">append_name</span><span class="p">(</span><span class="n">func_preproc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
                             <span class="n">new_strat</span><span class="o">.</span><span class="n">set_leaf_properties</span><span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.preprocessed&#39;</span><span class="p">)</span>
@@ -2106,7 +1917,6 @@
                                 <span class="s1">&#39;motion_correction_method&#39;</span><span class="p">:</span> <span class="n">motion_correct_tool</span><span class="p">,</span>
                                 <span class="s1">&#39;motion_correction_ref&#39;</span><span class="p">:</span> <span class="n">motion_correct_ref</span><span class="p">,</span>
                                 <span class="s1">&#39;mean_functional&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.func_mean&#39;</span><span class="p">),</span>
-                                <span class="s1">&#39;selected_func_volume&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.get_func_volume&#39;</span><span class="p">),</span>
                                 <span class="s1">&#39;functional_preprocessed_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.preprocessed_mask&#39;</span><span class="p">),</span>
                                 <span class="s1">&#39;movement_parameters&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.movement_parameters&#39;</span><span class="p">),</span>
                                 <span class="s1">&#39;max_displacement&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.max_displacement&#39;</span><span class="p">),</span>
@@ -2117,12 +1927,6 @@
                                 <span class="s1">&#39;motion_estimate_filter_info_design&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.motion_filter_info&#39;</span><span class="p">),</span>
                                 <span class="s1">&#39;motion_estimate_filter_info_plot&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.motion_filter_plot&#39;</span><span class="p">)</span>
                             <span class="p">})</span>
-
-                            <span class="k">if</span> <span class="s1">&#39;func&#39;</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">run_longitudinal</span><span class="p">:</span>
-                                <span class="n">new_strat</span><span class="o">.</span><span class="n">update_resource_pool</span><span class="p">({</span>
-                                    <span class="s1">&#39;functional_preprocessed_median&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.preprocessed_median&#39;</span><span class="p">),</span>
-                                    <span class="s1">&#39;motion_correct_median&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">func_preproc</span><span class="p">,</span> <span class="s1">&#39;outputspec.motion_correct_median&#39;</span><span class="p">),</span>                                
-                                <span class="p">})</span>
                             
                             <span class="n">new_strat_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_strat</span><span class="p">)</span>
 
@@ -2168,7 +1972,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.func_preproc.func_preproc</a></li> 
       </ul>
