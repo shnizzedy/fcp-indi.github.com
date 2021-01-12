@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.vmhc.vmhc &#8212; C-PAC 1.7.1 Beta documentation</title>
+    <title>CPAC.vmhc.vmhc &#8212; C-PAC 1.7.3.dev Beta documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.vmhc.vmhc</a></li> 
       </ul>
@@ -40,12 +40,13 @@
             
   <h1>Source code for CPAC.vmhc.vmhc</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.algorithms.rapidart</span> <span class="k">as</span> <span class="nn">ra</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.fsl</span> <span class="k">as</span> <span class="nn">fsl</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="k">as</span> <span class="nn">nio</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
+
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">CPAC.vmhc</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.afni</span> <span class="kn">import</span> <span class="n">preprocess</span>
 <span class="kn">from</span> <span class="nn">CPAC.registration</span> <span class="kn">import</span> <span class="n">create_wf_calculate_ants_warp</span><span class="p">,</span> \
@@ -222,6 +223,8 @@
 
 <span class="sd">    .. exec::</span>
 <span class="sd">        import nipype.pipeline.engine as pe</span>
+
+<span class="sd">        from CPAC.pipeline import Node</span>
 <span class="sd">        from CPAC.utils.interfaces.function import Function</span>
 <span class="sd">        from CPAC.utils.test_mocks import configuration_strategy_mock</span>
 <span class="sd">        from CPAC.vmhc import create_vmhc</span>
@@ -230,7 +233,7 @@
 <span class="sd">        pipeline_config_object.update(&#39;smoothing_method&#39;, [&#39;AFNI&#39;])</span>
 <span class="sd">        pipeline_config_object.update(&#39;maxCoresPerParticipant&#39;, &#39;1&#39;)</span>
 <span class="sd">        strat.set_leaf_properties(</span>
-<span class="sd">            pe.Node(Function([]), &#39;vhmc_leaf_node&#39;), &#39;vhmc_outfile&#39;)</span>
+<span class="sd">            Node(Function([]), &#39;vhmc_leaf_node&#39;), &#39;vhmc_outfile&#39;)</span>
 <span class="sd">        wf = create_vmhc(</span>
 <span class="sd">            pe.Workflow(&#39;vmhc&#39;), 0, strat, pipeline_config_object)[0]</span>
 <span class="sd">        wf.write_graph(</span>
@@ -298,7 +301,7 @@
 
     <span class="c1"># write out a swapped version of the file</span>
     <span class="c1"># copy and L/R swap file</span>
-    <span class="n">copy_and_L_R_swap</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">SwapDimensions</span><span class="p">(),</span>
+    <span class="n">copy_and_L_R_swap</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">SwapDimensions</span><span class="p">(),</span>
                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;copy_and_L_R_swap_</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_strat</span><span class="p">))</span>
 
     <span class="n">copy_and_L_R_swap</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">new_dims</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;-x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">)</span>
@@ -308,7 +311,7 @@
                      <span class="n">copy_and_L_R_swap</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
 
     <span class="c1"># calculate correlation between original and swapped images</span>
-    <span class="n">pearson_correlation</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">preprocess</span><span class="o">.</span><span class="n">TCorrelate</span><span class="p">(),</span>
+    <span class="n">pearson_correlation</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">preprocess</span><span class="o">.</span><span class="n">TCorrelate</span><span class="p">(),</span>
                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pearson_correlation_</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_strat</span><span class="p">))</span>
 
     <span class="n">pearson_correlation</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">pearson</span> <span class="o">=</span> <span class="kc">True</span>
@@ -371,7 +374,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.vmhc.vmhc</a></li> 
       </ul>

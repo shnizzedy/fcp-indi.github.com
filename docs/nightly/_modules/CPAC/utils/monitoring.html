@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.utils.monitoring &#8212; C-PAC 1.7.1 Beta documentation</title>
+    <title>CPAC.utils.monitoring &#8212; C-PAC 1.7.3.dev Beta documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.utils.monitoring</a></li> 
       </ul>
@@ -46,6 +46,7 @@
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">socketserver</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
@@ -100,13 +101,16 @@
         <span class="k">return</span>
 
     <span class="n">runtime</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">runtime</span>
+    <span class="n">runtime_threads</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s1">&#39;cpu_percent&#39;</span><span class="p">,</span> <span class="s1">&#39;N/A&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">runtime_threads</span> <span class="o">!=</span> <span class="s1">&#39;N/A&#39;</span><span class="p">:</span>
+        <span class="n">runtime_threads</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">runtime_threads</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
 
     <span class="n">status_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">),</span>
         <span class="s1">&#39;hash&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">get_hashval</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span>
         <span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s1">&#39;startTime&#39;</span><span class="p">),</span>
         <span class="s1">&#39;finish&#39;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s1">&#39;endTime&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;runtime_threads&#39;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s1">&#39;cpu_percent&#39;</span><span class="p">,</span> <span class="s1">&#39;N/A&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;runtime_threads&#39;</span><span class="p">:</span> <span class="n">runtime_threads</span><span class="p">,</span>
         <span class="s1">&#39;runtime_memory_gb&#39;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s1">&#39;mem_peak_gb&#39;</span><span class="p">,</span> <span class="s1">&#39;N/A&#39;</span><span class="p">),</span>
         <span class="s1">&#39;estimated_memory_gb&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">mem_gb</span><span class="p">,</span>
         <span class="s1">&#39;num_threads&#39;</span><span class="p">:</span> <span class="n">node</span><span class="o">.</span><span class="n">n_procs</span><span class="p">,</span>
@@ -237,7 +241,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.utils.monitoring</a></li> 
       </ul>

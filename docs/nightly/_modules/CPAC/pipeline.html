@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Usage: cpac utils &#8212; C-PAC 1.7.3.dev Beta documentation</title>
+    <title>CPAC.pipeline &#8212; C-PAC 1.7.3.dev Beta documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -28,7 +28,8 @@
           <a href="../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Usage: cpac utils</a></li> 
+          <li class="nav-item nav-item-1"><a href="../index" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPAC.pipeline</a></li> 
       </ul>
     </div>  
 
@@ -37,37 +38,21 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="usage-cpac-utils">
-<h1>Usage: cpac utils<a class="headerlink" href="#usage-cpac-utils" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cpac utils --help
+  <h1>Source code for CPAC.pipeline</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partialmethod</span>
+<span class="kn">from</span> <span class="nn">nipype.pipeline.engine</span> <span class="kn">import</span> <span class="n">Node</span> <span class="k">as</span> <span class="n">pe_Node</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cpac_group_runner</span>
 
-<span class="go">Loading 🐳 Docker</span>
-<span class="go">Loading 🐳 fcpindi/c-pac:latest with these directory bindings:</span>
-<span class="go">  local                          Docker                         mode</span>
-<span class="go">  -----------------------------  -----------------------------  ------</span>
-<span class="go">  /tmp                           /tmp                           rw</span>
-<span class="go">  /tmp/cpac_pip_output_tgwdybux  /tmp/cpac_pip_output_tgwdybux  rw</span>
-<span class="go">  /home/circleci/build           /home/circleci/build           rw</span>
-<span class="go">Logging messages will refer to the Docker paths.</span>
 
-<span class="go">Usage: run.py utils [OPTIONS] COMMAND [ARGS]...</span>
+<span class="c1"># set default `mem_gb`</span>
+<div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../developer/nodes#CPAC.pipeline.Node">[docs]</a><span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="n">pe_Node</span><span class="p">):</span>
+    <span class="fm">__init__</span> <span class="o">=</span> <span class="n">partialmethod</span><span class="p">(</span><span class="n">pe_Node</span><span class="o">.</span><span class="fm">__init__</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span></div>
 
-<span class="go">Options:</span>
-<span class="go">  --help  Show this message and exit.</span>
 
-<span class="go">Commands:</span>
-<span class="go">  crash</span>
-<span class="go">  data_config</span>
-<span class="go">  group_config</span>
-<span class="go">  pipe_config</span>
-<span class="go">  repickle</span>
-<span class="go">  test</span>
-<span class="go">  tools</span>
-<span class="go">  workflows</span>
+<span class="k">del</span> <span class="n">partialmethod</span><span class="p">,</span> <span class="n">pe_Node</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Node&#39;</span><span class="p">,</span> <span class="s1">&#39;cpac_group_runner&#39;</span><span class="p">]</span>
 </pre></div>
-</div>
-</div>
-
 
             <div class="clearer"></div>
           </div>
@@ -80,7 +65,7 @@
             </a></p>
   <h3><a href="../../index">Table of Contents</a></h3>
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../index">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user/index">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../developer/index">Welcome to CPAC’s developer documentation!</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../developer/index#indices-and-tables">Indices and tables</a></li>
 </ul>
@@ -109,7 +94,8 @@
           <a href="../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Usage: cpac utils</a></li> 
+          <li class="nav-item nav-item-1"><a href="../index" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPAC.pipeline</a></li> 
       </ul>
     </div>
 
