@@ -37,7 +37,1339 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  
+  <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="c1"># CPAC Pipeline Configuration YAML file</span>
+<span class="c1"># Version 1.7.3.dev</span>
+<span class="c1">#</span>
+<span class="c1"># http://fcp-indi.github.io for more info.</span>
+<span class="c1">#</span>
+<span class="c1"># Tip: This file can be edited manually with a text editor for quick modifications.</span>
+
+
+<span class="c1"># Select False if you intend to run CPAC on a single machine.</span>
+<span class="c1"># If set to True, CPAC will attempt to submit jobs through the job scheduler / resource manager selected below.</span>
+<span class="nt">runOnGrid </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Full path to the FSL version to be used by CPAC.</span>
+<span class="c1"># If you have specified an FSL path in your .bashrc file, this path will be set automatically.</span>
+<span class="nt">FSLDIR </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0</span>
+
+
+<span class="c1"># Sun Grid Engine (SGE), Portable Batch System (PBS), or Simple Linux Utility for Resource Management (SLURM).</span>
+<span class="c1"># Only applies if you are running on a grid or compute cluster.</span>
+<span class="nt">resourceManager </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">SGE</span>
+
+
+<span class="c1"># SGE Parallel Environment to use when running CPAC.</span>
+<span class="c1"># Only applies when you are running on a grid or compute cluster using SGE.</span>
+<span class="nt">parallelEnvironment </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">mpi_smp</span>
+
+
+<span class="c1"># SGE Queue to use when running CPAC.</span>
+<span class="c1"># Only applies when you are running on a grid or compute cluster using SGE.</span>
+<span class="nt">queue </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">all.q</span>
+
+
+<span class="c1"># The maximum amount of memory each participant&#39;s workflow can allocate, in GB. Use this to place an upper bound of memory usage. Warning: &#39;Memory Per Participant&#39; multiplied by &#39;Number of Participants to Run Simultaneously&#39; must not be more than the total amount of RAM. Conversely, using too little RAM can impede the speed of a pipeline run. It is recommended that you set this to a value that when multiplied by &#39;Number of Participants to Run Simultaneously&#39; is as much RAM you can safely allocate.</span>
+<span class="nt">maximumMemoryPerParticipant </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">8</span>
+
+
+<span class="c1"># The maximum amount of cores (on a single machine) or slots on a node (on a cluster/grid) to allocate per participant. Setting this above 1 will parallelize each participant&#39;s workflow where possible. If you wish to dedicate multiple cores to ANTS-based anatomical registration (below), this value must be equal or higher than the amount of cores provided to ANTS. The maximum number of cores your run can possibly employ will be this setting multiplied by the number of participants set to run in parallel (the &#39;Number ofParticipants to Run Simultaneously&#39; setting).</span>
+<span class="nt">maxCoresPerParticipant </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">3</span>
+
+
+<span class="c1"># The number of participant workflows to run at the same time. The maximum number of cores your run can possibly employ will be this setting multiplied by the number of cores dedicated to each participant (the &#39;Maximum Number of Cores Per Participant&#39; setting).</span>
+<span class="nt">numParticipantsAtOnce </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">1</span>
+
+
+<span class="c1"># The number of cores to allocate to ANTS-based anatomical registration per participant. Multiple cores can greatly speed up this preprocessing step. This number cannot be greater than the number of cores per participant.</span>
+<span class="nt">num_ants_threads </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">4</span>
+
+
+<span class="c1"># The number of cores to allocate to FreeSurfer recon-all per participant. This number cannot be greater than the number of cores per participant.</span>
+<span class="nt">num_omp_threads</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+
+
+<span class="c1"># Name for this pipeline configuration - useful for identification.</span>
+<span class="nt">pipelineName </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">analysis</span>
+
+
+<span class="c1"># Directory where CPAC should store temporary and intermediate files.</span>
+<span class="nt">workingDirectory </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/tmp</span>
+
+
+<span class="c1"># Directory where CPAC should write crash logs.</span>
+<span class="nt">crashLogDirectory </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/tmp</span>
+
+
+<span class="c1"># Directory where CPAC should place processed data.</span>
+<span class="nt">outputDirectory </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/output</span>
+
+
+<span class="c1"># Whether to write log details of the pipeline. run to the logging files.</span>
+<span class="nt">run_logging </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Directory where CPAC should place run logs.</span>
+<span class="nt">logDirectory </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/tmp</span>
+
+
+<span class="c1"># If setting the &#39;Output Directory&#39; to an S3 bucket, insert the path to your AWS credentials file here.</span>
+<span class="nt">awsOutputBucketCredentials </span><span class="p">:</span>
+
+
+<span class="c1"># Enable server-side 256-AES encryption on data to the S3 bucket</span>
+<span class="nt">s3Encryption </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Include extra versions and intermediate steps of functional preprocessing in the output directory.</span>
+<span class="nt">write_func_outputs </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Include extra outputs in the output directory that may be of interest when more information is needed.</span>
+<span class="nt">write_debugging_outputs </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Output directory format and structure.</span>
+<span class="c1"># Options: default, ndmg</span>
+<span class="nt">output_tree</span><span class="p">:</span> <span class="s">&quot;default&quot;</span>
+
+
+<span class="c1"># Generate quality control pages containing preprocessing and derivative outputs.</span>
+<span class="nt">generateQualityControlImages </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Deletes the contents of the Working Directory after running.</span>
+<span class="c1"># This saves disk space, but any additional preprocessing or analysis will have to be completely re-run.</span>
+<span class="nt">removeWorkingDir </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Uses the contents of the Working Directory to regenerate all outputs and their symbolic links.</span>
+<span class="c1"># Requires an intact Working Directory from a previous CPAC run.</span>
+<span class="nt">reGenerateOutputs </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Anatomical preprocessing options.</span>
+<span class="c1"># ---------------------------------</span>
+
+
+<span class="c1"># Run anatomical preproceessing</span>
+<span class="nt">runAnatomical</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Non-local means filtering via ANTs DenoiseImage</span>
+<span class="nt">non_local_means_filtering</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># N4 bias field correction via ANTs</span>
+<span class="nt">n4_bias_field_correction</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># ACPC Alignment</span>
+<span class="nt">acpc_align</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Run DenoiseImage and N4BiasFieldCorrection before or after ACPC</span>
+<span class="nt">acpc_run_preprocessing</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">after</span>
+
+
+<span class="c1"># ACPC size of brain in z-dimension in mm. </span>
+<span class="c1"># Default: 150mm for human data. </span>
+<span class="nt">acpc_brainsize</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">150</span>
+
+
+<span class="c1"># ACPC aligned template</span>
+<span class="nt">acpc_template_skull</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_1mm.nii.gz</span>
+<span class="nt">acpc_template_brain</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
+
+
+<span class="c1"># Disables skull-stripping on the anatomical inputs if they are already skull-stripped outside of C-PAC.</span>
+<span class="c1"># Set this to 1 if your input images are already skull-stripped.</span>
+<span class="nt">already_skullstripped </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Choice of using AFNI (3dSkullStrip), FSL (BET), niworkflows-ants, FreeSurfer-ABCD (recon-all + ABCD anat mask generation), UNet for monkey data to perform skull-stripping.</span>
+<span class="c1"># Options: [&#39;AFNI&#39;, &#39;FSL&#39;, &#39;niworkflows-ants&#39;, &#39;FreeSurfer-ABCD&#39;, &#39;unet&#39;] </span>
+<span class="nt">skullstrip_option </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;AFNI&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># UNet model</span>
+<span class="nt">unet_model </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">s3://fcp-indi/resources/cpac/resources/Site-All-T-epoch_36.model</span>
+
+
+<span class="c1"># Template to be used during niworkflows-ants.</span>
+<span class="c1"># For skullstrip option &#39;niworkflows-ants&#39; only.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use a non-standard template.</span>
+
+<span class="c1"># niworkflows-ants brain extraction template</span>
+<span class="nt">niworkflows_ants_template_path </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0.nii.gz</span>
+
+<span class="c1"># niworkflows-ants probability mask</span>
+<span class="nt">niworkflows_ants_mask_path </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0_BrainCerebellumProbabilityMask.nii.gz</span>
+
+<span class="c1"># niworkflows-ants registration mask (can be optional)</span>
+<span class="nt">niworkflows_ants_regmask_path </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0_BrainCerebellumRegistrationMask.nii.gz</span>
+
+
+<span class="c1"># Options to be used for AFNI 3dSkullStrip only.</span>
+
+<span class="c1"># Output a mask volume instead of a skull-stripped volume. The mask volume containes 0 to 6, which represents voxel&#39;s postion. If set to True, C-PAC will use this output to generate anatomical brain mask for further analysis.</span>
+<span class="nt">skullstrip_mask_vol</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Set the threshold value controlling the brain vs non-brain voxels. Default is 0.6.</span>
+<span class="nt">skullstrip_shrink_factor </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.6</span>
+
+
+<span class="c1"># Vary the shrink factor at every iteration of the algorithm. This prevents the likelihood of surface getting stuck in large pools of CSF before reaching the outer surface of the brain. Default is On.</span>
+<span class="nt">skullstrip_var_shrink_fac </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># The shrink factor bottom limit sets the lower threshold when varying the shrink factor. Default is 0.4, for when edge detection is used (which is On by default), otherwise the default value is 0.65.</span>
+<span class="nt">skullstrip_shrink_factor_bot_lim </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.4</span>
+
+
+<span class="c1"># Avoids ventricles while skullstripping.</span>
+<span class="nt">skullstrip_avoid_vent </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Set the number of iterations. Default is 250.The number of iterations should depend upon the density of your mesh.</span>
+<span class="nt">skullstrip_n_iterations </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">250</span>
+
+
+<span class="c1"># While expanding, consider the voxels above and not only the voxels below</span>
+<span class="nt">skullstrip_pushout </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Perform touchup operations at the end to include areas not covered by surface expansion.</span>
+<span class="nt">skullstrip_touchup </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Give the maximum number of pixels on either side of the hole that can be filled. The default is 10 only if &#39;Touchup&#39; is On - otherwise, the default is 0.</span>
+<span class="nt">skullstrip_fill_hole </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">10</span>
+
+
+<span class="c1"># Perform nearest neighbor coordinate interpolation every few iterations. Default is 72.</span>
+<span class="nt">skullstrip_NN_smooth </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">72</span>
+
+
+<span class="c1"># Perform final surface smoothing after all iterations. Default is 20.</span>
+<span class="nt">skullstrip_smooth_final </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">20</span>
+
+
+<span class="c1"># Avoid eyes while skull stripping. Default is On.</span>
+<span class="nt">skullstrip_avoid_eyes </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Use edge detection to reduce leakage into meninges and eyes. Default is On.</span>
+<span class="nt">skullstrip_use_edge </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Speed of expansion.</span>
+<span class="nt">skullstrip_exp_frac </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+
+
+<span class="c1"># Perform aggressive push to edge. This might cause leakage. Default is Off.</span>
+<span class="nt">skullstrip_push_to_edge </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Use outer skull to limit expansion of surface into the skull in case of very strong shading artifacts. Use this only if you have leakage into the skull.</span>
+<span class="nt">skullstrip_use_skull </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Percentage of segments allowed to intersect surface. It is typically a number between 0 and 0.1, but can include negative values (which implies no testing for intersection).</span>
+<span class="nt">skullstrip_perc_int </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Number of iterations to remove intersection problems. With each iteration, the program automatically increases the amount of smoothing to get rid of intersections. Default is 4.</span>
+<span class="nt">skullstrip_max_inter_iter </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">4</span>
+
+
+<span class="c1"># Multiply input dataset by FAC if range of values is too small.</span>
+<span class="nt">skullstrip_fac </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">1</span>
+
+
+<span class="c1"># Blur dataset after spatial normalization. Recommended when you have lots of CSF in brain and when you have protruding gyri (finger like). If so, recommended value range is 2-4. Otherwise, leave at 0.</span>
+<span class="nt">skullstrip_blur_fwhm </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Set it as True if processing monkey data with AFNI</span>
+<span class="nt">skullstrip_monkey </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Options to be used for FSL-BET skull-stripping only.</span>
+
+<span class="c1"># Set the threshold value controling the brain vs non-brain voxels, default is 0.5</span>
+<span class="nt">bet_frac </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.5</span>
+
+
+<span class="c1"># Mask created along with skull stripping. It should be `On`, if selected functionalMasking :  [&#39;Anatomical_Refined&#39;] and `FSL` as skull-stripping method.</span>
+<span class="nt">bet_mask_boolean </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">On</span>
+
+
+<span class="c1"># Mesh created along with skull stripping</span>
+<span class="nt">bet_mesh_boolean </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Create a surface outline image</span>
+<span class="nt">bet_outline </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Add padding to the end of the image, improving BET.Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="nt">bet_padding </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Integer value of head radius</span>
+<span class="nt">bet_radius </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Reduce bias and cleanup neck. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="nt">bet_reduce_bias </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Eyes and optic nerve cleanup. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="nt">bet_remove_eyes </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Robust brain center estimation. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="nt">bet_robust </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Create a skull image</span>
+<span class="nt">bet_skull </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Gets additional skull and scalp surfaces by running bet2 and betsurf. This is mutually exclusive with reduce_bias, robust, padding, remove_eyes</span>
+<span class="nt">bet_surfaces </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Apply thresholding to segmented brain image and mask</span>
+<span class="nt">bet_threshold </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Vertical gradient in fractional intensity threshold (-1,1)</span>
+<span class="nt">bet_vertical_gradient </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+
+<span class="c1"># Run FreeSurfer recon-all command</span>
+<span class="nt">run_freesurfer </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Run anatomical and/or functional longitudinal pipeline</span>
+<span class="c1"># Options: &#39;anat&#39; and/or &#39;func&#39;</span>
+<span class="c1"># Note: &#39;func&#39; is still under development and not available yet</span>
+<span class="nt">run_longitudinal </span><span class="p">:</span> <span class="p p-Indicator">[]</span>
+
+
+<span class="c1"># Freesurfer longitudinal template algorithm using FSL FLIRT</span>
+<span class="c1"># Method to average the dataset at each iteration of the template creation</span>
+<span class="c1"># Options: median, mean or std</span>
+<span class="nt">longitudinal_template_average_method </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">median</span>
+
+
+<span class="c1"># Degree of freedom for FLIRT in the template creation</span>
+<span class="c1"># Options: 12 (affine), 9 (traditional), 7 (global rescale) or 6 (rigid body)</span>
+<span class="nt">longitudinal_template_dof </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">12</span>
+
+
+<span class="c1"># Interpolation parameter for FLIRT in the template creation</span>
+<span class="c1"># Options: trilinear, nearestneighbour, sinc or spline</span>
+<span class="nt">longitudinal_template_interp </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">trilinear</span>
+
+
+<span class="c1"># Cost function for FLIRT in the template creation</span>
+<span class="c1"># Options: corratio, mutualinfo, normmi, normcorr, leastsq, labeldiff or bbr</span>
+<span class="nt">longitudinal_template_cost </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">corratio</span>
+
+
+<span class="c1"># Number of threads used for one run of the template generation algorithm</span>
+<span class="nt">longitudinal_template_thread_pool </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+
+<span class="c1"># Threshold of transformation distance to consider that the loop converged </span>
+<span class="c1"># (-1 means numpy.finfo(np.float64).eps and is the default)</span>
+<span class="nt">longitudinal_template_convergence_threshold </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-1</span>
+
+
+<span class="c1"># The resolution to which anatomical images should be transformed during registration.</span>
+<span class="c1"># This is the resolution at which processed anatomical files will be output.</span>
+<span class="nt">resolution_for_anat </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">2mm</span>
+
+
+<span class="c1"># Template to be used during registration.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use a non-standard template.</span>
+<span class="nt">template_brain_only_for_anat </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_${resolution_for_anat}_brain.nii.gz</span>
+
+
+<span class="c1"># Template to be used during registration.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use a non-standard template.</span>
+<span class="nt">template_skull_for_anat </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_${resolution_for_anat}.nii.gz</span>
+
+
+<span class="c1"># Template to be used during registration.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use a non-standard template.</span>
+<span class="nt">template_brain_mask_for_anat</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_${resolution_for_anat}_brain_mask.nii.gz</span>
+
+
+<span class="c1"># Template to be used during FNIRT-based brain extraction in ABCD-options pipeline.</span>
+<span class="nt">template_skull_for_anat_2mm </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_2mm.nii.gz</span>
+
+
+<span class="c1"># Reference mask for FNIRT to be used during FNIRT-based brain extraction in ABCD-options pipeline.</span>
+<span class="nt">ref_mask_2mm </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_2mm_brain_mask_dil.nii.gz</span>
+
+
+<span class="c1"># Use either ANTS or FSL (FLIRT and FNIRT) as your anatomical registration method.</span>
+<span class="nt">regOption </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;ANTS&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># ANTs parameters, if select ANTs as regOption</span>
+<span class="nt">ANTs_para_T1_registration</span><span class="p">:</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">verbose </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span> 
+
+   <span class="p p-Indicator">-</span> <span class="nt">float </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">collapse-output-transforms</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">dimensionality</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">initial-moving-transform </span><span class="p">:</span>
+      <span class="nt">initializationFeature</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">masks</span><span class="p">:</span>
+      <span class="nt">fixed_image_mask </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span> 
+      <span class="nt">moving_image_mask </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span> 
+
+   <span class="p p-Indicator">-</span> <span class="nt">transforms</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">Rigid</span><span class="p">:</span>
+          <span class="nt">gradientStep </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+          <span class="nt">metric </span><span class="p">:</span>
+            <span class="nt">type </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MI</span>
+            <span class="nt">metricWeight</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+            <span class="nt">numberOfBins </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">32</span>
+            <span class="nt">samplingStrategy </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Regular</span>
+            <span class="nt">samplingPercentage </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
+          <span class="nt">convergence</span><span class="p">:</span>
+            <span class="nt">iteration </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1000x500x250x100</span>
+            <span class="nt">convergenceThreshold </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1e-08</span>
+            <span class="nt">convergenceWindowSize </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+          <span class="nt">smoothing-sigmas </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0x2.0x1.0x0.0</span>
+          <span class="nt">shrink-factors </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">8x4x2x1</span>
+          <span class="nt">use-histogram-matching </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">Affine</span><span class="p">:</span>
+          <span class="nt">gradientStep </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+          <span class="nt">metric </span><span class="p">:</span>
+            <span class="nt">type </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MI</span>
+            <span class="nt">metricWeight</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+            <span class="nt">numberOfBins </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">32</span>
+            <span class="nt">samplingStrategy </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Regular</span>
+            <span class="nt">samplingPercentage </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
+          <span class="nt">convergence</span><span class="p">:</span>
+            <span class="nt">iteration </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1000x500x250x100</span>
+            <span class="nt">convergenceThreshold </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1e-08</span>
+            <span class="nt">convergenceWindowSize </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+          <span class="nt">smoothing-sigmas </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0x2.0x1.0x0.0</span>
+          <span class="nt">shrink-factors </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">8x4x2x1</span>
+          <span class="nt">use-histogram-matching </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+      <span class="p p-Indicator">-</span> <span class="nt">SyN</span><span class="p">:</span>
+          <span class="nt">gradientStep </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+          <span class="nt">updateFieldVarianceInVoxelSpace </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0</span>
+          <span class="nt">totalFieldVarianceInVoxelSpace </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+          <span class="nt">metric</span><span class="p">:</span>
+            <span class="nt">type </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">CC</span>
+            <span class="nt">metricWeight</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+            <span class="nt">radius </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+          <span class="nt">convergence</span><span class="p">:</span>
+            <span class="nt">iteration </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100x100x70x20</span>
+            <span class="nt">convergenceThreshold </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1e-09</span>
+            <span class="nt">convergenceWindowSize </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">15</span>
+          <span class="nt">smoothing-sigmas </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.0x2.0x1.0x0.0</span>
+          <span class="nt">shrink-factors </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">6x4x2x1</span>
+          <span class="nt">use-histogram-matching </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+          <span class="nt">winsorize-image-intensities </span><span class="p">:</span>
+            <span class="nt">lowerQuantile </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+            <span class="nt">upperQuantile </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.99</span>
+
+
+<span class="c1"># Please specify ANTs parameters,if run Functional to EPI Template Registration</span>
+<span class="nt">ANTs_para_EPI_registration</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
+
+
+<span class="c1"># If a lesion mask is available for a T1w image, use it to improve the ANTs&#39; registration</span>
+<span class="c1"># ANTS registration only.</span>
+<span class="nt">use_lesion_mask </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Use only FLIRT, without FNIRT, for anatomical-to-template registration.</span>
+<span class="nt">fsl_linear_reg_only </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Configuration file to be used by FSL to set FNIRT parameters.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use custom FNIRT parameters or a non-standard template.</span>
+<span class="nt">fnirtConfig </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">T1_2_MNI152_2mm</span>
+
+
+<span class="c1"># Configuration file to be used by FSL to set FNIRT parameters.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use custom FNIRT parameters or a non-standard template.</span>
+<span class="nt">ref_mask </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_${resolution_for_anat}_brain_mask_dil.nii.gz</span>
+
+
+<span class="c1"># Register skull-on anatomical image to a template.</span>
+<span class="nt">regWithSkull </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Automatically segment anatomical images into white matter, gray matter, and CSF based on prior probability maps.</span>
+<span class="nt">runSegmentationPreprocessing </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># segmentation method options: [&#39;FSL&#39;, &#39;ANTs-Prior-Based&#39;, &#39;Template-Based&#39;]</span>
+<span class="c1"># FSL uses FAST; FreeSurfer runs recon-all to generate segmentations;</span>
+<span class="c1"># ANTs Prior-based Segmentation workflow uses antsJointLabelFusion and has shown optimal results for non-human primate data;</span>
+<span class="nt">segmentation_method</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;FSL&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># The atlas image assumed to be used in ANTs Prior-based Segmentation.</span>
+<span class="nt">ANTs_prior_seg_template_brain_list </span><span class="p">:</span> 
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/monkey_seg/templates/JointLabelCouncil/MacaqueYerkes19_T1w_0.5mm/T1w_brain.nii.gz</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/monkey_seg/templates/JointLabelCouncil/J_Macaque_11mo_atlas_nACQ_194x252x160space_0.5mm/T1w_brain.nii.gz</span>
+
+<span class="c1"># The atlas segmentation images. </span>
+<span class="c1"># For performing ANTs Prior-based segmentation method </span>
+<span class="c1"># the number of specified segmentations should be identical to the number of atlas brain image sets. </span>
+<span class="c1"># eg.</span>
+<span class="c1"># ANTs_prior_seg_template_brain_list : </span>
+<span class="c1">#   - atlas1.nii.gz </span>
+<span class="c1">#   - atlas2.nii.gz </span>
+<span class="c1"># ANTs_prior_seg_template_segmentation_list:</span>
+<span class="c1">#   - segmentation1.nii.gz </span>
+<span class="c1">#   - segmentation1.nii.gz </span>
+<span class="nt">ANTs_prior_seg_template_segmentation_list</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/monkey_seg/templates/JointLabelCouncil/MacaqueYerkes19_T1w_0.5mm/Segmentation.nii.gz</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/monkey_seg/templates/JointLabelCouncil/J_Macaque_11mo_atlas_nACQ_194x252x160space_0.5mm/Segmentation.nii.gz</span>
+
+
+<span class="c1"># Label values corresponding to CSF/GM/WM in atlas file</span>
+<span class="c1"># It is not necessary to change this values unless your CSF/GM/WM label values are different from Freesurfer Color Lookup Table.</span>
+<span class="c1"># https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT</span>
+
+<span class="c1"># Label value corresponding to CSF in multiatlas file</span>
+<span class="nt">ANTs_prior_seg_CSF_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">24</span>
+
+<span class="c1"># Label value corresponding to Left Gray Matter in multiatlas file</span>
+<span class="nt">ANTs_prior_seg_left_GM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
+
+<span class="c1"># Label value corresponding to Right Gray Matter in multiatlas file</span>
+<span class="nt">ANTs_prior_seg_right_GM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">42</span>
+
+<span class="c1"># Label value corresponding to Left White Matter in multiatlas file</span>
+<span class="nt">ANTs_prior_seg_left_WM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+<span class="c1"># Label value corresponding to Right White Matter in multiatlas file</span>
+<span class="nt">ANTs_prior_seg_right_WM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">41</span>
+
+
+<span class="c1"># Generate white matter, gray matter, CSF masks based on EPI template segmentation masks, T1 template segmentation masks, or not use template-based segmentation.</span>
+<span class="c1"># If use template based segmentation, please make sure to specify white matter, gray matter, CSF mask paths at below three configurations.</span>
+<span class="c1"># These masks should be in the same space of your registration template, e.g. if you choose &#39;EPI_template&#39; , below tissue masks should also be EPI template tissue masks.</span>
+<span class="c1"># Options: [&#39;EPI_template&#39;, &#39;T1_template&#39;, &#39;None&#39;]</span>
+<span class="nt">template_based_segmentation </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;None&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># These masks are included as part of the &#39;Image Resource Files&#39; package available on the Install page of the User Guide.</span>
+<span class="c1"># Full path to a binarized White Matter mask.</span>
+<span class="nt">template_based_segmentation_WHITE </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/tissuepriors/2mm/avg152T1_white_bin.nii.gz</span>
+
+
+<span class="c1"># Full path to a binarized Gray Matter mask.</span>
+<span class="nt">template_based_segmentation_GRAY </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/tissuepriors/2mm/avg152T1_gray_bin.nii.gz</span>
+
+
+<span class="c1"># Full path to a binarized CSF mask.</span>
+<span class="nt">template_based_segmentation_CSF </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/tissuepriors/2mm/avg152T1_csf_bin.nii.gz</span>
+
+
+<span class="c1"># Use template-space tissue priors to refine the binary tissue masks generated by segmentation.</span>
+<span class="nt">seg_use_priors</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Full path to a directory containing binarized prior probability maps.</span>
+<span class="c1"># These maps are included as part of the &#39;Image Resource Files&#39; package available on the Install page of the User Guide.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use non-standard priors.</span>
+<span class="nt">priors_path </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/tissuepriors/2mm</span>
+
+
+<span class="c1"># Full path to a binarized White Matter prior probability map.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use non-standard priors.</span>
+<span class="nt">PRIORS_WHITE </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$priors_path/avg152T1_white_bin.nii.gz</span>
+
+
+<span class="c1"># Full path to a binarized Gray Matter prior probability map.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use non-standard priors.</span>
+<span class="nt">PRIORS_GRAY </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$priors_path/avg152T1_gray_bin.nii.gz</span>
+
+
+<span class="c1"># Full path to a binarized CSF prior probability map.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use non-standard priors.</span>
+<span class="nt">PRIORS_CSF </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$priors_path/avg152T1_csf_bin.nii.gz</span>
+
+
+<span class="c1"># Use threshold to further refine the resulting segmentation tissue masks.</span>
+<span class="c1"># FSL-FAST Thresholding - Use FSL FAST generated tissue class files (binary masks) to generate the resulting segmentation tissue masks.</span>
+<span class="c1"># Customized Thresholding - Set the threshold value for tissue probability maps to generate the resulting segmentation tissue masks.</span>
+<span class="nt">seg_use_threshold </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;FSL-FAST</span><span class="nv"> </span><span class="s">Thresholding&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Set the threshold value for refining the resulting segmentation tissue masks (CSF, White Matter, and Gray Matter)</span>
+<span class="c1"># The default value is 0.95.</span>
+
+<span class="c1"># CSF (cerebrospinal fluid) threshold.</span>
+<span class="nt">seg_CSF_threshold_value </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
+
+
+<span class="c1"># White matter threshold.</span>
+<span class="nt">seg_WM_threshold_value </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
+
+
+<span class="c1"># Gray matter threshold.</span>
+<span class="nt">seg_GM_threshold_value </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
+
+
+<span class="c1"># Erode binarized csf tissue mask.</span>
+<span class="nt">seg_csf_use_erosion </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Erode binarized anatomical brain mask. If choosing True, please also set seg_csf_use_erosion: True; regOption: niworkflows-ants.</span>
+<span class="nt">brain_use_erosion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Erosion proportion, if use erosion.</span>
+<span class="c1"># Default proportion is 0 for anatomical brain mask.</span>
+<span class="c1"># Recommend that do not use erosion in both proportion and millimeter method.</span>
+<span class="nt">brain_mask_erosion_prop </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Erode brain mask in millimeter, default of brain is 30 mm</span>
+<span class="c1"># brain erosion default is using millimeter erosion method when use erosion for brain.</span>
+<span class="nt">brain_mask_erosion_mm </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+
+
+<span class="c1"># Erode binarized brain mask in millimeter</span>
+<span class="nt">brain_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Erosion proportion, if use erosion.</span>
+<span class="c1"># Default proportion is 0 for CSF (cerebrospinal fluid)  mask.</span>
+<span class="c1"># Recommend to do not use erosion in both proportion and millimeter method.</span>
+<span class="nt">csf_erosion_prop </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Erode brain mask in millimeter, default of csf is 30 mm</span>
+<span class="c1"># CSF erosion default is using millimeter erosion method when use erosion for CSF.</span>
+<span class="nt">csf_mask_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+
+
+<span class="c1"># Erode binarized CSF (cerebrospinal fluid)  mask in millimeter</span>
+<span class="nt">csf_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Erode WM binarized tissue mask.</span>
+<span class="nt">seg_wm_use_erosion </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Erosion proportion, if use erosion.</span>
+<span class="c1"># Default proportion is 0.6 for White Matter mask.</span>
+<span class="c1"># Recommend to do not use erosion in both proportion and millimeter method.</span>
+<span class="c1"># White Matter erosion default is using proportion erosion method when use erosion for White Matter.</span>
+<span class="nt">wm_erosion_prop </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.6</span>
+
+
+<span class="c1"># Erode brain mask in millimeter, default of White Matter is 0 mm</span>
+<span class="nt">wm_mask_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Erode binarized White Matter mask in millimeter</span>
+<span class="nt">wm_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Erode GM binarized tissue mask.</span>
+<span class="nt">seg_gm_use_erosion </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Erosion proportion, if use erosion.</span>
+<span class="c1"># Recommend to do not use erosion in both proportion and millimeter method.</span>
+<span class="nt">gm_erosion_prop </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.6</span>
+
+
+<span class="c1"># Erode brain mask in millimeter, default of csf is 30 mm</span>
+<span class="nt">gm_mask_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+
+
+<span class="c1"># Erode binarized White Matter mask in millimeter</span>
+<span class="nt">gm_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Run functional preproceessing</span>
+<span class="nt">runFunctional</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Scale functional raw data, usually used in rodent pipeline</span>
+<span class="nt">runScaling </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Set scaling factor, if runScaling : True. Scale the size of the dataset voxels by the factor.</span>
+<span class="nt">scaling_factor </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+
+
+<span class="c1"># run motion statistics before slice timing correction</span>
+<span class="nt">runMotionStatisticsFirst </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Choose motion correction method. Options: AFNI 3dvolreg, FSL mcflirt</span>
+<span class="nt">motion_correction </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;3dvolreg&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Choose motion correction reference. Options: mean, median, selected volume</span>
+<span class="nt">motion_correction_reference</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;mean&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Choose motion correction reference volume</span>
+<span class="nt">motion_correction_reference_volume </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># This options is useful when aligning high-resolution datasets that may need more alignment than a few voxels.</span>
+<span class="nt">functional_volreg_twopass </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">On</span>
+
+
+<span class="c1"># Filter physiological (respiration) artifacts from the head motion estimates.</span>
+<span class="c1"># Adapted from DCAN Labs filter.</span>
+<span class="c1">#     https://www.ohsu.edu/school-of-medicine/developmental-cognition-and-neuroimaging-lab</span>
+<span class="c1">#     https://www.biorxiv.org/content/10.1101/337360v1.full.pdf</span>
+<span class="nt">motion_estimate_filter</span><span class="p">:</span>
+
+    <span class="c1"># run: [On, Off]</span>
+    <span class="c1"># this is a fork option</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">Off</span><span class="p p-Indicator">]</span>
+
+    <span class="c1"># options: &quot;notch&quot;, &quot;lowpass&quot;</span>
+    <span class="nt">filter_type</span><span class="p">:</span> <span class="s">&quot;notch&quot;</span>
+
+    <span class="c1"># Number of filter coefficients.</span>
+    <span class="nt">filter_order</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+
+  <span class="c1"># Dataset-wide respiratory rate data from breathing belt required.</span>
+    <span class="c1"># mutually exclusive with cutoff, center frequency, and bandwidth options further below</span>
+
+    <span class="c1"># Lowest Breaths-Per-Minute in dataset.</span>
+    <span class="c1"># Required for both notch and lowpass filters.</span>
+    <span class="nt">breathing_rate_min</span><span class="p">:</span>
+
+    <span class="c1"># Highest Breaths-Per-Minute in dataset.</span>
+    <span class="c1"># Required for the notch filter.</span>
+    <span class="nt">breathing_rate_max</span><span class="p">:</span>
+
+  <span class="c1"># notch filter direct customization parameters</span>
+    <span class="c1"># mutually exclusive with breathing_rate options above</span>
+
+    <span class="c1"># the center frequency of the notch filter</span>
+    <span class="nt">center_frequency</span><span class="p">:</span>
+
+    <span class="c1"># the width of the notch filter</span>
+    <span class="nt">filter_bandwidth</span><span class="p">:</span>
+
+  <span class="c1"># lowpass filter direct customization parameters</span>
+    <span class="c1"># mutually exclusive with breathing_rate options above</span>
+
+    <span class="c1"># the frequency cutoff of the filter</span>
+    <span class="nt">lowpass_cutoff</span><span class="p">:</span>
+
+
+<span class="c1"># Run AFNI 3dDespike</span>
+<span class="nt">runDespike </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Interpolate voxel time courses so they are sampled at the same time points.</span>
+<span class="nt">slice_timing_correction </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Specify the TR (in seconds) at which images were acquired.</span>
+<span class="c1"># Default is None- TR information is then read from scan parameters in the data configuration file, or the image file header if there is no scan information in the data configuration.</span>
+<span class="c1"># Note: the selection chosen here applies to all scans of all participants.</span>
+<span class="nt">TR </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">None</span>
+
+
+<span class="c1"># Acquisition strategy for acquiring image slices.</span>
+<span class="c1"># Slice acquisition information is read from scan parameters in the data configuration file- if this is not provided, then this option will apply.</span>
+<span class="c1"># Note: the selection here applies to all scans of all participants.</span>
+<span class="nt">slice_timing_pattern </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Use NIFTI Header</span>
+
+
+<span class="c1"># First timepoint to include in analysis.</span>
+<span class="c1"># Default is 0 (beginning of timeseries).</span>
+<span class="c1"># First timepoint selection in the scan parameters in the data configuration file, if present, will over-ride this selection.</span>
+<span class="c1"># Note: the selection here applies to all scans of all participants.</span>
+<span class="nt">startIdx </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Last timepoint to include in analysis.</span>
+<span class="c1"># Default is None or End (end of timeseries).</span>
+<span class="c1"># Last timepoint selection in the scan parameters in the data configuration file, if present, will over-ride this selection.</span>
+<span class="c1"># Note: the selection here applies to all scans of all participants.</span>
+<span class="nt">stopIdx </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">None</span>
+
+
+
+<span class="c1"># Perform distortion correction.</span>
+<span class="c1"># PhaseDiff - Perform field map correction using a single phase difference image, a subtraction of the two phase images from each echo. Default scanner for this method is SIEMENS.</span>
+<span class="c1"># Blip - Uses AFNI 3dQWarp to calculate the distortion unwarp for EPI field maps of opposite/same phase encoding direction.</span>
+<span class="c1"># Options: [&quot;PhaseDiff&quot;, &quot;Blip&quot;, &quot;None&quot;]</span>
+<span class="nt">distortion_correction </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&quot;None&quot;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Options for &#39;PhaseDiff&#39; distortion correction only.</span>
+
+<span class="c1"># Since the quality of the distortion heavily relies on the skull-stripping step, we provide a choice of method (AFNI 3dSkullStrip or FSL BET).</span>
+<span class="nt">fmap_distcorr_skullstrip </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;BET&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Set the fraction value for the skull-stripping of the magnitude file. Depending on the data, a tighter extraction may be necessary in order to prevent noisy voxels from interfering with preparing the field map.</span>
+<span class="c1"># The default value is 0.5.</span>
+<span class="nt">fmap_distcorr_frac </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.5</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Set the threshold value for the skull-stripping of the magnitude file. Depending on the data, a tighter extraction may be necessary in order to prevent noisy voxels from interfering with preparing the field map.</span>
+<span class="c1"># The default value is 0.6.</span>
+<span class="nt">fmap_distcorr_threshold </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.6</span>
+
+
+<span class="c1"># Run Functional to Anatomical Registration</span>
+<span class="nt">runRegisterFuncToAnat </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="nt">functional_registration</span><span class="p">:</span>
+
+  <span class="nt">1-coregistration</span><span class="p">:</span>
+    <span class="c1"># functional (BOLD/EPI) registration to anatomical (structural/T1)</span>
+
+    <span class="nt">boundary_based_registration</span><span class="p">:</span>
+
+      <span class="c1"># this is a fork point</span>
+      <span class="c1">#   run: [On, Off] - this will run both and fork the pipeline</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">On</span><span class="p p-Indicator">]</span>
+
+      <span class="c1"># Standard FSL 5.0 Scheduler used for Boundary Based Registration.</span>
+      <span class="c1"># It is not necessary to change this path unless you intend to use non-standard MNI registration.</span>
+      <span class="nt">bbr_schedule</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/bbr.sch</span>
+
+
+<span class="c1"># Run Functional to Anatomical Registration with BB Register</span>
+<span class="nt">runBBReg </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Standard FSL 5.0 Scheduler used for Boundary Based Registration.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use non-standard MNI registration.</span>
+<span class="nt">boundaryBasedRegistrationSchedule </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/bbr.sch</span>
+
+
+<span class="c1"># Interpolation method for writing out transformed anatomical images.</span>
+<span class="c1"># ANTS registration tools only.</span>
+<span class="c1"># Possible values: Linear, BSpline, LanczosWindowedSinc</span>
+<span class="nt">anatRegANTSinterpolation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">LanczosWindowedSinc</span>
+
+
+<span class="c1"># Interpolation method for writing out transformed anatomical images.</span>
+<span class="c1"># FSL registration tools only.</span>
+<span class="c1"># Possible values: trilinear, sinc, spline</span>
+<span class="nt">anatRegFSLinterpolation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sinc</span>
+
+
+<span class="c1"># Interpolation method for writing out transformed functional images.</span>
+<span class="c1"># ANTS registration tools only.</span>
+<span class="c1"># Possible values: Linear, BSpline, LanczosWindowedSinc</span>
+<span class="nt">funcRegANTSinterpolation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">LanczosWindowedSinc</span>
+
+
+<span class="c1"># Interpolation method for writing out transformed functional images.</span>
+<span class="c1"># FSL registration tools only.</span>
+<span class="c1"># Possible values: trilinear, sinc, spline</span>
+<span class="nt">funcRegFSLinterpolation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sinc</span>
+
+
+<span class="c1"># Choose whether to use the mean of the functional/EPI as the input to functional-to-anatomical registration or one of the volumes from the functional 4D timeseries that you choose.</span>
+<span class="c1"># Options: [&#39;Mean Functional&#39;, &#39;Selected Functional Volume&#39;]</span>
+<span class="nt">func_reg_input </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;Mean</span><span class="nv"> </span><span class="s">Functional&#39;</span><span class="p p-Indicator">]</span>
+
+<span class="c1"># Only for when &#39;Use as Functional-to-Anatomical Registration Input&#39; is set to &#39;Selected Functional Volume&#39;. Input the index of which volume from the functional 4D timeseries input file you wish to use as the input for functional-to-anatomical registration.</span>
+<span class="nt">func_reg_input_volume </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Run ANTs’ N4 Bias Field Correction on the input of functional-to-anatomical registration (mean of the functional/EPI or one of the volumes from the functional 4D timeseries)</span>
+<span class="nt">n4_correct_func_reg_input </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Choose which tool to be used in functional masking - AFNI (3dAutoMask), FSL (BET), FSL_AFNI (BET+3dAutoMask), Anatomical_Refined, or Anatomical_Based method </span>
+<span class="c1"># &#39;Anatomical_Refined&#39; : refine functional mask by registering anatomical mask to functional space. </span>
+<span class="c1"># &#39;Anatomical_Based&#39; : simply transforms the anatomical brain to the functional space to get BOLD mask. </span>
+<span class="c1"># Options: [&#39;AFNI&#39;, &#39;FSL&#39;, &#39;FSL_AFNI&#39;, &#39;Anatomical_Refined&#39;, &#39;Anatomical_Based&#39;] </span>
+<span class="nt">functionalMasking </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;AFNI&#39;</span><span class="p p-Indicator">]</span> 
+
+
+<span class="c1"># Options to be used for FSL skull-stripping of functional masking.</span>
+
+<span class="c1"># Apply to 4D FMRI data, if bold_bet_functional_mean_boolean : Off.</span>
+<span class="c1"># Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="c1"># It must be &#39;on&#39; if select &#39;bold_bet_reduce_bias&#39;,&#39;bold_bet_robust&#39;,&#39;bold_bet_padding&#39;,&#39;bold_bet_remove_eyes&#39;,or &#39;bold_bet_surfaces&#39; on</span>
+<span class="nt">bold_bet_functional_mean_boolean </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Set the threshold value controling the brain vs non-brain voxels.</span>
+<span class="nt">bold_bet_frac </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.3</span>
+
+
+<span class="c1"># Mesh created along with skull stripping</span>
+<span class="nt">bold_bet_mesh_boolean </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Create a surface outline image</span>
+<span class="nt">bold_bet_outline </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Add padding to the end of the image, improving BET.Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="nt">bold_bet_padding </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Integer value of head radius</span>
+<span class="nt">bold_bet_radius </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+
+<span class="c1"># Reduce bias and cleanup neck. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="nt">bold_bet_reduce_bias </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Eyes and optic nerve cleanup. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="nt">bold_bet_remove_eyes </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Robust brain center estimation. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+<span class="nt">bold_bet_robust </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Create a skull image</span>
+<span class="nt">bold_bet_skull </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Gets additional skull and scalp surfaces by running bet2 and betsurf. This is mutually exclusive with reduce_bias, robust, padding, remove_eyes</span>
+<span class="nt">bold_bet_surfaces </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Apply thresholding to segmented brain image and mask</span>
+<span class="nt">bold_bet_threshold </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+
+<span class="c1"># Vertical gradient in fractional intensity threshold (-1,1)</span>
+<span class="nt">bold_bet_vertical_gradient </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+
+<span class="c1"># Choose whether or not to dilate anatomical mask if choose &#39;Anatomical_Refined&#39; as functionalMasking option. It will dilate only one voxel if anatomical_mask_dilation : True</span>
+<span class="nt">anatomical_mask_dilation </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="c1"># Run Functional to Template Registration</span>
+<span class="c1"># This option must be enabled if you wish to calculate any derivatives.</span>
+<span class="c1"># Options: [&#39;T1_template&#39;, &#39;EPI_template&#39;, &#39;Off&#39;]</span>
+<span class="nt">runRegisterFuncToTemplate </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;T1_template&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># The resolution (in mm) to which the preprocessed, registered functional timeseries outputs are written into. Note that selecting a 1 mm or 2 mm resolution might substantially increase your RAM needs- these resolutions should be selected with caution. For most cases, 3 mm or 4 mm resolutions are suggested.</span>
+<span class="nt">resolution_for_func_preproc </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">3mm</span>
+
+
+<span class="c1"># The resolution (in mm) to which the registered derivative outputs are written into.</span>
+<span class="nt">resolution_for_func_derivative </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">3mm</span>
+
+
+<span class="c1"># A standard template for resampling if using float resolution</span>
+<span class="nt">template_for_resample </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/MNI152_T1_1mm_brain.nii.gz</span>
+
+
+<span class="c1"># Standard FSL Skull Stripped Template. Used as a reference image for functional registration</span>
+<span class="nt">template_brain_only_for_func </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_${resolution_for_func_preproc}_brain.nii.gz</span>
+
+
+<span class="c1"># Standard FSL Anatomical Brain Image with Skull</span>
+<span class="nt">template_skull_for_func </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_${resolution_for_func_preproc}.nii.gz</span>
+
+
+<span class="c1"># Standard FSL Anatomical Brain Mask Image</span>
+<span class="nt">template_brain_mask_for_func </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_${resolution_for_func_preproc}_brain_mask.nii.gz</span>
+
+
+<span class="c1"># EPI template</span>
+<span class="nt">template_epi </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">s3://fcp-indi/resources/cpac/resources/epi_hbn.nii.gz</span>
+
+
+<span class="c1"># EPI template mask. TODO: Ask for mask, it is a fake mask now. </span>
+<span class="nt">template_epi_mask </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">s3://fcp-indi/resources/cpac/resources/epi_hbn.nii.gz</span>
+
+
+<span class="c1"># Matrix containing all 1&#39;s. Used as an identity matrix during registration.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use non-standard MNI registration.</span>
+<span class="nt">identityMatrix </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/ident.mat</span>
+
+
+<span class="c1"># Run ICA-AROMA de-noising.</span>
+<span class="nt">runICA </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Types of denoising strategy:i)nonaggr-patial component regression,ii)aggr-aggressive denoising</span>
+<span class="nt">aroma_denoise_type </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">nonaggr</span>
+
+
+<span class="c1"># Run Nuisance Signal Regression</span>
+<span class="nt">runNuisance </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Standard Lateral Ventricles Binary Mask</span>
+<span class="nt">lateral_ventricles_mask </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/atlases/HarvardOxford/HarvardOxford-lateral-ventricles-thr25-2mm.nii.gz</span>
+
+
+<span class="c1"># Select which nuisance signal corrections to apply</span>
+<span class="nt">Regressors </span><span class="p">:</span>
+
+ <span class="p p-Indicator">-</span> <span class="nt">Motion</span><span class="p">:</span>
+     <span class="nt">include_delayed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+     <span class="nt">include_squared</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+     <span class="nt">include_delayed_squared</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+   <span class="nt">aCompCor</span><span class="p">:</span>
+     <span class="nt">summary</span><span class="p">:</span>
+       <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DetrendPC</span>
+       <span class="nt">components</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+     <span class="nt">tissues</span><span class="p">:</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">WhiteMatter</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CerebrospinalFluid</span>
+     <span class="nt">extraction_resolution</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+   <span class="nt">CerebrospinalFluid</span><span class="p">:</span>
+     <span class="nt">summary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Mean</span>
+     <span class="nt">extraction_resolution</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+     <span class="nt">erode_mask</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+   <span class="nt">GlobalSignal</span><span class="p">:</span>
+     <span class="nt">summary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Mean</span>
+
+   <span class="nt">PolyOrt</span><span class="p">:</span>
+    <span class="nt">degree</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+   <span class="nt">Bandpass</span><span class="p">:</span>
+     <span class="nt">bottom_frequency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+     <span class="nt">top_frequency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+     <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
+
+ <span class="p p-Indicator">-</span> <span class="nt">Motion</span><span class="p">:</span>
+     <span class="nt">include_delayed</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+     <span class="nt">include_squared</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+     <span class="nt">include_delayed_squared</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+   <span class="nt">aCompCor</span><span class="p">:</span>
+     <span class="nt">summary</span><span class="p">:</span>
+       <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DetrendPC</span>
+       <span class="nt">components</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+     <span class="nt">tissues</span><span class="p">:</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">WhiteMatter</span>
+       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">CerebrospinalFluid</span>
+     <span class="nt">extraction_resolution</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+   <span class="nt">CerebrospinalFluid</span><span class="p">:</span>
+     <span class="nt">summary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Mean</span>
+     <span class="nt">extraction_resolution</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+     <span class="nt">erode_mask</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+
+   <span class="nt">PolyOrt</span><span class="p">:</span>
+    <span class="nt">degree</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+   <span class="nt">Bandpass</span><span class="p">:</span>
+     <span class="nt">bottom_frequency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+     <span class="nt">top_frequency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+     <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
+
+
+<span class="c1"># Whether to run frequency filtering before or after nuisance regression.</span>
+<span class="c1"># [&#39;Before&#39;] or [&#39;After&#39;]</span>
+<span class="nt">filtering_order</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;After&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Correct for the global signal using Median Angle Correction.</span>
+<span class="nt">runMedianAngleCorrection </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Target angle used during Median Angle Correction.</span>
+<span class="nt">targetAngleDeg </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">90</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Extract the average time series of one or more ROIs/seeds. Must be enabled if you wish to run Seed-based Correlation Analysis.</span>
+<span class="nt">runROITimeseries </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Functional time-series and ROI realignment method: [&#39;ROI_to_func&#39;] or [&#39;func_to_ROI&#39;]</span>
+<span class="c1"># &#39;ROI_to_func&#39; will realign the atlas/ROI to functional space (fast)</span>
+<span class="c1"># &#39;func_to_ROI&#39; will realign the functional time series to the atlas/ROI space</span>
+<span class="c1">#</span>
+<span class="c1">#     NOTE: in rare cases, realigning the ROI to the functional space may</span>
+<span class="c1">#           result in small misalignments for very small ROIs - please double</span>
+<span class="c1">#           check your data if you see issues</span>
+<span class="nt">realignment </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;ROI_to_func&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Enter paths to region-of-interest (ROI) NIFTI files (.nii or .nii.gz) to be used for time-series extraction, and then select which types of analyses to run.</span>
+<span class="c1"># Available analyses: [&#39;Avg&#39;, &#39;Voxel&#39;, &#39;SpatialReg&#39;, &#39;PearsonCorr&#39;, &#39;PartialCorr&#39;].</span>
+<span class="c1"># Denote which analyses to run for each ROI path by listing the names above. For example, if you wish to run Avg and SpatialReg, you would enter: &#39;/path/to/ROI.nii.gz&#39;: Avg, SpatialReg</span>
+<span class="nt">tsa_roi_paths</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">/cpac_templates/CC400.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/cpac_templates/aal_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/cpac_templates/CC200.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/cpac_templates/tt_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/cpac_templates/PNAS_Smith09_rsn10.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">SpatialReg</span>
+    <span class="nt">/cpac_templates/ho_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/cpac_templates/rois_3mm.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/AAL_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/CAPRSC_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/DKT_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/DesikanKlein_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/HarvardOxfordcort-maxprob-thr25_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/HarvardOxfordsub-maxprob-thr25_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Juelich_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/MICCAI_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Schaefer1000_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Schaefer200_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Schaefer300_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Schaefer400_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Talairach_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Brodmann_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Desikan_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Glasser_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Slab907_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Yeo-17-liberal_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Yeo-17_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Yeo-7-liberal_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Yeo-7_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+
+
+<span class="c1"># By default, extracted time series are written as both a text file and a 1D file. Additional output formats are as a .csv spreadsheet or a Numpy array.</span>
+<span class="nt">roiTSOutputs </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span> <span class="nv">True</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># For each extracted ROI Average time series, CPAC will generate a whole-brain correlation map.</span>
+<span class="c1"># It should be noted that for a given seed/ROI, SCA maps for ROI Average time series will be the same.</span>
+<span class="nt">runSCA </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Enter paths to region-of-interest (ROI) NIFTI files (.nii or .nii.gz) to be used for time-series extraction, and then select which types of analyses to run.</span>
+<span class="c1"># Available analyses: [&#39;Avg&#39;, &#39;DualReg&#39;, &#39;MultReg&#39;].</span>
+<span class="c1"># Denote which analyses to run for each ROI path by listing the names above. For example, if you wish to run Avg and MultReg, you would enter: &#39;/path/to/ROI.nii.gz&#39;: Avg, MultReg</span>
+<span class="nt">sca_roi_paths</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">/cpac_templates/PNAS_Smith09_rsn10.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DualReg</span>
+    <span class="nt">/cpac_templates/CC400.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/ez_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/aal_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/CC200.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/tt_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/ho_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/rois_3mm.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+
+
+<span class="c1"># Normalize each time series before running Dual Regression SCA.</span>
+<span class="nt">mrsNorm </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+
+<span class="c1"># Calculate Voxel-mirrored Homotopic Connectivity (VMHC) for all voxels.</span>
+<span class="nt">runVMHC </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Included as part of the &#39;Image Resource Files&#39; package available on the Install page of the User Guide.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use a non-standard symmetric template.</span>
+<span class="nt">template_symmetric_brain_only </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/MNI152_T1_${resolution_for_anat}_brain_symmetric.nii.gz</span>
+
+
+<span class="c1"># A reference symmetric brain template for resampling</span>
+<span class="nt">template_symmetric_brain_for_resample </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/MNI152_T1_1mm_brain_symmetric.nii.gz</span>
+
+
+<span class="c1"># Included as part of the &#39;Image Resource Files&#39; package available on the Install page of the User Guide.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use a non-standard symmetric template.</span>
+<span class="nt">template_symmetric_skull </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/MNI152_T1_${resolution_for_anat}_symmetric.nii.gz</span>
+
+
+<span class="c1"># A reference symmetric skull template for resampling</span>
+<span class="nt">template_symmetric_skull_for_resample </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/MNI152_T1_1mm_symmetric.nii.gz</span>
+
+
+<span class="c1"># Included as part of the &#39;Image Resource Files&#39; package available on the Install page of the User Guide.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use a non-standard symmetric template.</span>
+<span class="nt">dilated_symmetric_brain_mask </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/MNI152_T1_${resolution_for_anat}_brain_mask_symmetric_dil.nii.gz</span>
+
+
+<span class="c1"># A reference symmetric brain mask template for resampling</span>
+<span class="nt">dilated_symmetric_brain_mask_for_resample </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/MNI152_T1_1mm_brain_mask_symmetric_dil.nii.gz</span>
+
+
+<span class="c1"># Included as part of the &#39;Image Resource Files&#39; package available on the Install page of the User Guide.</span>
+<span class="c1"># It is not necessary to change this path unless you intend to use a non-standard symmetric template.</span>
+<span class="nt">configFileTwomm </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/etc/flirtsch/T1_2_MNI152_2mm.cnf</span>
+
+
+<span class="c1"># Calculate Amplitude of Low Frequency Fluctuations (ALFF) and and fractional ALFF (f/ALFF) for all voxels.</span>
+<span class="nt">runALFF </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Frequency cutoff (in Hz) for the high-pass filter used when calculating f/ALFF.</span>
+<span class="nt">highPassFreqALFF </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.01</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Frequency cutoff (in Hz) for the low-pass filter used when calculating f/ALFF</span>
+<span class="nt">lowPassFreqALFF </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Calculate Regional Homogeneity (ReHo) for all voxels.</span>
+<span class="nt">runReHo </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Number of neighboring voxels used when calculating ReHo</span>
+<span class="c1"># 7 (Faces)</span>
+<span class="c1"># 19 (Faces + Edges)</span>
+<span class="c1"># 27 (Faces + Edges + Corners)</span>
+<span class="nt">clusterSize </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">27</span>
+
+
+<span class="c1"># Calculate Degree, Eigenvector Centrality, or Functional Connectivity Density.</span>
+<span class="nt">runNetworkCentrality </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Full path to a NIFTI file describing the mask. Centrality will be calculated for all voxels within the mask.</span>
+<span class="nt">templateSpecificationFile </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/cpac_templates/Mask_ABIDE_85Percent_GM.nii.gz</span>
+
+
+<span class="c1"># Enable/Disable degree centrality by selecting the connectivity weights</span>
+<span class="nt">degWeightOptions </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span> <span class="nv">True</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Select the type of threshold used when creating the degree centrality adjacency matrix.</span>
+<span class="nt">degCorrelationThresholdOption </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;Sparsity</span><span class="nv"> </span><span class="s">threshold&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Based on the Threshold Type selected above, enter a Threshold Value.</span>
+<span class="c1"># P-value for Significance Threshold</span>
+<span class="c1"># Sparsity value for Sparsity Threshold</span>
+<span class="c1"># Pearson&#39;s r value for Correlation Threshold</span>
+<span class="nt">degCorrelationThreshold </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.001</span>
+
+
+<span class="c1"># Enable/Disable eigenvector centrality by selecting the connectivity weights</span>
+<span class="nt">eigWeightOptions </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">False</span><span class="p p-Indicator">,</span> <span class="nv">True</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Select the type of threshold used when creating the eigenvector centrality adjacency matrix.</span>
+<span class="nt">eigCorrelationThresholdOption </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;Sparsity</span><span class="nv"> </span><span class="s">threshold&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Based on the Threshold Type selected above, enter a Threshold Value.</span>
+<span class="c1"># P-value for Significance Threshold</span>
+<span class="c1"># Sparsity value for Sparsity Threshold</span>
+<span class="c1"># Pearson&#39;s r value for Correlation Threshold</span>
+<span class="nt">eigCorrelationThreshold </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.001</span>
+
+
+<span class="c1"># Enable/Disable lFCD by selecting the connectivity weights</span>
+<span class="nt">lfcdWeightOptions </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">True</span><span class="p p-Indicator">,</span> <span class="nv">True</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Select the type of threshold used when creating the lFCD adjacency matrix.</span>
+<span class="nt">lfcdCorrelationThresholdOption </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;Correlation</span><span class="nv"> </span><span class="s">threshold&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Based on the Threshold Type selected above, enter a Threshold Value.</span>
+<span class="c1"># P-value for Significance Threshold</span>
+<span class="c1"># Sparsity value for Sparsity Threshold</span>
+<span class="c1"># Pearson&#39;s r value for Correlation Threshold</span>
+<span class="nt">lfcdCorrelationThreshold </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.6</span>
+
+
+<span class="c1"># Maximum amount of RAM (in GB) to be used when calculating Degree Centrality.</span>
+<span class="c1"># Calculating Eigenvector Centrality will require additional memory based on the size of the mask or number of ROI nodes.</span>
+<span class="nt">memoryAllocatedForDegreeCentrality </span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">1.0</span>
+
+
+<span class="c1"># Smooth the derivative outputs.</span>
+<span class="c1"># On - Run smoothing and output only the smoothed outputs.</span>
+<span class="c1"># On/Off - Run smoothing and output both the smoothed and non-smoothed outputs.</span>
+<span class="c1"># Off - Don&#39;t run smoothing.</span>
+<span class="nt">run_smoothing </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Tool to use for smoothing.</span>
+<span class="c1"># [&#39;FSL&#39;] for FSL MultiImageMaths for FWHM provided</span>
+<span class="c1"># [&#39;AFNI&#39;] for AFNI 3dBlurToFWHM for FWHM provided</span>
+<span class="nt">smoothing_method </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;FSL&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Full Width at Half Maximum of the Gaussian kernel used during spatial smoothing.</span>
+<span class="c1"># Can be a single value or multiple values separated by commas.</span>
+<span class="c1"># Note that spatial smoothing is run as the last step in the individual-level analysis pipeline, such that all derivatives are output both smoothed and unsmoothed.</span>
+<span class="nt">fwhm </span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># Choose whether to smooth outputs before or after z-scoring.</span>
+<span class="nt">smoothing_order </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="s">&#39;Before&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># z-score standardize the derivatives. This may be needed for group-level analysis.</span>
+<span class="c1"># On - Run z-scoring and output only the z-scored outputs.</span>
+<span class="c1"># On/Off - Run z-scoring and output both the z-scored and raw score versions of the outputs.</span>
+<span class="c1"># Off - Don&#39;t run z-scoring.</span>
+<span class="nt">runZScoring </span><span class="p">:</span>  <span class="p p-Indicator">[</span><span class="nv">1</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># PyPEER integration</span>
+<span class="c1"># Training of eye-estimation models. Commonly used for movies data/naturalistic viewing.</span>
+<span class="nt">run_pypeer</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">]</span>
+
+
+<span class="c1"># PEER scan names to use for training</span>
+<span class="c1"># Example: [&#39;peer_run-1&#39;, &#39;peer_run-2&#39;]</span>
+<span class="nt">peer_eye_scan_names</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
+
+
+<span class="c1"># Naturalistic viewing data scan names to use for eye estimation</span>
+<span class="c1"># Example: [&#39;movieDM&#39;]</span>
+<span class="nt">peer_data_scan_names</span><span class="p">:</span> <span class="p p-Indicator">[]</span>
+
+
+<span class="c1"># Template-space eye mask</span>
+<span class="nt">eye_mask_path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/MNI152_T1_${resolution_for_func_preproc}_eye_mask.nii.gz</span>
+
+
+<span class="c1"># PyPEER Stimulus File Path</span>
+<span class="c1"># This is a file describing the stimulus locations from the calibration sequence.</span>
+<span class="nt">peer_stimulus_path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
+
+
+<span class="c1"># PyPEER Minimal nuisance regression</span>
+<span class="c1"># Note: PyPEER employs minimal preprocessing - these choices do not reflect what runs in the main pipeline.</span>
+<span class="c1">#       PyPEER uses non-nuisance-regressed data from the main pipeline.</span>
+
+<span class="c1"># Global signal regression (PyPEER only)</span>
+<span class="nt">peer_gsr</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+<span class="c1"># Motion scrubbing (PyPEER only)</span>
+<span class="nt">peer_scrub</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+<span class="c1"># Motion scrubbing threshold (PyPEER only)</span>
+<span class="nt">peer_scrub_thresh</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.2</span>
+</pre></div>
+</div>
+
 
             <div class="clearer"></div>
           </div>
