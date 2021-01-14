@@ -50,7 +50,7 @@
 <h1>Setting Up A Pipeline Configuration<a class="headerlink" href="#setting-up-a-pipeline-configuration" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>This section explains how to create a new pipeline or edit an existing one. If you wish to use one of the pre-configured pipelines that come packaged with C-PAC, you can view the current available library of <span class="xref std std-doc">pipelines here</span>.</p>
+<p>This section explains how to create a new pipeline or edit an existing one. If you wish to use one of the pre-configured pipelines that come packaged with C-PAC, you can view the current available library of <a class="reference internal" href="preconfig"><span class="doc">pipelines here</span></a>.</p>
 <div class="topic" id="ndmg-atlases">
 <p class="topic-title">Neuroparc v1.0: Baseline</p>
 <p>On July 20, 2020, Neuroparc released v1.0. In moving from v0 to v1, the paths to several of the Neuroparc atlases changed. The atlases are used by C-PAC in its default and preconfigured pipelines. C-PAC v1.7.0 includes the Neuroparc v1.0 paths, but <strong>if you are using a pipeline based on C-PAC 1.6.2a or older, you will need to update any Nueroparc v0 paths in your config</strong></p>
@@ -247,7 +247,7 @@
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">FROM</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/path/to/pipeline.yml</span>
 </pre></div>
 </div>
-<p>in your pipeline configuration file. You can use the name of a <span class="xref std std-doc">preconfigured pipeline</span> instead of a filepath if you want to base a configuration file on a preconfigured pipeline. If <code class="docutils literal notranslate"><span class="pre">FROM</span></code> is not specified, the pipeline will be based on <a class="reference internal" href="default"><span class="doc">the default pipeline</span></a>.</p>
+<p>in your pipeline configuration file. You can use the name of a <a class="reference internal" href="preconfig"><span class="doc">preconfigured pipeline</span></a> instead of a filepath if you want to base a configuration file on a preconfigured pipeline. If <code class="docutils literal notranslate"><span class="pre">FROM</span></code> is not specified, the pipeline will be based on <a class="reference internal" href="default"><span class="doc">the default pipeline</span></a>.</p>
 <p>C-PAC will include all expected keys from the pipeline file specified in <code class="docutils literal notranslate"><span class="pre">FROM</span></code> (or the default pipeline if none is specified). Any keys specified in a pipeline configuration file will take precedence over the same key in the <code class="docutils literal notranslate"><span class="pre">FROM</span></code> base configuration, but all omitted keys will retain their values from the <code class="docutils literal notranslate"><span class="pre">FROM</span></code> base configuration.</p>
 <p>From terminal, you can quickly generate a default pipeline configuration YAML file template in the directory you are in:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cpac</span> <span class="n">utils</span> <span class="n">pipe_config</span> <span class="n">new_template</span>
@@ -326,8 +326,8 @@
 <div class="flowchart-container"><object data="../_static/flowcharts/pipeline-individual.svg" type="image/svg+xml"></object></div><div class="section" id="data-management-and-environment-settings">
 <h3>Data Management and Environment Settings<a class="headerlink" href="#data-management-and-environment-settings" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p><span class="xref std std-doc">Computer Settings</span></p></li>
-<li><p><span class="xref std std-doc">Output Settings</span></p></li>
+<li><p><a class="reference internal" href="../compute_config"><span class="doc">Computer Settings</span></a></p></li>
+<li><p><a class="reference internal" href="../output_config"><span class="doc">Output Settings</span></a></p></li>
 </ul>
 </div>
 <div class="section" id="pre-and-post-processing">
