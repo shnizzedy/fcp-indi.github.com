@@ -40,13 +40,12 @@
             
   <h1>Source code for CPAC.vmhc.vmhc</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">CPAC.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.algorithms.rapidart</span> <span class="k">as</span> <span class="nn">ra</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.fsl</span> <span class="k">as</span> <span class="nn">fsl</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.io</span> <span class="k">as</span> <span class="nn">nio</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
-
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">CPAC.vmhc</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.afni</span> <span class="kn">import</span> <span class="n">preprocess</span>
 <span class="kn">from</span> <span class="nn">CPAC.registration</span> <span class="kn">import</span> <span class="n">create_wf_calculate_ants_warp</span><span class="p">,</span> \
@@ -222,9 +221,7 @@
 <span class="sd">        tmp_LRflipped.nii.gz</span>
 
 <span class="sd">    .. exec::</span>
-<span class="sd">        import nipype.pipeline.engine as pe</span>
-
-<span class="sd">        from CPAC.pipeline import Node</span>
+<span class="sd">        import CPAC.pipeline.engine as pe</span>
 <span class="sd">        from CPAC.utils.interfaces.function import Function</span>
 <span class="sd">        from CPAC.utils.test_mocks import configuration_strategy_mock</span>
 <span class="sd">        from CPAC.vmhc import create_vmhc</span>
@@ -233,7 +230,7 @@
 <span class="sd">        pipeline_config_object.update(&#39;smoothing_method&#39;, [&#39;AFNI&#39;])</span>
 <span class="sd">        pipeline_config_object.update(&#39;maxCoresPerParticipant&#39;, &#39;1&#39;)</span>
 <span class="sd">        strat.set_leaf_properties(</span>
-<span class="sd">            Node(Function([]), &#39;vhmc_leaf_node&#39;), &#39;vhmc_outfile&#39;)</span>
+<span class="sd">            pe.Node(Function([]), &#39;vhmc_leaf_node&#39;), &#39;vhmc_outfile&#39;)</span>
 <span class="sd">        wf = create_vmhc(</span>
 <span class="sd">            pe.Workflow(&#39;vmhc&#39;), 0, strat, pipeline_config_object)[0]</span>
 <span class="sd">        wf.write_graph(</span>
@@ -301,8 +298,9 @@
 
     <span class="c1"># write out a swapped version of the file</span>
     <span class="c1"># copy and L/R swap file</span>
-    <span class="n">copy_and_L_R_swap</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">SwapDimensions</span><span class="p">(),</span>
-                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;copy_and_L_R_swap_</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_strat</span><span class="p">))</span>
+    <span class="n">copy_and_L_R_swap</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">SwapDimensions</span><span class="p">(),</span>
+                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;copy_and_L_R_swap_</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_strat</span><span class="p">),</span>
+                      <span class="n">mem_gb</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
 
     <span class="n">copy_and_L_R_swap</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">new_dims</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;-x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">)</span>
 
@@ -311,8 +309,9 @@
                      <span class="n">copy_and_L_R_swap</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
 
     <span class="c1"># calculate correlation between original and swapped images</span>
-    <span class="n">pearson_correlation</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">preprocess</span><span class="o">.</span><span class="n">TCorrelate</span><span class="p">(),</span>
-                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pearson_correlation_</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_strat</span><span class="p">))</span>
+    <span class="n">pearson_correlation</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">preprocess</span><span class="o">.</span><span class="n">TCorrelate</span><span class="p">(),</span>
+                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;pearson_correlation_</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_strat</span><span class="p">),</span>
+                      <span class="n">mem_gb</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
 
     <span class="n">pearson_correlation</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">pearson</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">pearson_correlation</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">polort</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>

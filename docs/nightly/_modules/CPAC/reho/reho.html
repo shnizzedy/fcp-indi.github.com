@@ -40,11 +40,9 @@
             
   <h1>Source code for CPAC.reho.reho</h1><div class="highlight"><pre>
 <span></span><span class="c1"># coding: utf-8</span>
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">CPAC.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.fsl</span> <span class="k">as</span> <span class="nn">fsl</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
-
-<span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">CPAC.reho.utils</span> <span class="kn">import</span> <span class="o">*</span>
 
 
@@ -128,23 +126,24 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">reHo</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;reHo&#39;</span><span class="p">)</span>
-    <span class="n">inputNode</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster_size&#39;</span><span class="p">,</span>
-                                                    <span class="s1">&#39;rest_res_filt&#39;</span><span class="p">,</span>
-                                                    <span class="s1">&#39;rest_mask&#39;</span><span class="p">]),</span>
-                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
+    <span class="n">inputNode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cluster_size&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;rest_res_filt&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;rest_mask&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
-    <span class="n">outputNode</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;raw_reho_map&#39;</span><span class="p">]),</span>
-                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
+    <span class="n">outputNode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;raw_reho_map&#39;</span><span class="p">]),</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
     <span class="n">reho_imports</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;import os&#39;</span><span class="p">,</span> <span class="s1">&#39;import sys&#39;</span><span class="p">,</span> <span class="s1">&#39;import nibabel as nb&#39;</span><span class="p">,</span>
                     <span class="s1">&#39;import numpy as np&#39;</span><span class="p">,</span>
                     <span class="s1">&#39;from CPAC.reho.utils import f_kendall&#39;</span><span class="p">]</span>
-    <span class="n">raw_reho_map</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="s1">&#39;mask_file&#39;</span><span class="p">,</span>
-                                                   <span class="s1">&#39;cluster_size&#39;</span><span class="p">],</span>
-                                      <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
-                                      <span class="n">function</span><span class="o">=</span><span class="n">compute_reho</span><span class="p">,</span>
-                                      <span class="n">imports</span><span class="o">=</span><span class="n">reho_imports</span><span class="p">),</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;reho_map&#39;</span><span class="p">)</span>
+    <span class="n">raw_reho_map</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="s1">&#39;mask_file&#39;</span><span class="p">,</span>
+                                                      <span class="s1">&#39;cluster_size&#39;</span><span class="p">],</span>
+                                         <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
+                                         <span class="n">function</span><span class="o">=</span><span class="n">compute_reho</span><span class="p">,</span>
+                                         <span class="n">imports</span><span class="o">=</span><span class="n">reho_imports</span><span class="p">),</span>
+                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;reho_map&#39;</span><span class="p">,</span>
+                           <span class="n">mem_gb</span><span class="o">=</span><span class="mf">6.0</span><span class="p">)</span>
 
     <span class="n">reHo</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;rest_res_filt&#39;</span><span class="p">,</span> <span class="n">raw_reho_map</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
     <span class="n">reHo</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;rest_mask&#39;</span><span class="p">,</span> <span class="n">raw_reho_map</span><span class="p">,</span> <span class="s1">&#39;mask_file&#39;</span><span class="p">)</span>

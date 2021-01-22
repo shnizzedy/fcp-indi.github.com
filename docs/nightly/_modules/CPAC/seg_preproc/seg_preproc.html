@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.seg_preproc.seg_preproc &#8212; C-PAC 1.7.1 Beta documentation</title>
+    <title>CPAC.seg_preproc.seg_preproc &#8212; C-PAC 1.7.3.dev Beta documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.seg_preproc.seg_preproc</a></li> 
       </ul>
@@ -62,11 +62,12 @@
     <span class="n">hardcoded_antsJointLabelFusion</span><span class="p">,</span>
     <span class="n">pick_tissue_from_labels_file</span><span class="p">)</span>
 
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">CPAC.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="k">as</span> <span class="nn">nd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">CPAC.registration.utils</span> <span class="kn">import</span> <span class="n">check_transforms</span><span class="p">,</span> <span class="n">generate_inverse_transform_flags</span>
-
+<span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="n">freesurfer</span>
+<span class="kn">from</span> <span class="nn">CPAC.anat_preproc.utils</span> <span class="kn">import</span> <span class="n">mri_convert</span>
 
 <div class="viewcode-block" id="create_seg_preproc"><a class="viewcode-back" href="../../../developer/workflows/seg_preproc#CPAC.seg_preproc.create_seg_preproc">[docs]</a><span class="k">def</span> <span class="nf">create_seg_preproc</span><span class="p">(</span><span class="n">use_ants</span><span class="p">,</span>
                         <span class="n">use_priors</span><span class="p">,</span>
@@ -356,7 +357,7 @@
                                                         <span class="s1">&#39;partial_volume_files&#39;</span><span class="p">]),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
-    <span class="n">segment</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FAST</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;segment&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">segment</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FAST</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;segment&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
     <span class="n">segment</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">img_type</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">segment</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">segments</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">segment</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">probability_maps</span> <span class="o">=</span> <span class="kc">True</span>
@@ -483,7 +484,8 @@
                         <span class="n">use_ants</span><span class="p">,</span>
                         <span class="n">use_priors</span><span class="p">,</span>
                         <span class="n">use_threshold</span><span class="p">,</span>
-                        <span class="n">use_erosion</span><span class="p">):</span>
+                        <span class="n">use_erosion</span><span class="p">,</span>
+                        <span class="n">n_procs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;This is a sub workflow used inside segmentation workflow to process</span>
 <span class="sd">    probability maps obtained in segmentation. Steps include overlapping</span>
 <span class="sd">    of the prior tissue with probability maps, thresholding and binarizing</span>
@@ -621,30 +623,44 @@
         <span class="k">return</span> <span class="n">erosion_prop</span><span class="o">**</span><span class="mi">3</span>
 
     <span class="k">if</span> <span class="n">use_ants</span><span class="p">:</span>
-        <span class="n">collect_linear_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
-                                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_collect_linear_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+        <span class="n">collect_linear_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_collect_linear_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;standard2highres_init&#39;</span><span class="p">,</span> <span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)</span>
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;standard2highres_rig&#39;</span><span class="p">,</span> <span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">)</span>
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;standard2highres_mat&#39;</span><span class="p">,</span> <span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;in3&#39;</span><span class="p">)</span>
 
         <span class="c1"># check transform list to exclude Nonetype (missing) init/rig/affine</span>
-        <span class="n">check_transform</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span> 
-                                                <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;checked_transform_list&#39;</span><span class="p">,</span> <span class="s1">&#39;list_length&#39;</span><span class="p">],</span>
-                                                <span class="n">function</span><span class="o">=</span><span class="n">check_transforms</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_check_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+        <span class="n">check_transform</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span>
+                          <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;checked_transform_list&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;list_length&#39;</span><span class="p">],</span>
+                          <span class="n">function</span><span class="o">=</span><span class="n">check_transforms</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_check_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
         
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="n">check_transform</span><span class="p">,</span> <span class="s1">&#39;transform_list&#39;</span><span class="p">)</span>
 
         <span class="c1"># generate inverse transform flags, which depends on the number of transforms</span>
-        <span class="n">inverse_transform_flags</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span> 
-                                                        <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;inverse_transform_flags&#39;</span><span class="p">],</span>
-                                                        <span class="n">function</span><span class="o">=</span><span class="n">generate_inverse_transform_flags</span><span class="p">),</span> 
-                                                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_inverse_transform_flags&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+        <span class="n">inverse_transform_flags</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span>
+                          <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;inverse_transform_flags&#39;</span><span class="p">],</span>
+                          <span class="n">function</span><span class="o">=</span><span class="n">generate_inverse_transform_flags</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_inverse_transform_flags&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
 
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">check_transform</span><span class="p">,</span> <span class="s1">&#39;checked_transform_list&#39;</span><span class="p">,</span> <span class="n">inverse_transform_flags</span><span class="p">,</span> <span class="s1">&#39;transform_list&#39;</span><span class="p">)</span>
 
         <span class="c1"># mni to t1</span>
-        <span class="n">tissueprior_mni_to_t1</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">ants</span><span class="o">.</span><span class="n">ApplyTransforms</span><span class="p">(),</span>
-                                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_prior_mni_to_t1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+        <span class="n">tissueprior_mni_to_t1</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+            <span class="n">interface</span><span class="o">=</span><span class="n">ants</span><span class="o">.</span><span class="n">ApplyTransforms</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_prior_mni_to_t1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
 
         <span class="n">tissueprior_mni_to_t1</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="s1">&#39;NearestNeighbor&#39;</span>
 
@@ -659,8 +675,11 @@
             <span class="n">input_1</span><span class="p">,</span> <span class="n">value_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;probability_tissue_map&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">use_priors</span><span class="p">:</span>
-            <span class="n">overlap_segmentmap_with_prior</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">MultiImageMaths</span><span class="p">(),</span>
-                                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;overlap_</span><span class="si">%s</span><span class="s1">_map_with_prior&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+            <span class="n">overlap_segmentmap_with_prior</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+                <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">MultiImageMaths</span><span class="p">(),</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;overlap_</span><span class="si">%s</span><span class="s1">_map_with_prior&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+                <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
             <span class="n">overlap_segmentmap_with_prior</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">op_string</span> <span class="o">=</span> <span class="s1">&#39;-mas </span><span class="si">%s</span><span class="s1"> &#39;</span>
 
             <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span> <span class="n">value_1</span><span class="p">,</span> <span class="n">overlap_segmentmap_with_prior</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
@@ -681,7 +700,9 @@
 
 
         <span class="n">binarize_threshold_segmentmap</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">ImageMaths</span><span class="p">(),</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;binarize_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+                                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;binarize_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+                                                <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                                <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
         <span class="n">binarize_threshold_segmentmap</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">op_string</span> <span class="o">=</span> <span class="s1">&#39;-bin &#39;</span>
 
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span> <span class="n">value_1</span><span class="p">,</span> <span class="n">binarize_threshold_segmentmap</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
@@ -721,8 +742,11 @@
 
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">tissueprior_mni_to_t1</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span>
-                                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_prior_mni_to_t1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+        <span class="n">tissueprior_mni_to_t1</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+            <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_prior_mni_to_t1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
         <span class="n">tissueprior_mni_to_t1</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">apply_xfm</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">tissueprior_mni_to_t1</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">interp</span> <span class="o">=</span> <span class="s1">&#39;nearestneighbour&#39;</span>
 
@@ -738,8 +762,11 @@
             <span class="n">input_1</span><span class="p">,</span> <span class="n">value_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;probability_tissue_map&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">use_priors</span><span class="p">:</span>
-            <span class="n">overlap_segmentmap_with_prior</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">MultiImageMaths</span><span class="p">(),</span>
-                                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;overlap_</span><span class="si">%s</span><span class="s1">_map_with_prior&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+            <span class="n">overlap_segmentmap_with_prior</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+                <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">MultiImageMaths</span><span class="p">(),</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;overlap_</span><span class="si">%s</span><span class="s1">_map_with_prior&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+                <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
             <span class="n">overlap_segmentmap_with_prior</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">op_string</span> <span class="o">=</span> <span class="s1">&#39;-mas </span><span class="si">%s</span><span class="s1"> &#39;</span>
 
             <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span> <span class="n">value_1</span><span class="p">,</span> <span class="n">overlap_segmentmap_with_prior</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
@@ -760,7 +787,9 @@
 
 
         <span class="n">binarize_threshold_segmentmap</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">ImageMaths</span><span class="p">(),</span>
-                                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;binarize_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+                                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;binarize_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+                                                <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                                <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
         <span class="n">binarize_threshold_segmentmap</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">op_string</span> <span class="o">=</span> <span class="s1">&#39;-bin &#39;</span>
 
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span> <span class="n">value_1</span><span class="p">,</span> <span class="n">binarize_threshold_segmentmap</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
@@ -959,7 +988,7 @@
 
 
 <span class="k">def</span> <span class="nf">tissue_mask_template_to_t1</span><span class="p">(</span><span class="n">wf_name</span><span class="p">,</span>
-                                <span class="n">use_ants</span><span class="p">):</span>
+                                <span class="n">use_ants</span><span class="p">,</span> <span class="n">n_procs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
     <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
 
@@ -976,25 +1005,36 @@
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">use_ants</span><span class="p">:</span>
-        <span class="n">collect_linear_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
-                                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_collect_linear_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+        <span class="n">collect_linear_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_collect_linear_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
 
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;standard2highres_init&#39;</span><span class="p">,</span> <span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)</span>
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;standard2highres_rig&#39;</span><span class="p">,</span> <span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">)</span>
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;standard2highres_mat&#39;</span><span class="p">,</span> <span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;in3&#39;</span><span class="p">)</span>
 
         <span class="c1"># check transform list to exclude Nonetype (missing) init/rig/affine</span>
-        <span class="n">check_transform</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span> 
-                                                <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;checked_transform_list&#39;</span><span class="p">,</span> <span class="s1">&#39;list_length&#39;</span><span class="p">],</span>
-                                                <span class="n">function</span><span class="o">=</span><span class="n">check_transforms</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_check_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+        <span class="n">check_transform</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span>
+                          <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;checked_transform_list&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;list_length&#39;</span><span class="p">],</span>
+                          <span class="n">function</span><span class="o">=</span><span class="n">check_transforms</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_check_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
         
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span> <span class="n">check_transform</span><span class="p">,</span> <span class="s1">&#39;transform_list&#39;</span><span class="p">)</span>
 
         <span class="c1"># generate inverse transform flags, which depends on the number of transforms</span>
-        <span class="n">inverse_transform_flags</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span> 
-                                                        <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;inverse_transform_flags&#39;</span><span class="p">],</span>
-                                                        <span class="n">function</span><span class="o">=</span><span class="n">generate_inverse_transform_flags</span><span class="p">),</span> 
-                                                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_inverse_transform_flags&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+        <span class="n">inverse_transform_flags</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span>
+                          <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;inverse_transform_flags&#39;</span><span class="p">],</span>
+                          <span class="n">function</span><span class="o">=</span><span class="n">generate_inverse_transform_flags</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">_inverse_transform_flags&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
 
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">check_transform</span><span class="p">,</span> <span class="s1">&#39;checked_transform_list&#39;</span><span class="p">,</span> <span class="n">inverse_transform_flags</span><span class="p">,</span> <span class="s1">&#39;transform_list&#39;</span><span class="p">)</span>
 
@@ -1029,7 +1069,8 @@
 
 <div class="viewcode-block" id="create_seg_preproc_antsJointLabel_method"><a class="viewcode-back" href="../../../developer/workflows/seg_preproc#CPAC.seg_preproc.create_seg_preproc_antsJointLabel_method">[docs]</a><span class="k">def</span> <span class="nf">create_seg_preproc_antsJointLabel_method</span><span class="p">(</span><span class="n">wf_name</span><span class="o">=</span><span class="s1">&#39;seg_preproc_templated_based&#39;</span><span class="p">):</span>
 
-    <span class="sd">&quot;&quot;&quot;Generate the subject&#39;s cerebral spinal fluids,</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate the subject&#39;s cerebral spinal fluids,</span>
 <span class="sd">    white matter and gray matter mask based on provided template, if selected to do so.</span>
 
 <span class="sd">    Parameters</span>
@@ -1066,8 +1107,6 @@
 
 <span class="sd">        outputspec.wm_mask : string (nifti file)</span>
 <span class="sd">            outputs White Matter mask</span>
-
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">preproc</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="n">wf_name</span><span class="p">)</span>
@@ -1161,6 +1200,7 @@
     <span class="p">)</span>
 
     <span class="n">new_strat_list</span> <span class="o">=</span> <span class="p">[]</span>
+
 
     <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">runSegmentationPreprocessing</span><span class="p">:</span>
 
@@ -1289,7 +1329,7 @@
 
     <span class="n">strat_list</span> <span class="o">+=</span> <span class="n">new_strat_list</span>
     
-    <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">ANTs_prior_based_segmentation</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;ANTs-Prior-Based&#39;</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">segmentation_method</span><span class="p">:</span>
 
         <span class="k">if</span> <span class="s1">&#39;T1_template&#39;</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">template_based_segmentation</span> <span class="ow">or</span> <span class="s1">&#39;EPI_template&#39;</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">template_based_segmentation</span> <span class="ow">or</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">runSegmentationPreprocessing</span><span class="p">:</span>
             <span class="n">err</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">[!] C-PAC says: &#39;</span>\
@@ -1313,7 +1353,7 @@
             <span class="n">node</span><span class="p">,</span> <span class="n">out_file</span> <span class="o">=</span> <span class="n">strat</span><span class="p">[</span><span class="s1">&#39;anatomical_brain_mask&#39;</span><span class="p">]</span>
             <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span>
                              <span class="n">seg_preproc_ants_prior_based</span><span class="p">,</span> <span class="s1">&#39;inputspec.anatomical_brain_mask&#39;</span><span class="p">)</span>
-                             
+
             <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">ANTs_prior_seg_template_brain_list</span><span class="p">,</span> <span class="s1">&#39;local_path&#39;</span><span class="p">,</span>
                              <span class="n">seg_preproc_ants_prior_based</span><span class="p">,</span> <span class="s1">&#39;inputspec.template_brain_list&#39;</span><span class="p">)</span>
             <span class="n">workflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">ANTs_prior_seg_template_segmentation_list</span><span class="p">,</span> <span class="s1">&#39;local_path&#39;</span><span class="p">,</span>
@@ -1324,11 +1364,6 @@
             <span class="n">seg_preproc_ants_prior_based</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">left_wm_label</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">ANTs_prior_seg_left_WM_label</span>
             <span class="n">seg_preproc_ants_prior_based</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">right_wm_label</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">ANTs_prior_seg_right_WM_label</span>
 
-            <span class="c1"># TODO ASH review with forking function</span>
-            <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">ANTs_prior_based_segmentation</span><span class="p">:</span>
-                <span class="n">strat</span> <span class="o">=</span> <span class="n">strat</span><span class="o">.</span><span class="n">fork</span><span class="p">()</span>
-                <span class="n">new_strat_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">strat</span><span class="p">)</span>
-
             <span class="n">strat</span><span class="o">.</span><span class="n">append_name</span><span class="p">(</span><span class="n">seg_preproc_ants_prior_based</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">strat</span><span class="o">.</span><span class="n">update_resource_pool</span><span class="p">({</span>
                 <span class="s1">&#39;anatomical_gm_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">seg_preproc_ants_prior_based</span><span class="p">,</span> <span class="s1">&#39;outputspec.gm_mask&#39;</span><span class="p">),</span>
@@ -1337,6 +1372,7 @@
             <span class="p">})</span>
 
     <span class="n">strat_list</span> <span class="o">+=</span> <span class="n">new_strat_list</span>
+
 
     <span class="k">if</span> <span class="s1">&#39;T1_template&#39;</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">template_based_segmentation</span><span class="p">:</span>
 
@@ -1452,7 +1488,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.seg_preproc.seg_preproc</a></li> 
       </ul>

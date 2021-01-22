@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.seg_preproc.utils &#8212; C-PAC 1.7.1 Beta documentation</title>
+    <title>CPAC.seg_preproc.utils &#8212; C-PAC 1.7.3.dev Beta documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.seg_preproc.utils</a></li> 
       </ul>
@@ -41,7 +41,7 @@
   <h1>Source code for CPAC.seg_preproc.utils</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Import packages</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">CPAC.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
 <span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="k">as</span> <span class="nn">nd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -441,13 +441,14 @@
     <span class="k">return</span> <span class="n">multiatlas_Intensity</span><span class="p">,</span> <span class="n">multiatlas_Labels</span></div>
 
 
-<div class="viewcode-block" id="pick_tissue_from_labels_file"><a class="viewcode-back" href="../../../developer/workflows/seg_preproc#CPAC.seg_preproc.pick_tissue_from_labels_file">[docs]</a><span class="k">def</span> <span class="nf">pick_tissue_from_labels_file</span><span class="p">(</span><span class="n">multiatlas_Labels</span><span class="p">,</span> <span class="n">csf_label</span><span class="p">,</span> 
-                                <span class="n">left_gm_label</span><span class="p">,</span> <span class="n">left_wm_label</span><span class="p">,</span>
-                                <span class="n">right_gm_label</span><span class="p">,</span> <span class="n">right_wm_label</span><span class="p">):</span>
+<div class="viewcode-block" id="pick_tissue_from_labels_file"><a class="viewcode-back" href="../../../developer/workflows/seg_preproc#CPAC.seg_preproc.pick_tissue_from_labels_file">[docs]</a><span class="k">def</span> <span class="nf">pick_tissue_from_labels_file</span><span class="p">(</span><span class="n">multiatlas_Labels</span><span class="p">,</span> <span class="n">csf_label</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> 
+                                <span class="n">left_gm_label</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">left_wm_label</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                <span class="n">right_gm_label</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">right_wm_label</span><span class="o">=</span><span class="mi">41</span><span class="p">,</span>
+                                <span class="n">include_ventricles</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 
 
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    pick tissue mask from multiatlas labels file</span>
+<span class="sd">    Pick tissue mask from multiatlas labels file</span>
 <span class="sd">    based off of FreeSurferColorLUT https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT</span>
 <span class="sd">    or user provided label value</span>
 
@@ -471,6 +472,9 @@
 <span class="sd">    right_wm_label: integer </span>
 <span class="sd">        label value corresponding to Right White Matter in multiatlas file</span>
 
+<span class="sd">    include_ventricles: boolean</span>
+<span class="sd">        whether include labels of ventricles in CSF or not</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 
@@ -492,31 +496,25 @@
     <span class="c1"># based off of FreeSurferColorLUT or user provided label values</span>
     <span class="c1"># hard-coded csf/gm/wm label values are based off of FreeSurferColorLUT</span>
 
+    <span class="c1"># FreeSurfer Ventricle Labels:</span>
+    <span class="c1"># Left-Lateral-Ventricle 4, 3rd-Ventricle 14, 4th-Ventricle 15, Right-Lateral-Ventricle 43</span>
+
     <span class="n">csf</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">csf_label</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">csf</span><span class="p">[</span><span class="n">csf</span> <span class="o">!=</span> <span class="mi">24</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">csf</span><span class="p">[</span><span class="n">csf</span> <span class="o">==</span> <span class="mi">24</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">include_ventricles</span><span class="p">:</span>
+        <span class="n">csf</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">csf</span> <span class="o">!=</span> <span class="n">csf_label</span><span class="p">,</span> <span class="n">csf</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">),</span> <span class="n">csf</span> <span class="o">!=</span> <span class="mi">14</span><span class="p">),</span> <span class="n">csf</span> <span class="o">!=</span> <span class="mi">15</span><span class="p">),</span> <span class="n">csf</span> <span class="o">!=</span> <span class="mi">43</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">csf</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">csf</span> <span class="o">==</span> <span class="n">csf_label</span><span class="p">,</span> <span class="n">csf</span> <span class="o">==</span> <span class="mi">4</span><span class="p">),</span> <span class="n">csf</span> <span class="o">==</span> <span class="mi">14</span><span class="p">),</span> <span class="n">csf</span> <span class="o">==</span> <span class="mi">15</span><span class="p">),</span> <span class="n">csf</span> <span class="o">==</span> <span class="mi">43</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">csf</span><span class="p">[</span><span class="n">csf</span> <span class="o">!=</span> <span class="n">csf_label</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">csf</span><span class="p">[</span><span class="n">csf</span> <span class="o">==</span> <span class="n">csf_label</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="n">gm</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">left_gm_label</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">right_gm_label</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">gm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">gm</span> <span class="o">!=</span> <span class="mi">42</span><span class="p">,</span> <span class="n">gm</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span> 
-        <span class="n">gm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">gm</span> <span class="o">==</span> <span class="mi">42</span><span class="p">,</span> <span class="n">gm</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">gm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">gm</span> <span class="o">!=</span> <span class="n">right_gm_label</span><span class="p">,</span> <span class="n">gm</span> <span class="o">!=</span> <span class="n">left_gm_label</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span> 
-        <span class="n">gm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">gm</span> <span class="o">==</span> <span class="n">right_gm_label</span><span class="p">,</span> <span class="n">gm</span> <span class="o">==</span> <span class="n">left_gm_label</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">gm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">gm</span> <span class="o">!=</span> <span class="n">right_gm_label</span><span class="p">,</span> <span class="n">gm</span> <span class="o">!=</span> <span class="n">left_gm_label</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="n">gm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">gm</span> <span class="o">==</span> <span class="n">right_gm_label</span><span class="p">,</span> <span class="n">gm</span> <span class="o">==</span> <span class="n">left_gm_label</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="n">wm</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">left_wm_label</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">right_wm_label</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">wm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">wm</span> <span class="o">!=</span> <span class="mi">41</span><span class="p">,</span> <span class="n">wm</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">wm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">wm</span> <span class="o">==</span> <span class="mi">41</span><span class="p">,</span> <span class="n">wm</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">wm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">wm</span> <span class="o">!=</span> <span class="n">right_wm_label</span><span class="p">,</span> <span class="n">wm</span> <span class="o">!=</span> <span class="n">left_wm_label</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">wm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">wm</span> <span class="o">==</span> <span class="n">right_wm_label</span><span class="p">,</span> <span class="n">wm</span> <span class="o">==</span> <span class="n">left_wm_label</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">wm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">wm</span> <span class="o">!=</span> <span class="n">right_wm_label</span><span class="p">,</span> <span class="n">wm</span> <span class="o">!=</span> <span class="n">left_wm_label</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">wm</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">wm</span> <span class="o">==</span> <span class="n">right_wm_label</span><span class="p">,</span> <span class="n">wm</span> <span class="o">==</span> <span class="n">left_wm_label</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
 
-    
     <span class="n">save_img_csf</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">csf</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">get_header</span><span class="p">(),</span> <span class="n">affine</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">get_affine</span><span class="p">())</span>
     <span class="n">save_img_gm</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">gm</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">get_header</span><span class="p">(),</span> <span class="n">affine</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">get_affine</span><span class="p">())</span>
     <span class="n">save_img_wm</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">Nifti1Image</span><span class="p">(</span><span class="n">wm</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">get_header</span><span class="p">(),</span> <span class="n">affine</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">get_affine</span><span class="p">())</span>
@@ -571,7 +569,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.1 Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.seg_preproc.utils</a></li> 
       </ul>

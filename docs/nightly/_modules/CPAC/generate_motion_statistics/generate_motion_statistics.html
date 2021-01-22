@@ -42,13 +42,12 @@
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">CPAC.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
-<span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">CPAC.utils.interfaces.function</span> <span class="kn">import</span> <span class="n">Function</span>
 
 
-<div class="viewcode-block" id="motion_power_statistics"><a class="viewcode-back" href="../../../developer/workflows/generate_motion_statistics#CPAC.generate_motion_statistics.motion_power_statistics">[docs]</a><span class="k">def</span> <span class="nf">motion_power_statistics</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;motion_stats&#39;</span><span class="p">,</span> <span class="n">motion_correct_tool</span><span class="o">=</span><span class="s1">&#39;3dvolreg&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="motion_power_statistics"><a class="viewcode-back" href="../../../developer/workflows/generate_motion_statistics#CPAC.generate_motion_statistics.motion_power_statistics">[docs]</a><span class="k">def</span> <span class="nf">motion_power_statistics</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;motion_stats&#39;</span><span class="p">,</span> <span class="n">motion_correct_tool</span><span class="o">=</span><span class="s1">&#39;3dvolreg&#39;</span><span class="p">,</span> <span class="n">n_procs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The main purpose of this workflow is to get various statistical measures</span>
@@ -216,30 +215,30 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">wf</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-    <span class="n">input_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
-                                                     <span class="s1">&#39;scan_id&#39;</span><span class="p">,</span>
-                                                     <span class="s1">&#39;movement_parameters&#39;</span><span class="p">,</span>
-                                                     <span class="s1">&#39;max_displacement&#39;</span><span class="p">,</span>
-                                                     <span class="s1">&#39;motion_correct&#39;</span><span class="p">,</span>
-                                                     <span class="s1">&#39;mask&#39;</span><span class="p">,</span>
-                                                     <span class="s1">&#39;transformations&#39;</span><span class="p">]),</span>
-                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
+    <span class="n">input_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;scan_id&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;movement_parameters&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;max_displacement&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;motion_correct&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;mask&#39;</span><span class="p">,</span>
+                                                       <span class="s1">&#39;transformations&#39;</span><span class="p">]),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
-    <span class="n">output_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;FDP_1D&#39;</span><span class="p">,</span>
-                                                      <span class="s1">&#39;FDJ_1D&#39;</span><span class="p">,</span>
-                                                      <span class="s1">&#39;DVARS_1D&#39;</span><span class="p">,</span>
-                                                      <span class="s1">&#39;power_params&#39;</span><span class="p">,</span>
-                                                      <span class="s1">&#39;motion_params&#39;</span><span class="p">]),</span>
-                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
+    <span class="n">output_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;FDP_1D&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;FDJ_1D&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;DVARS_1D&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;power_params&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;motion_params&#39;</span><span class="p">]),</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
-    <span class="n">cal_DVARS</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rest&#39;</span><span class="p">,</span>
-                                           <span class="s1">&#39;mask&#39;</span><span class="p">],</span>
-                              <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
-                              <span class="n">function</span><span class="o">=</span><span class="n">calculate_DVARS</span><span class="p">,</span>
-                              <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cal_DVARS&#39;</span><span class="p">,</span>
-                     <span class="n">mem_gb</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span>
-                     <span class="n">n_procs</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">cal_DVARS</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rest&#39;</span><span class="p">,</span>
+                                              <span class="s1">&#39;mask&#39;</span><span class="p">],</span>
+                                 <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
+                                 <span class="n">function</span><span class="o">=</span><span class="n">calculate_DVARS</span><span class="p">,</span>
+                                 <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cal_DVARS&#39;</span><span class="p">,</span>
+                        <span class="n">mem_gb</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span>
+                        <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
 
     <span class="c1"># calculate mean DVARS</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;motion_correct&#39;</span><span class="p">,</span> <span class="n">cal_DVARS</span><span class="p">,</span> <span class="s1">&#39;rest&#39;</span><span class="p">)</span>
@@ -249,13 +248,13 @@
                <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;DVARS_1D&#39;</span><span class="p">)</span>
 
     <span class="c1"># Calculating mean Framewise Displacement as per power et al., 2012</span>
-    <span class="n">calculate_FDP</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">],</span>
-                                  <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
-                                  <span class="n">function</span><span class="o">=</span><span class="n">calculate_FD_P</span><span class="p">,</span>
-                                  <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calculate_FD&#39;</span><span class="p">,</span>
-                         <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-                         <span class="n">n_procs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">calculate_FDP</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">],</span>
+                                     <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
+                                     <span class="n">function</span><span class="o">=</span><span class="n">calculate_FD_P</span><span class="p">,</span>
+                                     <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calculate_FD&#39;</span><span class="p">,</span>
+                            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
 
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;movement_parameters&#39;</span><span class="p">,</span>
                <span class="n">calculate_FDP</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
@@ -263,14 +262,14 @@
                <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;FDP_1D&#39;</span><span class="p">)</span>
 
     <span class="c1"># Calculating mean Framewise Displacement as per jenkinson et al., 2002</span>
-    <span class="n">calculate_FDJ</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span>
-                                               <span class="s1">&#39;motion_correct_tool&#39;</span><span class="p">],</span>
-                                  <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
-                                  <span class="n">function</span><span class="o">=</span><span class="n">calculate_FD_J</span><span class="p">,</span>
-                                  <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calculate_FDJ&#39;</span><span class="p">,</span>
-                         <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-                         <span class="n">n_procs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">calculate_FDJ</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span>
+                                                  <span class="s1">&#39;motion_correct_tool&#39;</span><span class="p">],</span>
+                                    <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
+                                    <span class="n">function</span><span class="o">=</span><span class="n">calculate_FD_J</span><span class="p">,</span>
+                                    <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calculate_FDJ&#39;</span><span class="p">,</span>
+                            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                            <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
     
     <span class="n">calculate_FDJ</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">motion_correct_tool</span> <span class="o">=</span> <span class="n">motion_correct_tool</span>
     <span class="k">if</span> <span class="n">motion_correct_tool</span> <span class="o">==</span> <span class="s1">&#39;3dvolreg&#39;</span><span class="p">:</span>
@@ -283,16 +282,16 @@
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">calculate_FDJ</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
             <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;FDJ_1D&#39;</span><span class="p">)</span>
 
-    <span class="n">calc_motion_parameters</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;scan_id&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;movement_parameters&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;max_displacement&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;motion_correct_tool&#39;</span><span class="p">],</span>
-                                           <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
-                                           <span class="n">function</span><span class="o">=</span><span class="n">gen_motion_parameters</span><span class="p">,</span>
-                                           <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calc_motion_parameters&#39;</span><span class="p">,</span>
-                                  <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">calc_motion_parameters</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;scan_id&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;movement_parameters&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;max_displacement&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;motion_correct_tool&#39;</span><span class="p">],</span>
+                                              <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
+                                              <span class="n">function</span><span class="o">=</span><span class="n">gen_motion_parameters</span><span class="p">,</span>
+                                              <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calc_motion_parameters&#39;</span><span class="p">,</span>
+                                     <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
     <span class="n">calc_motion_parameters</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">motion_correct_tool</span> <span class="o">=</span> <span class="n">motion_correct_tool</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
@@ -307,17 +306,17 @@
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">calc_motion_parameters</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
                <span class="n">output_node</span><span class="p">,</span> <span class="s1">&#39;motion_params&#39;</span><span class="p">)</span>
 
-    <span class="n">calc_power_parameters</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
-                                                       <span class="s1">&#39;scan_id&#39;</span><span class="p">,</span>
-                                                       <span class="s1">&#39;fdp&#39;</span><span class="p">,</span>
-                                                       <span class="s1">&#39;fdj&#39;</span><span class="p">,</span>
-                                                       <span class="s1">&#39;dvars&#39;</span><span class="p">,</span>
-                                                       <span class="s1">&#39;motion_correct_tool&#39;</span><span class="p">],</span>
-                                          <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
-                                          <span class="n">function</span><span class="o">=</span><span class="n">gen_power_parameters</span><span class="p">,</span>
-                                          <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calc_power_parameters&#39;</span><span class="p">,</span>
-                                 <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">calc_power_parameters</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
+                                                          <span class="s1">&#39;scan_id&#39;</span><span class="p">,</span>
+                                                          <span class="s1">&#39;fdp&#39;</span><span class="p">,</span>
+                                                          <span class="s1">&#39;fdj&#39;</span><span class="p">,</span>
+                                                          <span class="s1">&#39;dvars&#39;</span><span class="p">,</span>
+                                                          <span class="s1">&#39;motion_correct_tool&#39;</span><span class="p">],</span>
+                                             <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
+                                             <span class="n">function</span><span class="o">=</span><span class="n">gen_power_parameters</span><span class="p">,</span>
+                                             <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calc_power_parameters&#39;</span><span class="p">,</span>
+                                    <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
     <span class="n">calc_power_parameters</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">motion_correct_tool</span> <span class="o">=</span> <span class="n">motion_correct_tool</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;subject_id&#39;</span><span class="p">,</span>
@@ -461,7 +460,7 @@
 
     <span class="k">elif</span> <span class="n">motion_correct_tool</span><span class="o">==</span><span class="s1">&#39;mcflirt&#39;</span><span class="p">:</span>
         <span class="n">maxdisp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">max_displacement</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># TODO: mcflirt outputs absdisp, instead of maxdisp</span>
-        <span class="n">reldisp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">max_displacement</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">reldisp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">max_displacement</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
 
     <span class="n">abs_relative</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
     <span class="n">max_relative</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">abs_relative</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
@@ -476,9 +475,9 @@
         <span class="p">(</span><span class="s1">&#39;Max_Relative_RMS_Displacement&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">rms</span><span class="p">)),</span>
         <span class="p">(</span><span class="s1">&#39;Movements_gt_threshold&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">abs_relative</span><span class="p">(</span><span class="n">rms</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">)),</span>
         <span class="p">(</span><span class="s1">&#39;Mean_Relative_Mean_Rotation&#39;</span><span class="p">,</span> <span class="n">avg_relative</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mot</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))),</span>
-        <span class="p">(</span><span class="s1">&#39;Mean_Relative_Maxdisp&#39;</span><span class="p">,</span> <span class="n">avg_relative</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated</span>
-        <span class="p">(</span><span class="s1">&#39;Max_Relative_Maxdisp&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated</span>
-        <span class="p">(</span><span class="s1">&#39;Max_Abs_Maxdisp&#39;</span><span class="p">,</span> <span class="n">max_abs</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated</span>
+        <span class="p">(</span><span class="s1">&#39;Mean_Relative_Maxdisp&#39;</span><span class="p">,</span> <span class="n">avg_relative</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated </span>
+        <span class="p">(</span><span class="s1">&#39;Max_Relative_Maxdisp&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated </span>
+        <span class="p">(</span><span class="s1">&#39;Max_Abs_Maxdisp&#39;</span><span class="p">,</span> <span class="n">max_abs</span><span class="p">(</span><span class="n">maxdisp</span><span class="p">)),</span> <span class="c1"># to be updated </span>
         <span class="p">(</span><span class="s1">&#39;Max Relative_Roll&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">mot</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
         <span class="p">(</span><span class="s1">&#39;Max_Relative_Pitch&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">mot</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
         <span class="p">(</span><span class="s1">&#39;Max_Relative_Yaw&#39;</span><span class="p">,</span> <span class="n">max_relative</span><span class="p">(</span><span class="n">mot</span><span class="p">[</span><span class="mi">2</span><span class="p">])),</span>

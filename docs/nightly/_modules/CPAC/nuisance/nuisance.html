@@ -43,7 +43,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">import</span> <span class="nn">CPAC.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
 <span class="kn">import</span> <span class="nn">CPAC</span>
 
@@ -53,7 +53,6 @@
 <span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="n">afni</span>
 <span class="kn">from</span> <span class="nn">nipype.interfaces.afni</span> <span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">afni_utils</span>
 <span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">ifft</span>
-<span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">CPAC</span> <span class="kn">import</span> <span class="n">utils</span>
 <span class="kn">from</span> <span class="nn">CPAC.utils.interfaces.function</span> <span class="kn">import</span> <span class="n">Function</span>
 <span class="kn">from</span> <span class="nn">CPAC.utils.interfaces.masktool</span> <span class="kn">import</span> <span class="n">MaskTool</span>
@@ -391,7 +390,8 @@
 <div class="viewcode-block" id="create_regressor_workflow"><a class="viewcode-back" href="../../../developer/workflows/nuisance#CPAC.nuisance.create_regressor_workflow">[docs]</a><span class="k">def</span> <span class="nf">create_regressor_workflow</span><span class="p">(</span><span class="n">nuisance_selectors</span><span class="p">,</span>
                               <span class="n">use_ants</span><span class="p">,</span>
                               <span class="n">ventricle_mask_exist</span><span class="p">,</span>
-                              <span class="n">name</span><span class="o">=</span><span class="s1">&#39;nuisance_regressors&#39;</span><span class="p">):</span>
+                              <span class="n">name</span><span class="o">=</span><span class="s1">&#39;nuisance_regressors&#39;</span><span class="p">,</span>
+                              <span class="n">n_procs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Workflow for the removal of various signals considered to be noise from resting state</span>
 <span class="sd">    fMRI data.  The residual signals for linear regression denoising is performed in a single</span>
@@ -646,7 +646,7 @@
 
     <span class="n">nuisance_wf</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="n">inputspec</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">inputspec</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;selector&#39;</span><span class="p">,</span>
         <span class="s1">&#39;functional_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;anatomical_file_path&#39;</span><span class="p">,</span>
@@ -671,13 +671,13 @@
         <span class="s1">&#39;tr&#39;</span><span class="p">,</span>
     <span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
-    <span class="n">outputspec</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;regressors_file_path&#39;</span><span class="p">]),</span>
-                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
+    <span class="n">outputspec</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;regressors_file_path&#39;</span><span class="p">]),</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
-    <span class="n">functional_mean</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni_utils</span><span class="o">.</span><span class="n">TStat</span><span class="p">(),</span>
+    <span class="n">functional_mean</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni_utils</span><span class="o">.</span><span class="n">TStat</span><span class="p">(),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;functional_mean&#39;</span><span class="p">,</span>
                         <span class="n">mem_gb</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
-                        <span class="n">n_procs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                        <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
 
     <span class="n">functional_mean</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="s1">&#39;-mean&#39;</span>
     <span class="n">functional_mean</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
@@ -748,7 +748,7 @@
             <span class="k">for</span> <span class="n">custom_regressor</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">regressor_selector</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]):</span>
                 <span class="n">custom_regressor_file</span> <span class="o">=</span> <span class="n">custom_regressor</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]</span>
 
-                <span class="n">custom_check_s3_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span>
+                <span class="n">custom_check_s3_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span>
                     <span class="n">input_names</span><span class="o">=</span><span class="p">[</span>
                         <span class="s1">&#39;file_path&#39;</span><span class="p">,</span>
                         <span class="s1">&#39;creds_path&#39;</span><span class="p">,</span>
@@ -779,7 +779,7 @@
                     <span class="n">custom_ort_check_s3_nodes</span> <span class="o">+=</span> <span class="p">[</span><span class="n">custom_check_s3_node</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_ort_check_s3_nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">custom_ort_merge</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                <span class="n">custom_ort_merge</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                     <span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">custom_ort_check_s3_nodes</span><span class="p">)),</span>
                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;custom_ort_merge&#39;</span>
                 <span class="p">)</span>
@@ -797,7 +797,7 @@
                     <span class="n">pipeline_resource_pool</span><span class="p">[</span><span class="s1">&#39;custom_ort_file_paths&#39;</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_dsort_convolve_nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">custom_dsort_convolve_merge</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                <span class="n">custom_dsort_convolve_merge</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                     <span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">custom_dsort_convolve_nodes</span><span class="p">)),</span>
                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;custom_dsort_convolve_merge&#39;</span>
                 <span class="p">)</span>
@@ -814,7 +814,7 @@
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">custom_dsort_convolve_nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">images_to_merge</span> <span class="o">+=</span> <span class="mi">1</span>
 
-                <span class="n">custom_dsort_merge</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                <span class="n">custom_dsort_merge</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                     <span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="n">images_to_merge</span><span class="p">),</span>
                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;custom_dsort_merge&#39;</span>
                 <span class="p">)</span>
@@ -914,16 +914,16 @@
                 <span class="k">if</span> <span class="n">erosion_mm</span><span class="p">:</span> <span class="c1"># TODO: in func/anat space</span>
                     <span class="c1"># transform eroded anat brain mask to functional space</span>
                     <span class="c1"># convert_xfm</span>
-                    <span class="n">anat_to_func_linear_xfm</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                    <span class="n">anat_to_func_linear_xfm</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                         <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">ConvertXFM</span><span class="p">(),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_to_func_linear_xfm&#39;</span><span class="p">,</span>
                         <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-                        <span class="n">n_procs</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                        <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span><span class="p">)</span>
                     <span class="n">anat_to_func_linear_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">invert_xfm</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="n">nuisance_wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">pipeline_resource_pool</span><span class="p">[</span><span class="s1">&#39;Transformations&#39;</span><span class="p">][</span><span class="s1">&#39;func_to_anat_linear_xfm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">anat_to_func_linear_xfm</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)))</span>
 
                     <span class="c1"># flirt</span>
-                    <span class="n">anat_to_func_mask</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Functional_eroded_mask&#39;</span><span class="p">)</span>
+                    <span class="n">anat_to_func_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Functional_eroded_mask&#39;</span><span class="p">)</span>
                     <span class="n">anat_to_func_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">output_type</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
                     <span class="n">anat_to_func_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">apply_xfm</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="n">anat_to_func_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">interp</span> <span class="o">=</span> <span class="s1">&#39;nearestneighbour&#39;</span>
@@ -991,12 +991,11 @@
 
                 <span class="k">if</span> <span class="n">anatomical_at_resolution_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pipeline_resource_pool</span><span class="p">:</span>
 
-                    <span class="n">anat_resample</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                    <span class="n">anat_resample</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                         <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_flirt&#39;</span>
                              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">anatomical_at_resolution_key</span><span class="p">),</span>
-                        <span class="n">mem_gb</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-                        <span class="n">n_procs</span><span class="o">=</span><span class="mi">3</span>
+                        <span class="n">mem_gb</span><span class="o">=</span><span class="mi">8</span>
                     <span class="p">)</span>
                     <span class="n">anat_resample</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">apply_isoxfm</span> <span class="o">=</span> <span class="n">regressor_selector</span><span class="p">[</span><span class="s2">&quot;extraction_resolution&quot;</span><span class="p">]</span>
 
@@ -1015,12 +1014,11 @@
 
                 <span class="k">if</span> <span class="n">functional_at_resolution_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pipeline_resource_pool</span><span class="p">:</span>
 
-                    <span class="n">func_resample</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                    <span class="n">func_resample</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                         <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_flirt&#39;</span>
                              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">functional_at_resolution_key</span><span class="p">),</span>
-                        <span class="n">mem_gb</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-                        <span class="n">n_procs</span><span class="o">=</span><span class="mi">3</span>
+                        <span class="n">mem_gb</span><span class="o">=</span><span class="mi">8</span>
                     <span class="p">)</span>
                     <span class="n">func_resample</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">apply_xfm</span> <span class="o">=</span> <span class="kc">True</span>
 
@@ -1087,11 +1085,11 @@
             <span class="k">if</span> <span class="n">regressor_file_resource_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pipeline_resource_pool</span><span class="p">:</span>
 
                 <span class="c1"># Merge mask paths to extract voxel timeseries</span>
-                <span class="n">merge_masks_paths</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                <span class="n">merge_masks_paths</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                     <span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">regressor_mask_file_resource_keys</span><span class="p">)),</span>
                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_merge_masks&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span>
                     <span class="n">mem_gb</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-                    <span class="n">n_procs</span><span class="o">=</span><span class="mi">2</span>
+                    <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span>
                 <span class="p">)</span>
                 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">regressor_mask_file_resource_key</span> <span class="ow">in</span> \
                         <span class="nb">enumerate</span><span class="p">(</span><span class="n">regressor_mask_file_resource_keys</span><span class="p">):</span>
@@ -1104,11 +1102,11 @@
                         <span class="n">merge_masks_paths</span><span class="p">,</span> <span class="s2">&quot;in</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                     <span class="p">)</span>
 
-                <span class="n">union_masks_paths</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                <span class="n">union_masks_paths</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                     <span class="n">MaskTool</span><span class="p">(</span><span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI_GZ&#39;</span><span class="p">),</span>
                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_union_masks&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span>
                     <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-                    <span class="n">n_procs</span><span class="o">=</span><span class="mi">2</span>
+                    <span class="n">n_procs</span><span class="o">=</span><span class="n">n_procs</span>
                 <span class="p">)</span>
 
                 <span class="n">nuisance_wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
@@ -1138,14 +1136,14 @@
                                        <span class="s1">&#39;import numpy as np&#39;</span><span class="p">,</span>
                                        <span class="s1">&#39;from CPAC.utils import safe_shape&#39;</span><span class="p">]</span>
 
-                    <span class="n">compcor_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_filename&#39;</span><span class="p">,</span>
-                                                              <span class="s1">&#39;num_components&#39;</span><span class="p">,</span>
-                                                              <span class="s1">&#39;mask_filename&#39;</span><span class="p">],</span>
-                                                 <span class="n">output_names</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">compcor_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data_filename&#39;</span><span class="p">,</span>
+                                                                 <span class="s1">&#39;num_components&#39;</span><span class="p">,</span>
+                                                                 <span class="s1">&#39;mask_filename&#39;</span><span class="p">],</span>
+                                                    <span class="n">output_names</span><span class="o">=</span><span class="p">[</span>
                                                         <span class="s1">&#39;compcor_file&#39;</span><span class="p">],</span>
-                                                 <span class="n">function</span><span class="o">=</span><span class="n">calc_compcor_components</span><span class="p">,</span>
-                                                 <span class="n">imports</span><span class="o">=</span><span class="n">compcor_imports</span><span class="p">),</span>
-                                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_DetrendPC&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+                                                    <span class="n">function</span><span class="o">=</span><span class="n">calc_compcor_components</span><span class="p">,</span>
+                                                    <span class="n">imports</span><span class="o">=</span><span class="n">compcor_imports</span><span class="p">),</span>
+                                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_DetrendPC&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">12.5</span><span class="p">)</span>
 
                     <span class="n">compcor_node</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">num_components</span> <span class="o">=</span> <span class="n">regressor_selector</span><span class="p">[</span><span class="s1">&#39;summary&#39;</span><span class="p">][</span><span class="s1">&#39;components&#39;</span><span class="p">]</span>
 
@@ -1168,7 +1166,7 @@
                                              <span class="s1">&#39;import nibabel as nb&#39;</span><span class="p">,</span>
                                              <span class="s1">&#39;from nipype import logging&#39;</span><span class="p">]</span>
 
-                        <span class="n">cosfilter_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">cosfilter_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;input_image_path&#39;</span><span class="p">,</span>
                                                        <span class="s1">&#39;timestep&#39;</span><span class="p">],</span>
                                           <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cosfiltered_img&#39;</span><span class="p">],</span>
@@ -1180,7 +1178,7 @@
                             <span class="n">summary_filter_input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">summary_filter_input</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                             <span class="n">cosfilter_node</span><span class="p">,</span> <span class="s1">&#39;input_image_path&#39;</span>
                         <span class="p">)</span>
-                        <span class="n">tr_string2float_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">tr_string2float_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span>
                                 <span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">],</span>
                                 <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tr_float&#39;</span><span class="p">],</span>
@@ -1203,7 +1201,7 @@
 
                     <span class="k">if</span> <span class="s1">&#39;Detrend&#39;</span> <span class="ow">in</span> <span class="n">summary_method</span><span class="p">:</span>
 
-                        <span class="n">detrend_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">detrend_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">afni</span><span class="o">.</span><span class="n">Detrend</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="s1">&#39;-polort 1&#39;</span><span class="p">,</span> <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI&#39;</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_detrend&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span>
                             <span class="n">mem_gb</span><span class="o">=</span><span class="mf">2.0</span>
@@ -1218,7 +1216,7 @@
 
                     <span class="k">if</span> <span class="s1">&#39;Norm&#39;</span> <span class="ow">in</span> <span class="n">summary_method</span><span class="p">:</span>
 
-                        <span class="n">l2norm_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">l2norm_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">afni</span><span class="o">.</span><span class="n">TStat</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="s1">&#39;-l2norm&#39;</span><span class="p">,</span> <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI&#39;</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_l2norm&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">)</span>
                         <span class="p">)</span>
@@ -1231,7 +1229,7 @@
                             <span class="n">l2norm_node</span><span class="p">,</span> <span class="s1">&#39;mask&#39;</span>
                         <span class="p">)</span>
 
-                        <span class="n">norm_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">norm_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">afni</span><span class="o">.</span><span class="n">Calc</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="s1">&#39;a/b&#39;</span><span class="p">,</span> <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI&#39;</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_norm&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">)</span>
                         <span class="p">)</span>
@@ -1248,10 +1246,10 @@
 
                     <span class="k">if</span> <span class="s1">&#39;Mean&#39;</span> <span class="ow">in</span> <span class="n">summary_method</span><span class="p">:</span>
 
-                        <span class="n">mean_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">mean_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">afni</span><span class="o">.</span><span class="n">ROIStats</span><span class="p">(</span><span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="s1">&#39;-1Dformat&#39;</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_mean&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span>
-                            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">2.0</span>
+                            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">5.0</span>
                         <span class="p">)</span>
                         <span class="n">nuisance_wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                             <span class="n">summary_method_input</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">summary_method_input</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
@@ -1267,7 +1265,7 @@
 
                     <span class="k">if</span> <span class="s1">&#39;PC&#39;</span> <span class="ow">in</span> <span class="n">summary_method</span><span class="p">:</span>
 
-                        <span class="n">std_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">std_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">afni</span><span class="o">.</span><span class="n">TStat</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="s1">&#39;-nzstdev&#39;</span><span class="p">,</span> <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI&#39;</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_std&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span>
                             <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.5</span>
@@ -1281,7 +1279,7 @@
                             <span class="n">std_node</span><span class="p">,</span> <span class="s1">&#39;mask&#39;</span>
                         <span class="p">)</span>
 
-                        <span class="n">standardized_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">standardized_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">afni</span><span class="o">.</span><span class="n">Calc</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="s1">&#39;a/b&#39;</span><span class="p">,</span> <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI&#39;</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_standardized&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span>
                             <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.5</span>
@@ -1295,7 +1293,7 @@
                             <span class="n">standardized_node</span><span class="p">,</span> <span class="s1">&#39;in_file_b&#39;</span>
                         <span class="p">)</span>
 
-                        <span class="n">pc_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+                        <span class="n">pc_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                             <span class="n">PC</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="s1">&#39;-vmean -nscale&#39;</span><span class="p">,</span> <span class="n">pcs</span><span class="o">=</span><span class="n">regressor_selector</span><span class="p">[</span><span class="s1">&#39;summary&#39;</span><span class="p">][</span><span class="s1">&#39;components&#39;</span><span class="p">],</span> <span class="n">outputtype</span><span class="o">=</span><span class="s1">&#39;NIFTI_GZ&#39;</span><span class="p">),</span>
                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_pc&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">regressor_type</span><span class="p">),</span>
                             <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.5</span>
@@ -1320,7 +1318,7 @@
                     <span class="n">pipeline_resource_pool</span><span class="p">[</span><span class="n">regressor_file_resource_key</span><span class="p">]</span>
 
     <span class="c1"># Build regressors and combine them into a single file</span>
-    <span class="n">build_nuisance_regressors</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span>
+    <span class="n">build_nuisance_regressors</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span>
         <span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;functional_file_path&#39;</span><span class="p">,</span>
                      <span class="s1">&#39;selector&#39;</span><span class="p">,</span>
                      <span class="s1">&#39;grey_matter_summary_file_path&#39;</span><span class="p">,</span>
@@ -1387,7 +1385,7 @@
             <span class="k">if</span> <span class="n">regressor_target</span> <span class="o">==</span> <span class="s1">&#39;dsort&#39;</span>
         <span class="p">]</span>
 
-        <span class="n">voxel_nuisance_regressors_merge</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+        <span class="n">voxel_nuisance_regressors_merge</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
             <span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">voxel_nuisance_regressors</span><span class="p">)),</span>
             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;voxel_nuisance_regressors_merge&#39;</span>
         <span class="p">)</span>
@@ -1415,7 +1413,7 @@
 <span class="k">def</span> <span class="nf">create_nuisance_regression_workflow</span><span class="p">(</span><span class="n">nuisance_selectors</span><span class="p">,</span>
                                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;nuisance_regression&#39;</span><span class="p">):</span>
 
-    <span class="n">inputspec</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">inputspec</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;functional_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;functional_brain_mask_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;regressor_file&#39;</span><span class="p">,</span>
@@ -1424,8 +1422,8 @@
         <span class="s1">&#39;dvars_file_path&#39;</span>
     <span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
-    <span class="n">outputspec</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;residual_file_path&#39;</span><span class="p">]),</span>
-                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
+    <span class="n">outputspec</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;residual_file_path&#39;</span><span class="p">]),</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
     <span class="n">nuisance_wf</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
@@ -1440,7 +1438,7 @@
                              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">censor_selector</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;method&#39;</span><span class="p">),</span>
                                      <span class="n">censor_methods</span><span class="p">))</span>
 
-        <span class="n">find_censors</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span>
+        <span class="n">find_censors</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span>
             <span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;fd_j_file_path&#39;</span><span class="p">,</span>
                          <span class="s1">&#39;fd_j_threshold&#39;</span><span class="p">,</span>
                          <span class="s1">&#39;fd_p_file_path&#39;</span><span class="p">,</span>
@@ -1505,8 +1503,8 @@
             <span class="n">find_censors</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">number_of_subsequent_trs_to_censor</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="c1"># Use 3dTproject to perform nuisance variable regression</span>
-    <span class="n">nuisance_regression</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">TProject</span><span class="p">(),</span>
-                               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;nuisance_regression&#39;</span><span class="p">)</span>
+    <span class="n">nuisance_regression</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">TProject</span><span class="p">(),</span>
+                                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;nuisance_regression&#39;</span><span class="p">)</span>
 
     <span class="n">nuisance_regression</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">out_file</span> <span class="o">=</span> <span class="s1">&#39;residuals.nii.gz&#39;</span>
     <span class="n">nuisance_regression</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
@@ -1570,16 +1568,16 @@
 <span class="k">def</span> <span class="nf">filtering_bold_and_regressors</span><span class="p">(</span><span class="n">nuisance_selectors</span><span class="p">,</span>
                                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;filtering_bold_and_regressors&#39;</span><span class="p">):</span>
 
-    <span class="n">inputspec</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">inputspec</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
         <span class="s1">&#39;functional_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;regressors_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;functional_brain_mask_file_path&#39;</span><span class="p">,</span>
         <span class="s1">&#39;tr&#39;</span>
     <span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
-    <span class="n">outputspec</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;residual_file_path&#39;</span><span class="p">,</span>
-                                                     <span class="s1">&#39;residual_regressor&#39;</span><span class="p">]),</span>
-                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
+    <span class="n">outputspec</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;residual_file_path&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;residual_regressor&#39;</span><span class="p">]),</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
     <span class="n">filtering_wf</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
     <span class="n">bandpass_selector</span> <span class="o">=</span> <span class="n">nuisance_selectors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Bandpass&#39;</span><span class="p">)</span>
@@ -1591,7 +1589,7 @@
 
     <span class="k">if</span> <span class="n">bandpass_method</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
 
-        <span class="n">frequency_filter</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+        <span class="n">frequency_filter</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
                     <span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;realigned_file&#39;</span><span class="p">,</span>
                                         <span class="s1">&#39;regressor_file&#39;</span><span class="p">,</span>
                                         <span class="s1">&#39;bandpass_freqs&#39;</span><span class="p">,</span>
@@ -1600,7 +1598,8 @@
                                         <span class="s1">&#39;regressor_file&#39;</span><span class="p">],</span>
                             <span class="n">function</span><span class="o">=</span><span class="n">bandpass_voxels</span><span class="p">,</span>
                             <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;frequency_filter&#39;</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;frequency_filter&#39;</span><span class="p">,</span>
+                    <span class="n">mem_gb</span><span class="o">=</span><span class="mf">6.0</span>
                 <span class="p">)</span>
 
         <span class="n">frequency_filter</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">bandpass_freqs</span> <span class="o">=</span> <span class="p">[</span>
@@ -1622,17 +1621,17 @@
 
     <span class="k">elif</span> <span class="n">bandpass_method</span> <span class="o">==</span> <span class="s1">&#39;AFNI&#39;</span><span class="p">:</span>
 
-        <span class="n">bandpass_ts</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">Bandpass</span><span class="p">(),</span>
-                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bandpass_ts&#39;</span><span class="p">)</span>
+        <span class="n">bandpass_ts</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">Bandpass</span><span class="p">(),</span>
+                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bandpass_ts&#39;</span><span class="p">)</span>
 
         <span class="n">bandpass_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">highpass</span> <span class="o">=</span> <span class="n">bandpass_selector</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bottom_frequency&#39;</span><span class="p">)</span>
         <span class="n">bandpass_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lowpass</span> <span class="o">=</span> <span class="n">bandpass_selector</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;top_frequency&#39;</span><span class="p">)</span>
         <span class="n">bandpass_ts</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
 
-        <span class="n">tr_string2float_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">],</span>
-                                                  <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tr_float&#39;</span><span class="p">],</span>
-                                                  <span class="n">function</span><span class="o">=</span><span class="n">TR_string_to_float</span><span class="p">),</span>
-                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;tr_string2float&#39;</span><span class="p">)</span>
+        <span class="n">tr_string2float_node</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tr&#39;</span><span class="p">],</span>
+                                                     <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tr_float&#39;</span><span class="p">],</span>
+                                                     <span class="n">function</span><span class="o">=</span><span class="n">TR_string_to_float</span><span class="p">),</span>
+                                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;tr_string2float&#39;</span><span class="p">)</span>
 
         <span class="n">filtering_wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputspec</span><span class="p">,</span> <span class="s1">&#39;tr&#39;</span><span class="p">,</span>
                             <span class="n">tr_string2float_node</span><span class="p">,</span> <span class="s1">&#39;tr&#39;</span><span class="p">)</span>
@@ -1649,13 +1648,13 @@
         <span class="n">filtering_wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">bandpass_ts</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
                             <span class="n">outputspec</span><span class="p">,</span> <span class="s1">&#39;residual_file_path&#39;</span><span class="p">)</span>
 
-        <span class="n">bandpass_regressor</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;highpass&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;lowpass&#39;</span><span class="p">,</span>
-                                                        <span class="s1">&#39;tr&#39;</span><span class="p">],</span>
-                                           <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
-                                           <span class="n">function</span><span class="o">=</span><span class="n">afni_1dBandpass</span><span class="p">),</span>
-                                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bandpass_regressor&#39;</span><span class="p">)</span>
+        <span class="n">bandpass_regressor</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;highpass&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;lowpass&#39;</span><span class="p">,</span>
+                                                           <span class="s1">&#39;tr&#39;</span><span class="p">],</span>
+                                              <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
+                                              <span class="n">function</span><span class="o">=</span><span class="n">afni_1dBandpass</span><span class="p">),</span>
+                                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;bandpass_regressor&#39;</span><span class="p">)</span>
 
         <span class="n">bandpass_regressor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">highpass</span> <span class="o">=</span> <span class="n">bandpass_selector</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bottom_frequency&#39;</span><span class="p">)</span>
         <span class="n">bandpass_regressor</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">lowpass</span> <span class="o">=</span> <span class="n">bandpass_selector</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;top_frequency&#39;</span><span class="p">)</span>
