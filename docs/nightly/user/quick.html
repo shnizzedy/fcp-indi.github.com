@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>C-PAC Quickstart &#8212; C-PAC 1.7.3.dev Beta documentation</title>
+    <title>C-PAC Quickstart &#8212; C-PAC 1.8.0.dev Beta documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="release_notes/v1.7.2" title="Latest Release: Version 1.7.2 Beta (Nov 10, 2020)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" accesskey="U">Welcome to C-PAC’s user guide!</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">C-PAC Quickstart</a></li> 
       </ul>
@@ -169,7 +169,7 @@
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cpac run s3://fcp-indi/data/Projects/ADHD200/RawDataBIDS /Users/You/some_folder_for_outputs participant</span>
 </pre></div>
 </div>
-<p>In addition to the default pipeline, C-PAC comes packaged with a growing library of pre-configured pipelines that are ready to use. To run C-PAC with one of the pre-packaged pre-configured pipelines, simply invoke the <code class="docutils literal notranslate"><span class="pre">--preconfig</span></code> flag, shown below. See the full selection of pre-configured pipelines <a class="reference internal" href="pipelines/preconfig"><span class="doc">here</span></a>.</p>
+<p>In addition to the default pipeline, C-PAC comes packaged with a growing library of pre-configured pipelines that are ready to use. To run C-PAC with one of the pre-packaged pre-configured pipelines, simply invoke the <code class="docutils literal notranslate"><span class="pre">--preconfig</span></code> flag, shown below. See the full selection of pre-configured pipelines <a class="reference internal" href="preconfig"><span class="doc">here</span></a>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cpac run /Users/You/local_bids_data /Users/You/some_folder_for_outputs --preconfig anat-only</span>
 </pre></div>
 </div>
@@ -335,7 +335,7 @@
 <span class="go">  local                          Docker                         mode</span>
 <span class="go">  -----------------------------  -----------------------------  ------</span>
 <span class="go">  /tmp                           /tmp                           rw</span>
-<span class="go">  /tmp/cpac_pip_output_uad83wrz  /tmp/cpac_pip_output_uad83wrz  rw</span>
+<span class="go">  /tmp/cpac_pip_output_n7639vsu  /tmp/cpac_pip_output_n7639vsu  rw</span>
 <span class="go">  /home/circleci/build           /home/circleci/build           rw</span>
 <span class="go">Logging messages will refer to the Docker paths.</span>
 
@@ -396,25 +396,10 @@
 <div class="section" id="pre-configured-pipelines">
 <h2>Pre-configured Pipelines<a class="headerlink" href="#pre-configured-pipelines" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the default pipeline, C-PAC comes packaged with a growing library of pre-configured pipelines that are ready to use. They can be invoked when running C-PAC using the <code class="docutils literal notranslate"><span class="pre">--preconfig</span></code> flag detailed above.</p>
-<p>Detailed information about the selection of pre-configured pipelines are <a class="reference internal" href="pipelines/preconfig"><span class="doc">available here</span></a>.</p>
+<p>Detailed information about the selection of pre-configured pipelines are <a class="reference internal" href="preconfig"><span class="doc">available here</span></a>.</p>
 </div>
 <div class="section" id="design-a-pipeline">
 <h2>Design A Pipeline<a class="headerlink" href="#design-a-pipeline" title="Permalink to this headline">¶</a></h2>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The C-PAC pipeline configuration was changed to a nested format with import capabilities in v1.8.0.</p>
-<p>With this change, the following configuration keys are deprecated:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">TR</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fdCalc</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">reGenerateOutputs</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">runMedianAngleCorrection</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">slice_timing_pattern</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">targetAngleDeg</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">runSymbolicLinks</span></code></p></li>
-</ul>
-<p>Mappings for all other C-PAC 1.7 keys can be found <a class="reference internal" href="pipelines/1.7-1.8-nesting-mappings"><span class="doc">here</span></a>.</p>
-</div>
 <p>C-PAC offers a graphical interface you can use to quickly and easily modify the default pipeline or create your own from scratch:</p>
 <p><a class="reference external" href="https://fcp-indi.github.io/C-PAC_GUI/versions/latest/browser/#/">https://fcp-indi.github.io/C-PAC_GUI/versions/latest/browser/#/</a></p>
 <div class="figure align-default">
@@ -534,7 +519,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="subject_list_config">2. Specify Your Data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pipelines/pipeline_config">3. Select Your Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipeline_config">3. Select Your Pipeline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="preprocessing">4. Pre-Process Your Data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="derivatives">5. Compute Derivatives</a></li>
 <li class="toctree-l3"><a class="reference internal" href="running">6. All Run Options</a></li>
@@ -581,7 +566,7 @@
         <li class="right" >
           <a href="release_notes/v1.7.2" title="Latest Release: Version 1.7.2 Beta (Nov 10, 2020)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">C-PAC Quickstart</a></li> 
       </ul>
