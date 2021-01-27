@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Anatomical Preprocessing &#8212; C-PAC 1.7.3.dev Beta documentation</title>
+    <title>Anatomical Preprocessing &#8212; C-PAC 1.8.0.dev Beta documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="preprocessing" title="Pre-Processing Steps"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" accesskey="U">Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Anatomical Preprocessing</a></li> 
@@ -196,7 +196,7 @@
 </div>
 <div class="section" id="configuration-without-the-gui">
 <h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
-<p>The following key/value pairs must be defined in your <a class="reference internal" href="pipeline_config"><span class="doc">pipeline configuration YAML</span></a> for C-PAC to run anatomical preprocessing:</p>
+<p>The following key/value pairs must be defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a> for C-PAC to run anatomical preprocessing:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 10%" />
@@ -386,7 +386,7 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 </div>
 <div class="section" id="id6">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>The following key/value pairs must be defined in your <a class="reference internal" href="pipeline_config"><span class="doc">pipeline configuration YAML</span></a> for C-PAC to run anatomical tissue segmentation:</p>
+<p>The following key/value pairs must be defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a> for C-PAC to run anatomical tissue segmentation:</p>
 <p>The box below contains an example of what these parameters might look like when defined in the YAML:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>runSegmentationPreprocessing : [1]
 seg_use_priors: True
@@ -450,7 +450,7 @@ ANTs_prior_seg_right_WM_label: 41
 <li class="toctree-l2 current"><a class="reference internal" href="index#user-guide-index">User Guide Index</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="quick">1. C-PAC Quickstart</a></li>
 <li class="toctree-l3"><a class="reference internal" href="subject_list_config">2. Specify Your Data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pipeline_config">3. Select Your Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelines/pipeline_config">3. Select Your Pipeline</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="preprocessing">4. Pre-Process Your Data</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Anatomical Preprocessing</a><ul>
 <li class="toctree-l5"><a class="reference internal" href="#initial-preprocessing">Initial Preprocessing</a><ul>
@@ -532,7 +532,7 @@ ANTs_prior_seg_right_WM_label: 41
         <li class="right" >
           <a href="preprocessing" title="Pre-Processing Steps"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" >Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Anatomical Preprocessing</a></li> 

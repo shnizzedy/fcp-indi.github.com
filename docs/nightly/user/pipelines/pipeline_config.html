@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Setting Up A Pipeline Configuration &#8212; C-PAC 1.7.3.dev Beta documentation</title>
+    <title>Setting Up A Pipeline Configuration &#8212; C-PAC 1.8.0.dev Beta documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="../subject_list_config" title="Setting Up A Data Configuration File (Participant/Subject List)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" accesskey="U">Welcome to C-PAC’s user guide!</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Setting Up A Pipeline Configuration</a></li> 
       </ul>
@@ -204,15 +204,30 @@
 <p class="admonition-title">Warning</p>
 <p>The C-PAC pipeline configuration was changed to a nested format with import capabilities in v1.8.0.</p>
 <p>With this change, the following configuration keys are deprecated:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">TR</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fdCalc</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">reGenerateOutputs</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">runMedianAngleCorrection</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">slice_timing_pattern</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">targetAngleDeg</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">runSymbolicLinks</span></code></p></li>
-</ul>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">crashLogDirectory</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">output_tree</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">TR</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">fdCalc</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">reGenerateOutputs</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runMedianAngleCorrection</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">slice_timing_pattern</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">targetAngleDeg</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runSymbolicLinks</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">configFileTwomm</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ref_mask_2mm</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">template_skull_for_anat_2mm</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">surface_reconstruction</span>
+<span class="c1"># See :ref:`Regressors specification &lt;nuisance-no-gui&gt;` to manually update any of the following keys:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">nComponents</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">nuisanceBandpassFreq</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">numRemovePrecedingFrames</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">numRemoveSubsequentFrames</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runFrequencyFiltering</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runFristonModel</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runMotionSpike</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">spikeThreshold</span>
+</pre></div>
+</div>
 <p>Mappings for all other C-PAC 1.7 keys can be found <a class="reference internal" href="1.7-1.8-nesting-mappings"><span class="doc">here</span></a>.</p>
 </div>
 <p>C-PAC offers a graphical interface you can use to quickly and easily modify the default pipeline or create your own from scratch:</p>
@@ -261,60 +276,62 @@
 <p>Pipeline configuration files, like the data settings and data configuration files discussed in the <a class="reference internal" href="../subject_list_config"><span class="doc">data configuration builder section</span></a>, are stored as YAML files.  Similarly, each of the parameters used by C-PAC to assemble your pipeline can be specified as nested key-value pairs, so a pipeline configuration YAML would have multiple lines of the form <code class="docutils literal notranslate"><span class="pre">key:</span> <span class="pre">value</span></code> like so</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">pipeline_setup</span><span class="p">:</span>
 
-<span class="c1"># Name for this pipeline configuration - useful for identification.</span>
-  <span class="nt">pipelineName</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pipeline01</span>
+  <span class="c1"># Name for this pipeline configuration - useful for identification.</span>
+  <span class="nt">pipeline_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cpac-default-pipeline</span>
 
-<span class="nt">working_directory</span><span class="p">:</span>
+  <span class="nt">output_directory</span><span class="p">:</span>
 
-  <span class="c1"># Directory where C-PAC should store temporary and intermediate files.</span>
-  <span class="c1"># - This directory must be saved if you wish to re-run your pipeline from where you left off (if not completed).</span>
-  <span class="c1"># - NOTE: As it stores all intermediate files, this directory can grow to become very</span>
-  <span class="c1">#   large, especially for data with a large amount of TRs.</span>
-  <span class="c1"># - If running in a container (Singularity/Docker), you can simply set this to an arbitrary</span>
-  <span class="c1">#   name like &#39;/work&#39;, and then map (-B/-v) your desired output directory to that label.</span>
-  <span class="c1"># - If running outside a container, this should be a full path to a directory.</span>
-  <span class="c1"># - This can be written to &#39;/tmp&#39; if you do not intend to save your working directory.</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp</span>
+    <span class="c1"># Directory where C-PAC should write out processed data, logs, and crash reports.</span>
+    <span class="c1"># - If running in a container (Singularity/Docker), you can simply set this to an arbitrary</span>
+    <span class="c1">#   name like &#39;/output&#39;, and then map (-B/-v) your desired output directory to that label.</span>
+    <span class="c1"># - If running outside a container, this should be a full path to a directory.</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/output</span>
 
-  <span class="c1"># Deletes the contents of the Working Directory after running.</span>
-  <span class="c1"># This saves disk space, but any additional preprocessing or analysis will have to be completely re-run.</span>
-  <span class="nt">remove_working_dir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+    <span class="c1"># Include extra versions and intermediate steps of functional preprocessing in the output directory.</span>
+    <span class="nt">write_func_outputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 
-<span class="nt">crash_log_directory</span><span class="p">:</span>
+    <span class="c1"># Include extra outputs in the output directory that may be of interest when more information is needed.</span>
+    <span class="nt">write_debugging_outputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 
-  <span class="c1"># Directory where CPAC should write crash logs.</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/crash</span>
+    <span class="c1"># Generate quality control pages containing preprocessing and derivative outputs.</span>
+    <span class="nt">generate_quality_control_images</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
 
-<span class="nt">log_directory</span><span class="p">:</span>
+  <span class="nt">working_directory</span><span class="p">:</span>
 
-  <span class="c1"># Whether to write log details of the pipeline run to the logging files.</span>
-  <span class="nt">run_logging</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+    <span class="c1"># Directory where C-PAC should store temporary and intermediate files.</span>
+    <span class="c1"># - This directory must be saved if you wish to re-run your pipeline from where you left off (if not completed).</span>
+    <span class="c1"># - NOTE: As it stores all intermediate files, this directory can grow to become very</span>
+    <span class="c1">#   large, especially for data with a large amount of TRs.</span>
+    <span class="c1"># - If running in a container (Singularity/Docker), you can simply set this to an arbitrary</span>
+    <span class="c1">#   name like &#39;/work&#39;, and then map (-B/-v) your desired output directory to that label.</span>
+    <span class="c1"># - If running outside a container, this should be a full path to a directory.</span>
+    <span class="c1"># - This can be written to &#39;/tmp&#39; if you do not intend to save your working directory.</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp</span>
 
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/logs</span>
+    <span class="c1"># Deletes the contents of the Working Directory after running.</span>
+    <span class="c1"># This saves disk space, but any additional preprocessing or analysis will have to be completely re-run.</span>
+    <span class="nt">remove_working_dir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
 
-<span class="nt">output_directory</span><span class="p">:</span>
+  <span class="nt">log_directory</span><span class="p">:</span>
 
-  <span class="c1"># Directory where C-PAC should write out processed data, logs, and crash reports.</span>
-  <span class="c1"># - If running in a container (Singularity/Docker), you can simply set this to an arbitrary</span>
-  <span class="c1">#   name like &#39;/output&#39;, and then map (-B/-v) your desired output directory to that label.</span>
-  <span class="c1"># - If running outside a container, this should be a full path to a directory.</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/output</span>
+    <span class="c1"># Whether to write log details of the pipeline run to the logging files.</span>
+    <span class="nt">run_logging</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
 
-  <span class="c1"># Include extra versions and intermediate steps of functional preprocessing in the output directory.</span>
-  <span class="nt">write_func_outputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
-
-  <span class="c1"># Include extra outputs in the output directory that may be of interest when more information is needed.</span>
-  <span class="nt">write_debugging_outputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
-
-  <span class="c1"># Output directory format and structure.</span>
-  <span class="c1"># Options: default, ndmg</span>
-  <span class="nt">output_tree</span><span class="p">:</span> <span class="s">&quot;default&quot;</span>
-
-  <span class="c1"># Generate quality control pages containing preprocessing and derivative outputs.</span>
-  <span class="nt">generate_quality_control_images</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/logs</span>
 </pre></div>
 </div>
 <p>An example of a pipeline configuration YAML file can be found <a href="#id3"><span class="problematic" id="id4">:doc:`here &lt;/user/pipelines/default&gt;`_</span></a>.  Tables explaining the keys and their potential values can be found on the individual pages for each of the outputs C-PAC is capable of producing. All pipeline setup configuration files should have the keys in the <a class="reference internal" href="../output_config"><span class="doc">Output Settings</span></a> table defined.</p>
+<p>String values can include the simplest form of <cite>POSIX parameter expansion &lt;https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html#tag_02_06_02&gt;</cite> (<code class="docutils literal notranslate"><span class="pre">${parameter}</span></code>). Two special variables are included for these types of parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">resolution_for_anat</span></code> will be populated with the value set in <code class="docutils literal notranslate"><span class="pre">registration_workflows['anatomical_registration']['resolution_for_anat']</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">func_resolution</span></code> will</p>
+<ul>
+<li><p>be populated with the value set in <code class="docutils literal notranslate"><span class="pre">registration_workflows['functional_registration']['func_registration_to_template']['output_resolution']['func_preproc_outputs']</span></code> if <code class="docutils literal notranslate"><span class="pre">funcreg</span></code> is in the value’s key,</p></li>
+<li><p>be populated with the value set in <code class="docutils literal notranslate"><span class="pre">registration_workflows['functional_registration']['func_registration_to_template']['output_resolution']['func_derivative_outputs']</span></code> if <code class="docutils literal notranslate"><span class="pre">deriv</span></code> is in the value’s key, or</p></li>
+<li><p>raise an exception if neither <code class="docutils literal notranslate"><span class="pre">funcreg</span></code> nor <code class="docutils literal notranslate"><span class="pre">deriv</span></code> is in the value’s key.</p></li>
+</ul>
+</li>
+</ul>
 <p>If <code class="docutils literal notranslate"><span class="pre">FROM</span></code> is defined (see above), any undefined keys will be inferred from the pipeline configuration specified; otherwise, any undefined keys will be inferred from the default pipeline.</p>
 <div class="section" id="why-a-list">
 <h3>Why a list?<a class="headerlink" href="#why-a-list" title="Permalink to this headline">¶</a></h3>
@@ -437,7 +454,7 @@
         <li class="right" >
           <a href="../subject_list_config" title="Setting Up A Data Configuration File (Participant/Subject List)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Setting Up A Pipeline Configuration</a></li> 
       </ul>

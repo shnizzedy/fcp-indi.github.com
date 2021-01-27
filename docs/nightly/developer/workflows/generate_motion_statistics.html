@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Generate Motion and Power Statistics &#8212; C-PAC 1.7.3.dev Beta documentation</title>
+    <title>Generate Motion and Power Statistics &#8212; C-PAC 1.8.0.dev Beta documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="reho" title="Regional Homogeneity Approach to fMRI data analysis"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" accesskey="U">Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Generate Motion and Power Statistics</a></li> 
@@ -51,12 +51,12 @@
 <span id="generate-motion-and-power-statistics"></span><h1>Generate Motion and Power Statistics<a class="headerlink" href="#module-CPAC.generate_motion_statistics" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="CPAC.generate_motion_statistics.calculate_DVARS">
-<code class="sig-prename descclassname">CPAC.generate_motion_statistics.</code><code class="sig-name descname">calculate_DVARS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rest</span></em>, <em class="sig-param"><span class="n">mask</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/generate_motion_statistics/generate_motion_statistics#calculate_DVARS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.generate_motion_statistics.calculate_DVARS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">CPAC.generate_motion_statistics.</code><code class="sig-name descname">calculate_DVARS</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func_brain</span></em>, <em class="sig-param"><span class="n">mask</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/generate_motion_statistics/generate_motion_statistics#calculate_DVARS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.generate_motion_statistics.calculate_DVARS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to calculate DVARS as per power’s method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>rest</strong><span class="classifier">string (nifti file)</span></dt><dd><p>path to motion correct functional data</p>
+<dt><strong>func_brain</strong><span class="classifier">string (nifti file)</span></dt><dd><p>path to motion correct functional data</p>
 </dd>
 <dt><strong>mask</strong><span class="classifier">string (nifti file)</span></dt><dd><p>path to brain only mask for functional data</p>
 </dd>
@@ -172,7 +172,7 @@ by default the value is set to 1.0</p>
 
 <dl class="py function">
 <dt id="CPAC.generate_motion_statistics.motion_power_statistics">
-<code class="sig-prename descclassname">CPAC.generate_motion_statistics.</code><code class="sig-name descname">motion_power_statistics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'motion_stats'</span></em>, <em class="sig-param"><span class="n">motion_correct_tool</span><span class="o">=</span><span class="default_value">'3dvolreg'</span></em>, <em class="sig-param"><span class="n">n_procs</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/generate_motion_statistics/generate_motion_statistics#motion_power_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.generate_motion_statistics.motion_power_statistics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">CPAC.generate_motion_statistics.</code><code class="sig-name descname">motion_power_statistics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'motion_stats'</span></em>, <em class="sig-param"><span class="n">motion_correct_tool</span><span class="o">=</span><span class="default_value">'3dvolreg'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/generate_motion_statistics/generate_motion_statistics#motion_power_statistics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.generate_motion_statistics.motion_power_statistics" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>The main purpose of this workflow is to get various statistical measures</dt><dd><p>from the movement/motion parameters obtained in functional preprocessing.</p>
 </dd>
@@ -196,9 +196,6 @@ by default the value is set to 1.0</p>
 
 <span class="n">inputspec</span><span class="o">.</span><span class="n">motion_correct</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">func</span><span class="o">/</span><span class="n">rest</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">func</span><span class="o">/</span><span class="n">rest</span> <span class="n">nifti</span> <span class="n">file</span><span class="p">)</span>
     <span class="n">Path</span> <span class="n">to</span> <span class="n">motion</span> <span class="n">corrected</span> <span class="n">functional</span> <span class="n">data</span>
-
-<span class="n">inputspec</span><span class="o">.</span><span class="n">mask</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">nifti</span> <span class="n">file</span><span class="p">)</span>
-    <span class="n">Path</span> <span class="n">to</span> <span class="n">field</span> <span class="n">containing</span> <span class="n">brain</span><span class="o">-</span><span class="n">only</span> <span class="n">mask</span> <span class="k">for</span> <span class="n">the</span> <span class="n">functional</span> <span class="n">data</span>
 
 <span class="n">inputspec</span><span class="o">.</span><span class="n">max_displacement</span> <span class="p">:</span> <span class="n">string</span> <span class="p">(</span><span class="n">Mat</span> <span class="n">file</span><span class="p">)</span>
     <span class="n">maximum</span> <span class="n">displacement</span> <span class="p">(</span><span class="ow">in</span> <span class="n">mm</span><span class="p">)</span> <span class="n">vector</span> <span class="k">for</span> <span class="n">brain</span> <span class="n">voxels</span> <span class="ow">in</span> <span class="n">each</span> <span class="n">volume</span><span class="o">.</span>
@@ -345,7 +342,6 @@ and accurate linear registration and motion correction of brain images. Neuroima
 <li class="toctree-l1"><a class="reference internal" href="../../user/index">User Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index">Welcome to CPAC’s developer documentation!</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../installation">Installing CPAC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../nodes">Nodes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../workflow_documentation">Workflow Documentation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index">Workflows</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="cpac_pipeline">C-PAC Pipeline Construction</a></li>
@@ -405,7 +401,7 @@ and accurate linear registration and motion correction of brain images. Neuroima
         <li class="right" >
           <a href="reho" title="Regional Homogeneity Approach to fMRI data analysis"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.7.3.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" >Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Generate Motion and Power Statistics</a></li> 
