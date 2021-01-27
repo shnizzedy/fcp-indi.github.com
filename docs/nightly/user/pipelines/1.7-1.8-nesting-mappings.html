@@ -48,30 +48,30 @@
 </div></blockquote>
 <p>Please be sure to check that the updated pipeline configuration file configures the pipeline as intended.</p>
 <p>The following keys are deprecated:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">crashLogDirectory</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">output_tree</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">TR</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">fdCalc</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">reGenerateOutputs</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runMedianAngleCorrection</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">slice_timing_pattern</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">targetAngleDeg</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runSymbolicLinks</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">configFileTwomm</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">ref_mask_2mm</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">template_skull_for_anat_2mm</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">surface_reconstruction</span>
-<span class="c1"># See :ref:`Regressors specification &lt;nuisance-no-gui&gt;` to manually update any of the following keys:</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">nComponents</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">nuisanceBandpassFreq</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">numRemovePrecedingFrames</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">numRemoveSubsequentFrames</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runFrequencyFiltering</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runFristonModel</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">runMotionSpike</span>
-<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">spikeThreshold</span>
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">crashLogDirectory</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_tree</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TR</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fdCalc</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reGenerateOutputs</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">runMedianAngleCorrection</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">slice_timing_pattern</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">targetAngleDeg</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">runSymbolicLinks</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">configFileTwomm</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ref_mask_2mm</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">template_skull_for_anat_2mm</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">surface_reconstruction</span></code></p></li>
+</ul>
+<p>See <a class="reference internal" href="../nuisance#nuisance-no-gui"><span class="std std-ref">Regressors specification</span></a> to manually update any of the following keys:
+- <code class="docutils literal notranslate"><span class="pre">nComponents</span></code>
+- <code class="docutils literal notranslate"><span class="pre">nuisanceBandpassFreq</span></code>
+- <code class="docutils literal notranslate"><span class="pre">numRemovePrecedingFrames</span></code>
+- <code class="docutils literal notranslate"><span class="pre">numRemoveSubsequentFrames</span></code>
+- <code class="docutils literal notranslate"><span class="pre">runFrequencyFiltering</span></code>
+- <code class="docutils literal notranslate"><span class="pre">runFristonModel</span></code>
+- <code class="docutils literal notranslate"><span class="pre">runMotionSpike</span></code>
+- <code class="docutils literal notranslate"><span class="pre">spikeThreshold</span></code></p>
 <dl>
 <dt>The following YAML is formatted such that the keys are the pipeline configuration keys in C-PAC ≤ v1.7 and the values are a list of successively deeper keys in a C-PAC 1.8 pipeline configuration. For example,</dt><dd><div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">pipelineName</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pipeline_setup</span>
