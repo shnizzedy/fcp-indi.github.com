@@ -159,13 +159,13 @@
 <span class="sd">     Create a cosine drift matrix with periods greater or equals to period_cut</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    period_cut: float</span>
+<span class="sd">    period_cut : float</span>
 <span class="sd">         Cut period of the low-pass filter (in sec)</span>
-<span class="sd">    frametimes: array of shape(nscans)</span>
+<span class="sd">    frametimes : array of shape(nscans)</span>
 <span class="sd">         The sampling times (in sec)</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    cdrift:  array of shape(n_scans, n_drifts)</span>
+<span class="sd">    cdrift :  array of shape(n_scans, n_drifts)</span>
 <span class="sd">             cosin drifts plus a constant regressor at cdrift[:,0]</span>
 <span class="sd">    Ref: http://en.wikipedia.org/wiki/Discrete_cosine_transform DCT-II</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -194,11 +194,11 @@
 <span class="sd">    to guarantee that the condition number is smaller than a given threshold.</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X: array of shape(nrows, ncols)</span>
+<span class="sd">    X : array of shape(nrows, ncols)</span>
 <span class="sd">    cmax=1.e-15, float tolerance for condition number</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    X: array of shape(nrows, ncols) after regularization</span>
+<span class="sd">    X : array of shape(nrows, ncols) after regularization</span>
 <span class="sd">    cmax=1.e-15, float tolerance for condition number</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">fallback_svd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>

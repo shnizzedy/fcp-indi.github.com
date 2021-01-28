@@ -144,11 +144,11 @@ white matter and gray matter mask based on provided template, if selected to do 
 <dd class="field-odd"><dl class="simple">
 <dt><strong>anatomical_brain</strong><span class="classifier">string (nifti file)</span></dt><dd><p>Target image to be labeled.</p>
 </dd>
-<dt><strong>anatomical_brain_mask: string (nifti file)</strong></dt><dd><p>Target mask image</p>
+<dt><strong>anatomical_brain_mask</strong><span class="classifier">string (nifti file)</span></dt><dd><p>Target mask image</p>
 </dd>
-<dt><strong>template_brain_list: list</strong></dt><dd><p>Atlas to be warped to target image.</p>
+<dt><strong>template_brain_list</strong><span class="classifier">list</span></dt><dd><p>Atlas to be warped to target image.</p>
 </dd>
-<dt><strong>template_segmentation_list: list</strong></dt><dd><p>Labels corresponding to atlas.</p>
+<dt><strong>template_segmentation_list</strong><span class="classifier">list</span></dt><dd><p>Labels corresponding to atlas.</p>
 </dd>
 </dl>
 </dd>
@@ -202,17 +202,17 @@ or user provided label value</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>multiatlas_Labels</strong><span class="classifier">string (nifti file)</span></dt><dd></dd>
-<dt><strong>csf_label: integer</strong></dt><dd><p>label value corresponding to CSF in multiatlas file</p>
+<dt><strong>csf_label</strong><span class="classifier">integer</span></dt><dd><p>label value corresponding to CSF in multiatlas file</p>
 </dd>
-<dt><strong>left_gm_label: integer</strong></dt><dd><p>label value corresponding to Left Gray Matter in multiatlas file</p>
+<dt><strong>left_gm_label</strong><span class="classifier">integer</span></dt><dd><p>label value corresponding to Left Gray Matter in multiatlas file</p>
 </dd>
-<dt><strong>left_wm_label: integer</strong></dt><dd><p>label value corresponding to Left White Matter in multiatlas file</p>
+<dt><strong>left_wm_label</strong><span class="classifier">integer</span></dt><dd><p>label value corresponding to Left White Matter in multiatlas file</p>
 </dd>
-<dt><strong>right_gm_label: integer</strong></dt><dd><p>label value corresponding to Right Gray Matter in multiatlas file</p>
+<dt><strong>right_gm_label</strong><span class="classifier">integer</span></dt><dd><p>label value corresponding to Right Gray Matter in multiatlas file</p>
 </dd>
-<dt><strong>right_wm_label: integer</strong></dt><dd><p>label value corresponding to Right White Matter in multiatlas file</p>
+<dt><strong>right_wm_label</strong><span class="classifier">integer</span></dt><dd><p>label value corresponding to Right White Matter in multiatlas file</p>
 </dd>
-<dt><strong>include_ventricles: boolean</strong></dt><dd><p>whether include labels of ventricles in CSF or not</p>
+<dt><strong>include_ventricles</strong><span class="classifier">boolean</span></dt><dd><p>whether include labels of ventricles in CSF or not</p>
 </dd>
 </dl>
 </dd>
@@ -359,13 +359,13 @@ it and creating a mask that is used in further analysis.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>wf_name</strong><span class="classifier">string</span></dt><dd><p>Workflow Name</p>
 </dd>
-<dt><strong>use_priors: boolean</strong></dt><dd><p>Whether or not to use template-space tissue priors to further refine
+<dt><strong>use_priors</strong><span class="classifier">boolean</span></dt><dd><p>Whether or not to use template-space tissue priors to further refine
 the resulting segmentation tissue masks.</p>
 </dd>
-<dt><strong>use_threshold: list</strong></dt><dd><p>Choose threshold to further refine
+<dt><strong>use_threshold</strong><span class="classifier">list</span></dt><dd><p>Choose threshold to further refine
 the resulting segmentation tissue masks.</p>
 </dd>
-<dt><strong>use_erosion: boolean</strong></dt><dd><p>Whether or not to erode the resulting segmentation tissue masks.</p>
+<dt><strong>use_erosion</strong><span class="classifier">boolean</span></dt><dd><p>Whether or not to erode the resulting segmentation tissue masks.</p>
 </dd>
 <dt><strong>use_ants</strong><span class="classifier">boolean</span></dt><dd><p>Whether or not to use ANTs or FSL for transform application.</p>
 </dd>
