@@ -47,8 +47,39 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="functional-preprocessing">
-<h1>Functional Preprocessing<a class="headerlink" href="#functional-preprocessing" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-CPAC.func_preproc">
+<span id="functional-preprocessing"></span><h1>Functional Preprocessing<a class="headerlink" href="#module-CPAC.func_preproc" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="CPAC.func_preproc.get_idx">
+<code class="sig-prename descclassname">CPAC.func_preproc.</code><code class="sig-name descname">get_idx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_files</span></em>, <em class="sig-param"><span class="n">stop_idx</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">start_idx</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/func_preproc/func_preproc#get_idx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.func_preproc.get_idx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to get the first and the last slice for
+the functional run. It verifies the user specified
+first and last slice. If the values are not valid, it
+calculates and returns the very first and the last slice</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>in_file</strong><span class="classifier">string (nifti file)</span></dt><dd><p>Path to input functional run</p>
+</dd>
+<dt><strong>stop_idx</strong><span class="classifier">int</span></dt><dd><p>Last volume to be considered, specified by user
+in the configuration file</p>
+</dd>
+<dt><strong>stop_idx</strong><span class="classifier">int</span></dt><dd><p>First volume to be considered, specified by user
+in the configuration file</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>stop_idx</strong><span class="classifier">int</span></dt><dd><p>Value of first slice to consider for the functional run</p>
+</dd>
+<dt><strong>start_idx</strong><span class="classifier">int</span></dt><dd><p>Value of last slice to consider for the functional run</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
@@ -66,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../user/index">User Guide</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index">Welcome to CPAC’s developer documentation!</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../installation">Installing CPAC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nodes">Nodes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../workflow_documentation">Workflow Documentation</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index">Workflows</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="cpac_pipeline">C-PAC Pipeline Construction</a></li>

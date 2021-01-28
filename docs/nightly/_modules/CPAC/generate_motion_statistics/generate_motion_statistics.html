@@ -42,7 +42,7 @@
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">nibabel</span> <span class="k">as</span> <span class="nn">nb</span>
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">nipype_pipeline_engine</span> <span class="k">as</span> <span class="n">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
 <span class="kn">from</span> <span class="nn">CPAC.utils.interfaces.function</span> <span class="kn">import</span> <span class="n">Function</span>
 
@@ -232,7 +232,7 @@
                                  <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
                                  <span class="n">function</span><span class="o">=</span><span class="n">calculate_DVARS</span><span class="p">,</span>
                                  <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cal_DVARS&#39;</span><span class="p">)</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cal_DVARS&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">3.5</span><span class="p">)</span>
 
     <span class="c1"># calculate mean DVARS</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_node</span><span class="p">,</span> <span class="s1">&#39;motion_correct&#39;</span><span class="p">,</span> <span class="n">cal_DVARS</span><span class="p">,</span> <span class="s1">&#39;func_brain&#39;</span><span class="p">)</span>

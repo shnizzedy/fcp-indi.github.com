@@ -39,7 +39,7 @@
           <div class="body" role="main">
             
   <h1>Source code for CPAC.timeseries.timeseries_analysis</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span></span><span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">nipype_pipeline_engine</span> <span class="k">as</span> <span class="n">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
 
 <span class="kn">from</span> <span class="nn">nipype.interfaces</span> <span class="kn">import</span> <span class="n">fsl</span>
@@ -278,7 +278,7 @@
                          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
     <span class="n">timeseries_roi</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">ROIStats</span><span class="p">(),</span>
-                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;3dROIstats&#39;</span><span class="p">)</span>
+                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;3dROIstats&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
     <span class="n">timeseries_roi</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">quiet</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">timeseries_roi</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="s2">&quot;-1Dformat&quot;</span>
     <span class="c1"># TODO: add -mask_f2short for float parcellation mask</span>
@@ -382,7 +382,7 @@
                          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
     <span class="n">spatialReg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">GLM</span><span class="p">(),</span>
-                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;spatial_regression&#39;</span><span class="p">)</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;spatial_regression&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">4.5</span><span class="p">)</span>
 
     <span class="n">spatialReg</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">out_file</span> <span class="o">=</span> <span class="s1">&#39;spatial_map_timeseries.txt&#39;</span>
 

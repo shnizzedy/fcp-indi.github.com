@@ -39,7 +39,7 @@
           <div class="body" role="main">
             
   <h1>Source code for CPAC.registration.registration</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span></span><span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">nipype_pipeline_engine</span> <span class="k">as</span> <span class="n">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.utility</span> <span class="k">as</span> <span class="nn">util</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.fsl</span> <span class="k">as</span> <span class="nn">fsl</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.ants</span> <span class="k">as</span> <span class="nn">ants</span>
@@ -861,7 +861,7 @@
                                                       <span class="s1">&#39;warped_image&#39;</span><span class="p">],</span>
                                         <span class="n">function</span><span class="o">=</span><span class="n">hardcoded_reg</span><span class="p">,</span>
                                         <span class="n">imports</span><span class="o">=</span><span class="n">reg_imports</span><span class="p">),</span>
-                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calc_ants_warp&#39;</span><span class="p">)</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;calc_ants_warp&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">6.0</span><span class="p">)</span>
 
     <span class="n">calculate_ants_warp</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">num_threads</span>
 

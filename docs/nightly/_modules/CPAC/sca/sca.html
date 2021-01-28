@@ -40,7 +40,7 @@
             
   <h1>Source code for CPAC.sca.sca</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">nipype.interfaces.afni</span> <span class="kn">import</span> <span class="n">preprocess</span>
-<span class="kn">import</span> <span class="nn">nipype.pipeline.engine</span> <span class="k">as</span> <span class="nn">pe</span>
+<span class="kn">from</span> <span class="nn">CPAC.pipeline</span> <span class="kn">import</span> <span class="n">nipype_pipeline_engine</span> <span class="k">as</span> <span class="n">pe</span>
 <span class="kn">import</span> <span class="nn">nipype.algorithms.rapidart</span> <span class="k">as</span> <span class="nn">ra</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.afni</span> <span class="k">as</span> <span class="nn">afni</span>
 <span class="kn">import</span> <span class="nn">nipype.interfaces.fsl</span> <span class="k">as</span> <span class="nn">fsl</span>
@@ -146,7 +146,7 @@
 
     <span class="c1"># 2. Compute voxel-wise correlation with Seed Timeseries</span>
     <span class="n">corr</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">preprocess</span><span class="o">.</span><span class="n">TCorr1D</span><span class="p">(),</span>
-                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;3dTCorr1D&#39;</span><span class="p">)</span>
+                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;3dTCorr1D&#39;</span><span class="p">,</span> <span class="n">mem_gb</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
     <span class="n">corr</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">pearson</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">corr</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
 
@@ -331,7 +331,8 @@
     <span class="n">wflow</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;subject_timeseries&#39;</span><span class="p">,</span>
                   <span class="n">check_timeseries</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
 
-    <span class="n">temporalReg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">GLM</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;temporal_regression&#39;</span><span class="p">)</span>
+    <span class="n">temporalReg</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">GLM</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;temporal_regression&#39;</span><span class="p">,</span>
+        <span class="n">mem_gb</span><span class="o">=</span><span class="mf">4.0</span><span class="p">)</span>
     <span class="n">temporalReg</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">out_file</span> <span class="o">=</span> <span class="s1">&#39;temp_reg_map.nii.gz&#39;</span>
     <span class="n">temporalReg</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">out_z_name</span> <span class="o">=</span> <span class="s1">&#39;temp_reg_map_z.nii.gz&#39;</span>
 
@@ -441,16 +442,15 @@
 
     <span class="c1"># same workflow, except to run TSE and send it to the resource</span>
     <span class="c1"># pool so that it will not get sent to SCA</span>
-    <span class="n">resample_functional_roi_for_sca</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_func&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;in_roi&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;realignment&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;identity_matrix&#39;</span><span class="p">],</span>
-                                                       <span class="n">output_names</span><span class="o">=</span><span class="p">[</span>
-                                                           <span class="s1">&#39;out_func&#39;</span><span class="p">,</span>
-                                                           <span class="s1">&#39;out_roi&#39;</span><span class="p">],</span>
-                                                       <span class="n">function</span><span class="o">=</span><span class="n">resample_func_roi</span><span class="p">,</span>
-                                                       <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                                              <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;resample_functional_roi_for_sca_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">resample_functional_roi_for_sca</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+        <span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_func&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;in_roi&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;realignment&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;identity_matrix&#39;</span><span class="p">],</span>
+                      <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_func&#39;</span><span class="p">,</span> <span class="s1">&#39;out_roi&#39;</span><span class="p">],</span>
+                      <span class="n">function</span><span class="o">=</span><span class="n">resample_func_roi</span><span class="p">,</span>
+                      <span class="n">as_module</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;resample_functional_roi_for_sca_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">resample_functional_roi_for_sca</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">realignment</span> <span class="o">=</span> \
         <span class="n">cfg</span><span class="o">.</span><span class="n">timeseries_extraction</span><span class="p">[</span><span class="s1">&#39;realignment&#39;</span><span class="p">]</span>
