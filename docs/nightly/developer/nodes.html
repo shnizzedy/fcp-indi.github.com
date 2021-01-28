@@ -52,7 +52,7 @@
 <span id="n-procs"></span><span id="mem-gb"></span><p class="admonition-title">Warning</p>
 <p>A Nipype <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code> has an initialization parameter <code class="docutils literal notranslate"><span class="pre">mem_gb</span></code> that differs from the <a class="reference internal" href="../user/run/help"><span class="doc">commandline option</span></a> <code class="docutils literal notranslate"><span class="pre">--mem_gb</span></code>. While the commandline option is <strong>a limit</strong>, the Node initialization parameter is <strong>an estimate</strong> of the most memory that Node will consume when run. The Node parameter is not a limit; rather, this value is used to allocate system resources at runtime.</p>
 <p>Conversely, the commandline option <code class="docutils literal notranslate"><span class="pre">--n_cpus</span></code> is <strong>a limit</strong> and the Node initialization parameter <code class="docutils literal notranslate"><span class="pre">n_procs</span></code> is <strong>also a limit</strong> of the maximum number of threads a Node will be permmitted to consume.</p>
-<p>C-PAC automatically creates a JSON-like file called <code class="docutils literal notranslate"><span class="pre">callback.log</span></code> (via the function <code class="xref py py-func docutils literal notranslate"><span class="pre">log_nodes_cb</span></code>) when running. This file includes for each Node:</p>
+<p>C-PAC automatically creates a JSON-like file called <code class="docutils literal notranslate"><span class="pre">callback.log</span></code> (via the function <a class="reference internal" href="#CPAC.utils.monitoring.log_nodes_cb" title="CPAC.utils.monitoring.log_nodes_cb"><code class="xref py py-func docutils literal notranslate"><span class="pre">log_nodes_cb</span></code></a>) when running. This file includes for each Node:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>estimated memory,</p></li>
@@ -533,6 +533,201 @@ Priority goes to interface.</p>
 <dd><p>Update inputs</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt id="CPAC.utils.monitoring.log_nodes_cb">
+<code class="sig-prename descclassname">CPAC.utils.monitoring.</code><code class="sig-name descname">log_nodes_cb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node</span></em>, <em class="sig-param"><span class="n">status</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CPAC/utils/monitoring/monitoring#log_nodes_cb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.utils.monitoring.log_nodes_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to record node run statistics to a log file as json
+dictionaries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>node</strong><span class="classifier">nipype.pipeline.engine.Node</span></dt><dd><p>the node being logged</p>
+</dd>
+<dt><strong>status</strong><span class="classifier">string</span></dt><dd><p>acceptable values are ‘start’, ‘end’; otherwise it is
+considered and error</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd><p>this function does not return any values, it logs the node
+status info to the callback logger</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-CPAC.utils.monitoring.draw_gantt_chart"></span><p>Module to draw an html gantt chart from logfile produced by
+<code class="docutils literal notranslate"><span class="pre">CPAC.utils.monitoring.log_nodes_cb()</span></code>.</p>
+<p>See <a class="reference external" href="https://nipype.readthedocs.io/en/latest/api/generated/nipype.utils.draw_gantt_chart.html">https://nipype.readthedocs.io/en/latest/api/generated/nipype.utils.draw_gantt_chart.html</a></p>
+<dl class="py function">
+<dt id="CPAC.utils.monitoring.draw_gantt_chart.calculate_resource_timeseries">
+<code class="sig-prename descclassname">CPAC.utils.monitoring.draw_gantt_chart.</code><code class="sig-name descname">calculate_resource_timeseries</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">events</span></em>, <em class="sig-param"><span class="n">resource</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CPAC/utils/monitoring/draw_gantt_chart#calculate_resource_timeseries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.utils.monitoring.draw_gantt_chart.calculate_resource_timeseries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given as event dictionary, calculate the resources used
+as a timeseries</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>events</strong><span class="classifier">dictionary</span></dt><dd><p>a dictionary of event-based node dictionaries of the workflow
+execution statistics</p>
+</dd>
+<dt><strong>resource</strong><span class="classifier">string</span></dt><dd><p>the resource of interest to return the time-series of;
+e.g. ‘runtime_memory_gb’, ‘estimated_threads’, etc</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>time_series</strong><span class="classifier">pandas Series</span></dt><dd><p>a pandas Series object that contains timestamps as the indices
+and the resource amount as values</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="CPAC.utils.monitoring.draw_gantt_chart.create_event_dict">
+<code class="sig-prename descclassname">CPAC.utils.monitoring.draw_gantt_chart.</code><code class="sig-name descname">create_event_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_time</span></em>, <em class="sig-param"><span class="n">nodes_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CPAC/utils/monitoring/draw_gantt_chart#create_event_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.utils.monitoring.draw_gantt_chart.create_event_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to generate a dictionary of event (start/finish) nodes
+from the nodes list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>start_time</strong><span class="classifier">datetime.datetime</span></dt><dd><p>a datetime object of the pipeline start time</p>
+</dd>
+<dt><strong>nodes_list</strong><span class="classifier">list</span></dt><dd><p>a list of the node dictionaries that were run in the pipeline</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>events</strong><span class="classifier">dictionary</span></dt><dd><p>a dictionary where the key is the timedelta from the start of
+the pipeline execution to the value node it accompanies</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="CPAC.utils.monitoring.draw_gantt_chart.draw_nodes">
+<code class="sig-prename descclassname">CPAC.utils.monitoring.draw_gantt_chart.</code><code class="sig-name descname">draw_nodes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">nodes_list</span></em>, <em class="sig-param"><span class="n">cores</span></em>, <em class="sig-param"><span class="n">minute_scale</span></em>, <em class="sig-param"><span class="n">space_between_minutes</span></em>, <em class="sig-param"><span class="n">colors</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CPAC/utils/monitoring/draw_gantt_chart#draw_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.utils.monitoring.draw_gantt_chart.draw_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to return the html-string of the node drawings for the
+gantt chart</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>start</strong><span class="classifier">datetime.datetime obj</span></dt><dd><p>start time for first node</p>
+</dd>
+<dt><strong>nodes_list</strong><span class="classifier">list</span></dt><dd><p>a list of the node dictionaries</p>
+</dd>
+<dt><strong>cores</strong><span class="classifier">integer</span></dt><dd><p>the number of cores given to the workflow via the ‘n_procs’
+plugin arg</p>
+</dd>
+<dt><strong>total_duration</strong><span class="classifier">float</span></dt><dd><p>total duration of the workflow execution (in seconds)</p>
+</dd>
+<dt><strong>minute_scale</strong><span class="classifier">integer</span></dt><dd><p>the scale, in minutes, at which to plot line markers for the
+gantt chart; for example, minute_scale=10 means there are lines
+drawn at every 10 minute interval from start to finish</p>
+</dd>
+<dt><strong>space_between_minutes</strong><span class="classifier">integer</span></dt><dd><p>scale factor in pixel spacing between minute line markers</p>
+</dd>
+<dt><strong>colors</strong><span class="classifier">list</span></dt><dd><p>a list of colors to choose from when coloring the nodes in the
+gantt chart</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>result</strong><span class="classifier">string</span></dt><dd><p>the html-formatted string for producing the minutes-based
+time line markers</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="CPAC.utils.monitoring.draw_gantt_chart.generate_gantt_chart">
+<code class="sig-prename descclassname">CPAC.utils.monitoring.draw_gantt_chart.</code><code class="sig-name descname">generate_gantt_chart</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logfile</span></em>, <em class="sig-param"><span class="n">cores</span></em>, <em class="sig-param"><span class="n">minute_scale</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">space_between_minutes</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">colors</span><span class="o">=</span><span class="default_value">['#7070FF', '#4E4EB2', '#2D2D66', '#9B9BFF']</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CPAC/utils/monitoring/draw_gantt_chart#generate_gantt_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.utils.monitoring.draw_gantt_chart.generate_gantt_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a gantt chart in html showing the workflow execution based on a callback log file.
+This script was intended to be used with the MultiprocPlugin.
+The following code shows how to set up the workflow in order to generate the log file:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>logfile</strong><span class="classifier">string</span></dt><dd><p>filepath to the callback log file to plot the gantt chart of</p>
+</dd>
+<dt><strong>cores</strong><span class="classifier">integer</span></dt><dd><p>the number of cores given to the workflow via the ‘n_procs’
+plugin arg</p>
+</dd>
+<dt><strong>minute_scale</strong><span class="classifier">integer (optional); default=10</span></dt><dd><p>the scale, in minutes, at which to plot line markers for the
+gantt chart; for example, minute_scale=10 means there are lines
+drawn at every 10 minute interval from start to finish</p>
+</dd>
+<dt><strong>space_between_minutes</strong><span class="classifier">integer (optional); default=50</span></dt><dd><p>scale factor in pixel spacing between minute line markers</p>
+</dd>
+<dt><strong>colors</strong><span class="classifier">list (optional)</span></dt><dd><p>a list of colors to choose from when coloring the nodes in the
+gantt chart</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd><p>the function does not return any value but writes out an html
+file in the same directory as the callback log path passed in</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="CPAC.utils.monitoring.draw_gantt_chart.resource_overusage_report">
+<code class="sig-prename descclassname">CPAC.utils.monitoring.draw_gantt_chart.</code><code class="sig-name descname">resource_overusage_report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cblog</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CPAC/utils/monitoring/draw_gantt_chart#resource_overusage_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.utils.monitoring.draw_gantt_chart.resource_overusage_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to parse through a callback log for memory and/or
+thread usage above estimates / limits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>cblog: str</strong></dt><dd><p>path to callback.log</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>text_report: str</dt><dd></dd>
+<dt>excessive: dict</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="CPAC.utils.monitoring.draw_gantt_chart.resource_report">
+<code class="sig-prename descclassname">CPAC.utils.monitoring.draw_gantt_chart.</code><code class="sig-name descname">resource_report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">callback_log</span></em>, <em class="sig-param"><span class="n">num_cores</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CPAC/utils/monitoring/draw_gantt_chart#resource_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.utils.monitoring.draw_gantt_chart.resource_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to attempt to warn any excessive resource usage and
+generate an interactive HTML chart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>callback_log: str</strong></dt><dd><p>path to callback.log</p>
+</dd>
+<dt><strong>num_cores: int</strong></dt><dd></dd>
+<dt><strong>logger: Logger</strong></dt><dd><p><a class="reference external" href="https://docs.python.org/3/library/logging.html#logger-objects">https://docs.python.org/3/library/logging.html#logger-objects</a></p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
