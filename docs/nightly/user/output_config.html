@@ -59,76 +59,85 @@
 </ol>
 <div class="section" id="configuration-without-the-gui">
 <h2>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h2>
-<p>The following key/value pairs must be defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a> for C-PAC to run:</p>
-<table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 60%" />
-<col style="width: 30%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Key</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Potential Values</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>pipelineName</p></td>
-<td><p>A name that you would like to give to this pipeline.</p></td>
-<td><p>A string.</p></td>
-</tr>
-<tr class="row-odd"><td><p>workingDirectory</p></td>
-<td><p>The working directory to be used by the pipeline during the run.</p></td>
-<td><p>A path (e.g.,’/data/my_analysis/working’).</p></td>
-</tr>
-<tr class="row-even"><td><p>crashLogDirectory</p></td>
-<td><p>The directory where C-PAC will store crash logs.</p></td>
-<td><p>A path (e.g.,’/data/my_analysis/crash’).</p></td>
-</tr>
-<tr class="row-odd"><td><p>logDirectory</p></td>
-<td><p>Directory where CPAC should place run logs.</p></td>
-<td><p>A path (e.g.,’/data/my_analysis/logs’).</p></td>
-</tr>
-<tr class="row-even"><td><p>outputDirectory</p></td>
-<td><p>The output directory for the pipeline.</p></td>
-<td><p>A path (e.g.,’/data/my_analysis/output’).</p></td>
-</tr>
-<tr class="row-odd"><td><p>awsOutputBucketCredentials</p></td>
-<td><p>Path to a set of AWS credentials if your output directory is set to an S3 bucket.</p></td>
-<td><p>A path (e.g.,’/data/my_analysis/credentials.csv’).</p></td>
-</tr>
-<tr class="row-even"><td><p>s3Encryption</p></td>
-<td><p>Enable server-side 256-AES encryption on data to the S3 bucket.</p></td>
-<td><p>A list where ‘1’ represents ‘yes’ and ‘0’ represents ‘no’ (e.g., ‘[1]’).</p></td>
-</tr>
-<tr class="row-odd"><td><p>runSymbolicLinks</p></td>
-<td><p>Create a user-friendly, well-organized version of the output directory.</p></td>
-<td><p>A list where ‘1’ represents ‘yes’ and ‘0’ represents ‘no’ (e.g., ‘[1]’).</p></td>
-</tr>
-<tr class="row-even"><td><p>removeWorkingDir</p></td>
-<td><p>Deletes the contents of the Working Directory after running. Saves disk space, but steps will need to be re-run.</p></td>
-<td><p>True,False</p></td>
-</tr>
-<tr class="row-odd"><td><p>reGenerateOutputs</p></td>
-<td><p>Uses the contents of the Working Directory to regenerate all outputs and their symbolic links.</p></td>
-<td><p>True,False</p></td>
-</tr>
-</tbody>
-</table>
-<p>The box below contains an example of what these parameters might look like when defined in the YAML:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipelineName</span> <span class="p">:</span>  <span class="n">gelastic_epilepsy_pipeline</span>
-<span class="n">workingDirectory</span> <span class="p">:</span>  <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">working</span>
-<span class="n">crashLogDirectory</span> <span class="p">:</span>  <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">crash</span>
-<span class="n">logDirectory</span> <span class="p">:</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">logs</span>
-<span class="n">outputDirectory</span> <span class="p">:</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">output</span>
-<span class="n">awsOutputBucketCredentials</span> <span class="p">:</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">credentials</span><span class="o">.</span><span class="n">csv</span>
-<span class="n">s3Encryption</span> <span class="p">:</span>  <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">generateQualityControlImages</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">write_func_outputs</span> <span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">write_debugging_outputs</span> <span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">removeWorkingDir</span> <span class="p">:</span>  <span class="kc">False</span>
-<span class="n">reGenerateOutputs</span> <span class="p">:</span>  <span class="kc">False</span>
-<span class="n">runSymbolicLinks</span> <span class="p">:</span>  <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">pipeline_setup</span><span class="p">:</span>
+
+  <span class="c1"># Name for this pipeline configuration - useful for identification.</span>
+  <span class="nt">pipeline_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cpac-default-pipeline</span>
+
+  <span class="nt">output_directory</span><span class="p">:</span>
+
+    <span class="c1"># Directory where C-PAC should write out processed data, logs, and crash reports.</span>
+    <span class="c1"># - If running in a container (Singularity/Docker), you can simply set this to an arbitrary</span>
+    <span class="c1">#   name like &#39;/output&#39;, and then map (-B/-v) your desired output directory to that label.</span>
+    <span class="c1"># - If running outside a container, this should be a full path to a directory.</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/output</span>
+
+    <span class="c1"># (Optional) Path to a BIDS-Derivatives directory that already has outputs.</span>
+    <span class="c1">#   - If provided, C-PAC will ingress the already-computed outputs from this directory and</span>
+    <span class="c1">#     continue the pipeline from where they leave off.</span>
+    <span class="c1">#   - If left as &#39;None&#39;, C-PAC will ingress any already-computed outputs from the</span>
+    <span class="c1">#     output directory you provide above in &#39;path&#39; instead, the default behavior.</span>
+    <span class="c1">#   - This option may be useful if you want to ingress already-existing resources</span>
+    <span class="c1">#     but don&#39;t want to write new outputs back into the same directory.</span>
+    <span class="nt">source_outputs_dir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/source/output</span>
+
+    <span class="c1"># Set to True to make C-PAC ingress the outputs from the primary output directory if they</span>
+    <span class="c1"># exist, even if a source_outputs_dir is provided</span>
+    <span class="c1">#   - Setting to False will pull from source_outputs_dir every time, over-writing any</span>
+    <span class="c1">#     calculated outputs in the main output directory</span>
+    <span class="c1">#   - C-PAC will still pull from source_outputs_dir if the main output directory is</span>
+    <span class="c1">#     empty, however</span>
+    <span class="nt">pull_source_once</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+    <span class="c1"># Include extra versions and intermediate steps of functional preprocessing in the output directory.</span>
+    <span class="nt">write_func_outputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+    <span class="c1"># Include extra outputs in the output directory that may be of interest when more information is needed.</span>
+    <span class="nt">write_debugging_outputs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+    <span class="c1"># Output directory format and structure.</span>
+    <span class="c1"># Options: default, ndmg</span>
+    <span class="nt">output_tree</span><span class="p">:</span> <span class="s">&quot;default&quot;</span>
+
+    <span class="c1"># Generate quality control pages containing preprocessing and derivative outputs.</span>
+    <span class="nt">generate_quality_control_images</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+  <span class="nt">working_directory</span><span class="p">:</span>
+
+    <span class="c1"># Directory where C-PAC should store temporary and intermediate files.</span>
+    <span class="c1"># - This directory must be saved if you wish to re-run your pipeline from where you left off (if not completed).</span>
+    <span class="c1"># - NOTE: As it stores all intermediate files, this directory can grow to become very</span>
+    <span class="c1">#   large, especially for data with a large amount of TRs.</span>
+    <span class="c1"># - If running in a container (Singularity/Docker), you can simply set this to an arbitrary</span>
+    <span class="c1">#   name like &#39;/work&#39;, and then map (-B/-v) your desired output directory to that label.</span>
+    <span class="c1"># - If running outside a container, this should be a full path to a directory.</span>
+    <span class="c1"># - This can be written to &#39;/tmp&#39; if you do not intend to save your working directory.</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/tmp</span>
+
+    <span class="c1"># Deletes the contents of the Working Directory after running.</span>
+    <span class="c1"># This saves disk space, but any additional preprocessing or analysis will have to be completely re-run.</span>
+    <span class="nt">remove_working_dir</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+  <span class="nt">log_directory</span><span class="p">:</span>
+
+    <span class="c1"># Whether to write log details of the pipeline run to the logging files.</span>
+    <span class="nt">run_logging</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
+
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/logs</span>
+
+
+    <span class="c1"># Full path to the FSL version to be used by CPAC.</span>
+    <span class="c1"># If you have specified an FSL path in your .bashrc file, this path will be set automatically.</span>
+    <span class="nt">FSLDIR</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0</span>
+
+  <span class="nt">Amazon-AWS</span><span class="p">:</span>
+
+    <span class="c1"># If setting the &#39;Output Directory&#39; to an S3 bucket, insert the path to your AWS credentials file here.</span>
+    <span class="nt">aws_output_bucket_credentials</span><span class="p">:</span>
+
+    <span class="c1"># Enable server-side 256-AES encryption on data to the S3 bucket</span>
+    <span class="nt">s3_encryption</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 </pre></div>
 </div>
 </div>
