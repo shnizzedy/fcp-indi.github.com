@@ -696,14 +696,14 @@ thread usage above estimates / limits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>cblog</strong><span class="classifier">str</span></dt><dd><p>path to callback.log</p>
+<dt><strong>cblog: str</strong></dt><dd><p>path to callback.log</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>text_report</strong><span class="classifier">str</span></dt><dd></dd>
-<dt><strong>excessive</strong><span class="classifier">dict</span></dt><dd></dd>
+<dt>text_report: str</dt><dd></dd>
+<dt>excessive: dict</dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -717,22 +717,16 @@ generate an interactive HTML chart.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>callback_log</strong><span class="classifier">str</span></dt><dd><p>path to callback.log</p>
+<dt><strong>callback_log: str</strong></dt><dd><p>path to callback.log</p>
 </dd>
-<dt><strong>num_cores</strong><span class="classifier">int</span></dt><dd></dd>
-<dt><strong>logger</strong><span class="classifier">Logger</span></dt><dd><p><a class="reference external" href="https://docs.python.org/3/library/logging.html#logger-objects">https://docs.python.org/3/library/logging.html#logger-objects</a></p>
+<dt><strong>num_cores: int</strong></dt><dd></dd>
+<dt><strong>logger: Logger</strong></dt><dd><p><a class="reference external" href="https://docs.python.org/3/library/logging.html#logger-objects">https://docs.python.org/3/library/logging.html#logger-objects</a></p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
 <dt>None</dt><dd></dd>
-</dl>
-</dd>
-<dt class="field-odd">Warns</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>ResourceWarning</dt><dd><p>If any resources are overused or if the report generation fails.</p>
-</dd>
 </dl>
 </dd>
 </dl>

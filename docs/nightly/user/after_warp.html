@@ -83,43 +83,38 @@
 </div>
 <div class="section" id="configuration-using-a-yaml-file">
 <h3>Configuration Using a YAML File<a class="headerlink" href="#configuration-using-a-yaml-file" title="Permalink to this headline">¶</a></h3>
-<p>The following key/value pairs must be defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a> for C-PAC to run the after warping options:</p>
-<table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 60%" />
-<col style="width: 30%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Key</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Potential Values</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>run_smoothing</p></td>
-<td><p>On: [1], Off: [0], On/Off: [1,0]</p></td>
-<td><p>A list where ‘1’ represents ‘yes’ and ‘0’ represents ‘no’ (e.g., ‘[1]’ or <cite>[1,0]</cite> for On/Off).</p></td>
-</tr>
-<tr class="row-odd"><td><p>fwhm</p></td>
-<td><p>Full Width at Half Maximum of the Gaussian kernel used during spatial smoothing.</p></td>
-<td><p>A list of numerical values (e.g.,[2.5,6]).</p></td>
-</tr>
-<tr class="row-even"><td><p>smoothing_order</p></td>
-<td><p>Run smoothing before or after z-scoring.</p></td>
-<td><p>A list with either ‘Before’ or ‘After’.</p></td>
-</tr>
-<tr class="row-odd"><td><p>runZScoring</p></td>
-<td><p>Determines format of outputs. 0 will produce non-z-scored outputs, 1 will produce z-scores of outputs.</p></td>
-<td><p>A list where ‘1’ represents ‘yes’ and ‘0’ represents ‘no’ (e.g., ‘[1]’ or <cite>[1,0]</cite> for On/Off).</p></td>
-</tr>
-</tbody>
-</table>
-<p>The box below contains an example of what these parameters might look like when defined in the pipeline configuration YAML:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">run_smoothing</span> <span class="p">:</span>  <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">fwhm</span> <span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
-<span class="n">smoothing_order</span> <span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;Before&#39;</span><span class="p">]</span>
-<span class="n">runZScoring</span> <span class="p">:</span>  <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="c1"># OUTPUTS AND DERIVATIVES</span>
+<span class="c1"># -----------------------</span>
+<span class="nt">post_processing</span><span class="p">:</span>
+
+  <span class="nt">spatial_smoothing</span><span class="p">:</span>
+
+    <span class="c1"># Smooth the derivative outputs.</span>
+    <span class="c1"># Set as [&#39;nonsmoothed&#39;] to disable smoothing. Set as both to get both.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Options:</span>
+    <span class="c1">#     [&#39;smoothed&#39;, &#39;nonsmoothed&#39;]</span>
+    <span class="nt">output</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;smoothed&#39;</span><span class="p p-Indicator">]</span>
+
+    <span class="c1"># Tool to use for smoothing.</span>
+    <span class="c1"># &#39;FSL&#39; for FSL MultiImageMaths for FWHM provided</span>
+    <span class="c1"># &#39;AFNI&#39; for AFNI 3dBlurToFWHM for FWHM provided</span>
+    <span class="nt">smoothing_method</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;FSL&#39;</span><span class="p p-Indicator">]</span>
+
+    <span class="c1"># Full Width at Half Maximum of the Gaussian kernel used during spatial smoothing.</span>
+    <span class="c1"># this is a fork point</span>
+    <span class="c1">#   i.e. multiple kernels - fwhm: [4,6,8]</span>
+    <span class="nt">fwhm</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">4</span><span class="p p-Indicator">]</span>
+
+  <span class="nt">z-scoring</span><span class="p">:</span>
+
+    <span class="c1"># z-score standardize the derivatives. This may be needed for group-level analysis.</span>
+    <span class="c1"># Set as [&#39;raw&#39;] to disable z-scoring. Set as both to get both.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Options:</span>
+    <span class="c1">#     [&#39;z-scored&#39;, &#39;raw&#39;]</span>
+    <span class="nt">output</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;z-scored&#39;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </div>
