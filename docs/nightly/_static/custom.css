@@ -13,9 +13,11 @@ object {
 
 .bibtex .brackets::before {
   content: "[";
+  display: none;
 }
 .bibtex .brackets::after {
-  content: "]"
+  content: "]";
+  display: none;
 }
 
 .bibtex.label {
