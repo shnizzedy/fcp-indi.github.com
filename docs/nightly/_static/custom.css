@@ -13,10 +13,12 @@ object {
 
 .bibtex .brackets::before {
   content: "[";
-  display: none;
 }
 .bibtex .brackets::after {
   content: "]";
+}
+
+.bibtex a.fn-backref::before, .bibtex a.fn-backref::after {
   display: none;
 }
 
