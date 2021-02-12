@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>&lt;no title&gt; &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <title>Configuration without the GUI &#8212; C-PAC 1.8.0.dev Beta documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -28,7 +28,7 @@
           <a href="../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">&lt;no title&gt;</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Configuration without the GUI</a></li> 
       </ul>
     </div>  
 
@@ -50,52 +50,39 @@ The parameters provided in the GUI are described below:</p>
 5.Dwell Time-[float,s]: The dwell time is also known as echo spacing, and it is the time between the start of the readout of two successive lines in k-space during the EPI acquisition. This is a value obtained from the functional epi (NOT the fieldmap)  Here, the default value is 0.0005s.
 6. Dwell to asymmetric ratio-[float]: This is the ratio between the Dwell time, as referenced above and the asymmetric time. Here, the default value is 0.93902439.
 7. Phase encoding direction-[string]: This is the position of the voxels in the input image, and can have values of x/y/z or -x/-y/-z. This is predominantly a trail and error based parameter.</p>
-<p>Configuration without the GUI
-The following key/value pairs must be defined in your pipeline configuration YAML for C-PAC to run Distortion correction</p>
-<p>Key                                     Descripton                              Potential Values
-Perform distortion                      Run Distortion                          A switch with [‘On’],
-correction with field map               correction workflow                     [‘Off’] or [‘On’,’Off’]
-correction</p>
-<p>Skull-strip the magnitude               Use either FSL-BET                      A list to choose between
-file                                    or AFNI-3dSkullStrip                    [‘FSL-BET’] and</p>
-<blockquote>
-<div><p>for the brain extraction                [3d-SkullStrip’]
-of magnitude image.</p>
-</div></blockquote>
-<p>Brain Extraction Threshold              The ratio between
-(or shrink factor in                     brain voxels to include                Float,default value is 0.5
-AFNI-3dSkullStrip)                       and those to exclude(strip)</p>
-<dl class="simple">
-<dt>DeltaTE, ms                              The time delay between                 Float,default value is 2.46</dt><dd><p>first magnitude image and              for SIEMENS scanner.
-second magnitude image.
-The value is specific to each
-session.This parameter is
-used for preparing the
-field map.</p>
-</dd>
-<dt>Dwell Time, s                            Also called the “echo spacing” Float,default value is</dt><dd><p>time, this is used as a parameter      0.0005
-for FUGUE interface.</p>
-</dd>
-</dl>
-<p>Dwell to asymmetric                      Ratio between the dwell time           Float,default value is
-ratio                                    to the asymmetric time. This           0.93902439</p>
-<blockquote>
-<div><p>parameter is used for running
-the EPI-registration</p>
-</div></blockquote>
-<p>Phase encoding                         Direction of unwrapping, the             (x/y/z or -x/-y/-z)
-direction                                location of voxels in the input</p>
-<blockquote>
-<div><p>image</p>
-</div></blockquote>
-<p>The box below contains an example of what these parameters might look like when defined in the YAML:</p>
-<p>runEPI_DistCorr                       :              [1]
-fmap_distcorr_skullstrip                :               [BET]
-fmap_distcorr_frac                    :                 [0.5]
-fmap_distcorr_deltaTE                 :                 [2.46]
-fmap_distcorr_dwell_time              :                 [0.0005]
-fmap_distcorr_dwell_asym_ratio        :                 [0.93902439]
-fmap_distcorr_pedir                     :               -y</p>
+<div class="section" id="configuration-without-the-gui">
+<h1>Configuration without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h1>
+<p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="../pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>      <span class="nt">fmap_skullstrip_BET_frac</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
+
+      <span class="c1"># Set the threshold value for the skull-stripping of the magnitude file. Depending on the data, a tighter extraction may be necessary in order to prevent noisy voxels from interfering with preparing the field map.</span>
+      <span class="c1"># The default value is 0.6.</span>
+      <span class="nt">fmap_skullstrip_AFNI_threshold</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.6</span>
+
+ <span class=" -Error"> </span><span class="nt">func_masking</span><span class="p">:</span>
+
+    <span class="c1"># using: [&#39;AFNI&#39;, &#39;FSL&#39;, &#39;FSL_AFNI&#39;, &#39;Anatomical_Refined&#39;, &#39;Anatomical_Based&#39;]</span>
+    <span class="c1"># this is a fork point</span>
+    <span class="nt">using</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;AFNI&#39;</span><span class="p p-Indicator">]</span>
+
+    <span class="nt">FSL-BET</span><span class="p">:</span>
+
+      <span class="c1"># Apply to 4D FMRI data, if bold_bet_functional_mean_boolean: Off.</span>
+      <span class="c1"># Mutually exclusive with functional, reduce_bias, robust, padding, remove_eyes, surfaces</span>
+      <span class="c1"># It must be &#39;on&#39; if select &#39;reduce_bias&#39;, &#39;robust&#39;, &#39;padding&#39;, &#39;remove_eyes&#39;, or &#39;bet_surfaces&#39; on</span>
+      <span class="nt">functional_mean_boolean</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+      <span class="c1"># Set the threshold value controling the brain vs non-brain voxels.</span>
+      <span class="nt">frac</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.3</span>
+
+      <span class="c1"># Mesh created along with skull stripping</span>
+      <span class="nt">mesh_boolean</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+      <span class="c1"># Create a surface outline image</span>
+      <span class="nt">outline</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+</pre></div>
+</div>
+</div>
 
 
             <div class="clearer"></div>
@@ -138,7 +125,7 @@ fmap_distcorr_pedir                     :               -y</p>
           <a href="../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">&lt;no title&gt;</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Configuration without the GUI</a></li> 
       </ul>
     </div>
 
