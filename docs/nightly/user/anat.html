@@ -51,12 +51,12 @@
 <h1>Anatomical Preprocessing<a class="headerlink" href="#anatomical-preprocessing" title="Permalink to this headline">¶</a></h1>
 <div class="flowchart-container"><object data="../_static/flowcharts/anatomical.svg" type="image/svg+xml"></object></div><div class="section" id="initial-preprocessing">
 <h2>Initial Preprocessing<a class="headerlink" href="#initial-preprocessing" title="Permalink to this headline">¶</a></h2>
-<p>Initial preprocessing offers methods like <a class="reference external" href="https://doi.org/10.1016/j.neuroimage.2013.04.127">ACPC Alignment</a> , <a class="reference external" href="https://www.iro.umontreal.ca/~mignotte/IFT6150/Articles/Buades-NonLocal.pdf">non-local means filtering</a> and <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3071855/">N4 bias field correction</a> to preprocess anatomical images.</p>
+<p>Initial preprocessing offers methods like ACPC Alignment <span class="bibtex" id="id1">[anat-glasser_minimal_2013]</span>, non-local means filtering <span class="bibtex" id="id2">[anat-buades_nonlocal_2005]</span> and N4 bias field correction <span class="bibtex" id="id3">[anat-tustison_n4itk_2010]</span> to preprocess anatomical images.</p>
 <p>C-PAC provides options for configuring initial preprocessing - users can select:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/Washington-University/HCPpipelines/blob/master/PreFreeSurfer/scripts/ACPCAlignment.sh">ACPC Alignment</a></p></li>
-<li><p><a class="reference external" href="https://manpages.debian.org/experimental/ants/DenoiseImage.1.en.html">ANT’s DenoiseImage</a></p></li>
-<li><p><a class="reference external" href="http://manpages.ubuntu.com/manpages/trusty/man1/N4BiasFieldCorrection.1.html">ANT’s N4BiasFieldCorrection</a></p></li>
+<li><p>ACPC Alignment <span class="bibtex" id="id4">[anat-wusmhumanconnectomeproject_acpcalignment_2019]</span></p></li>
+<li><p>ANTs DenoiseImage <span class="bibtex" id="id5">[anat-_denoiseimage_2017]</span></p></li>
+<li><p>ANTs N4BiasFieldCorrection <span class="bibtex" id="id6">[anat-_n4biasfieldcorrection_]</span></p></li>
 </ul>
 <div class="section" id="configuring-cpac-to-run-initial-preprocessing">
 <h3>Configuring CPAC to run initial preprocessing:<a class="headerlink" href="#configuring-cpac-to-run-initial-preprocessing" title="Permalink to this headline">¶</a></h3>
@@ -87,9 +87,9 @@
 <p>Skull-stripping is the removal of skull and other non-brain tissue like dura and eyes from anatomical images, which could otherwise complicate co-registration and normalization steps.</p>
 <p>C-PAC provides options for configuring skull-stripping - users can select:</p>
 <ul class="simple">
-<li><p>AFNI: <a class="reference external" href="https://afni.nimh.nih.gov/pub/dist/doc/program_help/3dSkullStrip.html">3dSkullStrip</a></p></li>
-<li><p>FSL: <a class="reference external" href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/BET/UserGuide">BET</a>. Further parameters for each of these tools are configurable.</p></li>
-<li><p>niworkflows-ants: <a class="reference external" href="https://github.com/poldracklab/niworkflows/blob/master/niworkflows/anat/ants.py">niworkflows’s antsBrainExtraction</a></p></li>
+<li><p>AFNI: 3dSkullStrip <span class="bibtex" id="id7">[anat-saad_afni_2021]</span></p></li>
+<li><p>FSL: BET <span class="bibtex" id="id8">[anat-_bet_2018]</span><span class="bibtex" id="id9">[anat-smith_fast_2002]</span>. Further parameters for each of these tools are configurable.</p></li>
+<li><p>niworkflows-ants: niworkflows’s antsBrainExtraction <span class="bibtex" id="id10">[anat-neuroimagingpreprocessingtools_ants_2019]</span></p></li>
 <li><p>U-Net: U-Net is a Fully Convolutional Network (FCN) for image segmentation. Users can now select this option for brain extraction, especially optimal for non-human primate data.</p></li>
 <li><p>Providing their own brain mask for extraction</p></li>
 </ul>
@@ -168,11 +168,11 @@
 </div>
 <div class="section" id="anatomical-registration">
 <h2>Anatomical Registration<a class="headerlink" href="#anatomical-registration" title="Permalink to this headline">¶</a></h2>
-<p>In order to compare brain activations between subjects, individual functional and anatomical images must first be transformed to match a common template. The most commonly used template (<a class="reference external" href="http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009">MNI152</a>) is maintained by the Montreal Neurological Institute, and is created by combining data from the brains of many different individuals to create an “average” brain. The image below shows how an individual brain is warped to match the shape of the template.</p>
+<p>In order to compare brain activations between subjects, individual functional and anatomical images must first be transformed to match a common template. The most commonly used template (MNI152 <span class="bibtex" id="id11">[anat-themcconnellbrainimagingcentre_icbm_2014]</span>) is maintained by the Montreal Neurological Institute, and is created by combining data from the brains of many different individuals to create an “average” brain. The image below shows how an individual brain is warped to match the shape of the template.</p>
 <div class="figure align-default">
 <img alt="../_images/registration.png" src="../_images/registration.png" />
 </div>
-<p>C-PAC provides the option of either using FSL (<a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FLIRT">FLIRT</a> and <a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FNIRT">FNIRT</a>) or <a class="reference external" href="http://stnava.github.io/ANTs/">Advanced Normalization Tools (ANTS)</a> to register images. Although the use of ANTS requires an extra step during the C-PAC install process, we have found its results to be significantly better than those produced by FSL (a conclusion supported by a <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/20123029">recent systematic analysis by Klein et al.</a>).</p>
+<p>C-PAC provides the option of either using FSL (FLIRT <span class="bibtex" id="id12">[anat-_flirt_2013]</span><span class="bibtex" id="id13">[jenkinson_global_2001]</span><span class="bibtex" id="id14">[jenkinson_improved_2002]</span> and <a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FNIRT">FNIRT</a>) or <a class="reference external" href="http://stnava.github.io/ANTs/">Advanced Normalization Tools (ANTS)</a> to register images. Although the use of ANTS requires an extra step during the C-PAC install process, we have found its results to be significantly better than those produced by FSL (a conclusion supported by a <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/20123029">recent systematic analysis by Klein et al.</a>).</p>
 <p>During registration, individual anatomical images are first transformed to match the common template. Then, the functional data for each subject is registered to their own transformed anatomical image. Finally, functional derivative files are transformed to the common template. For more detail on how C-PAC computes these steps, please see the <a class="reference external" href="http://fcp-indi.github.io/docs/developer/workflows/registration.html">Registration Page of the developer documentation</a>.</p>
 <p>By default, C-PAC will register subject brains to the MNI152 template included with FSL. Users wishing to register their data to a different template (such as a group specific template) can specify alternative template files.</p>
 <div class="section" id="configuring-cpac-to-run-anatomical-registration">
@@ -431,8 +431,8 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 <li><p><strong>Right White Matter Label Value - [integer]:</strong> Label value corresponding to Right White Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT">Freesurfer Color Lookup Table.</a></p></li>
 </ol>
 </div>
-<div class="section" id="id6">
-<h3>Configuration Without the GUI<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>Configuration Without the GUI<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">segmentation</span><span class="p">:</span>
 
@@ -561,11 +561,6 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<ul class="simple" id="bibtex-bibliography-user/anat-0">
-<li><p>Saad, Z.S. 2021 February. <a class="reference external" href="https://afni.nimh.nih.gov/pub/dist/doc/program_help/3dSkullStrip.html">AFNI program: 3dSkullStrip</a>.</p></li>
-<li><p>Smith, S.M. 2002. Fast robust automated brain extraction. <em>Human brain mapping 17(3):143–155</em>. <a class="reference external" href="https://dx.doi.org/10.1002/hbm.10062">doi:10.1002/hbm.10062</a></p></li>
-<li><p>Tustison, N.J., Avants, B.B., Cook, P.A., Zheng, Y., Egan, A., Yushkevich, P.A., and Gee, J.C. 2010 June. N4ITK: Improved N3 Bias Correction. <em>IEEE trans med imaging 29(6):1310–1320</em>. <a class="reference external" href="https://dx.doi.org/10.1109/TMI.2010.2046908">doi:10.1109/TMI.2010.2046908</a></p></li>
-</ul>
 </div>
 </div>
 
@@ -611,7 +606,7 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 </li>
 <li class="toctree-l5"><a class="reference internal" href="#anatomical-tissue-segmentation">Anatomical Tissue Segmentation</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#configuring-cpac-to-run-anatomical-tissue-segmentation">Configuring CPAC to Run Anatomical Tissue Segmentation</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#id6">Configuration Without the GUI</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#id19">Configuration Without the GUI</a></li>
 </ul>
 </li>
 <li class="toctree-l5"><a class="reference internal" href="#references">References</a></li>

@@ -51,26 +51,26 @@
 <h1>Amplitude of Low Frequency Fluctuations (ALFF) and fractional ALFF (f/ALFF)<a class="headerlink" href="#amplitude-of-low-frequency-fluctuations-alff-and-fractional-alff-f-alff" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction-background">
 <h2>Introduction &amp; Background<a class="headerlink" href="#introduction-background" title="Permalink to this headline">¶</a></h2>
-<p>Slow fluctuations in activity are a fundamental feature of the resting brain, and their presence is key to determining correlated activity between brain regions and defining resting state networks. The relative magnitude of these fluctuations can differ between brain regions and between subjects, and thus may act as a marker of individual differences or dysfunction. <strong>Amplitude of Low Frequency Fluctuations</strong> <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pubmed/16919409">(ALFF; Zang et al., 2007)</a> and <strong>fractional Amplitude of Low Frequency Fluctuations</strong> <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3902859/">(f/ALFF; Zou et al., 2008)</a> are related measures that quantify the amplitude of these low frequency oscillations (LFOs).</p>
-<p>ALFF is defined as the total power within the frequency range between 0.01 and 0.1 Hz, and thus indexes the strength or intensity of LFO. f/ALFF is defined as the power within the low-frequency range (0.01-0.1 Hz) divided by the total power in the entire detectable frequency range, and represents the relative contribution of specific LFO to the whole frequency range (Zuo et al., 2010).</p>
+<p>Slow fluctuations in activity are a fundamental feature of the resting brain, and their presence is key to determining correlated activity between brain regions and defining resting state networks. The relative magnitude of these fluctuations can differ between brain regions and between subjects, and thus may act as a marker of individual differences or dysfunction. <strong>Amplitude of Low Frequency Fluctuations</strong> (ALFF) <span class="bibtex" id="id1">[alff-zang_altered_2007]</span> and <strong>fractional Amplitude of Low Frequency Fluctuations</strong> (f/ALFF) <span class="bibtex" id="id2">[alff-zou_improved_2008]</span> are related measures that quantify the amplitude of these low frequency oscillations (LFOs).</p>
+<p>ALFF is defined as the total power within the frequency range between 0.01 and 0.1 Hz, and thus indexes the strength or intensity of LFO. f/ALFF is defined as the power within the low-frequency range (0.01-0.1 Hz) divided by the total power in the entire detectable frequency range, and represents the relative contribution of specific LFO to the whole frequency range <span class="bibtex" id="id3">[alff-zuo_oscillating_2010]</span>.</p>
 </div>
 <div class="section" id="computation-and-analysis-considerations">
 <h2>Computation and Analysis Considerations<a class="headerlink" href="#computation-and-analysis-considerations" title="Permalink to this headline">¶</a></h2>
 <p>All computations are performed in a subject’s native space. After transforming voxel time series frequency information into the power domain, calculation of these measures is relatively simple. ALFF is calculated as the sum of amplitudes within a specific low frequency range. f/ALFF is calculated as a fraction of the sum of amplitudes across the entire frequency range detectable in a given signal. For both measures, amplitudes in subject-level maps are transformed into Z-scores to create standardized subject-level maps. Anatomical images and Z-score maps are then transformed into MNI152 standard space. For more detail on how CPAC computes these steps, please see the <a class="reference external" href="http://fcp-indi.github.com/docs/developer/workflows/alff.html">ALFF and f/ALFF Page of the developer documentation</a>.</p>
-<p>Though both ALFF and f/ALFF are sensitive mostly to signal from gray matter, ALFF is more prone to noise from physiological sources, particularly near the ventricles and large blood vessels (Zuo et al., 2008;2010). The figure below (from Zuo et al., 2010) shows areas in which ALFF shows higher amplitude than f/ALFF, as well as the relative sensitivity of these measures to gray matter.</p>
+<p>Though both ALFF and f/ALFF are sensitive mostly to signal from gray matter, ALFF is more prone to noise from physiological sources, particularly near the ventricles and large blood vessels <span class="bibtex" id="id4">[alff-zou_improved_2008]</span><span class="bibtex" id="id5">[alff-zuo_oscillating_2010]</span>. The figure below (from <span class="bibtex" id="id6">[alff-zuo_oscillating_2010]</span>) shows areas in which ALFF shows higher amplitude than f/ALFF, as well as the relative sensitivity of these measures to gray matter.</p>
 <div class="figure align-default">
 <img alt="../_images/alff_zuo_difference.png" src="../_images/alff_zuo_difference.png" />
 </div>
-<p>Both ALFF and f/ALFF show moderate to high test-retest reliability in gray matter regions, but reliability for ALFF tends to be higher than for fALFF (Zuo et al., 2010). As it is more reliable, ALFF may be more sensitive to differences between groups and individuals. The figure below (also from Zuo et al., 2010) shows differences in test-retest reliability as measured by Intraclass Correlation (ICC; Shrout and Fleiss, 1979).</p>
+<p>Both ALFF and f/ALFF show moderate to high test-retest reliability in gray matter regions, but reliability for ALFF tends to be higher than for fALFF <span class="bibtex" id="id7">[alff-zuo_oscillating_2010]</span>. As it is more reliable, ALFF may be more sensitive to differences between groups and individuals. The figure below (also from <span class="bibtex" id="id8">[alff-zuo_oscillating_2010]</span>) shows differences in test-retest reliability as measured by Intraclass Correlation (ICC) <span class="bibtex" id="id9">[alff-shrout_intraclass_1979]</span>.</p>
 <div class="figure align-default">
 <img alt="../_images/alff_zuo_trt.png" src="../_images/alff_zuo_trt.png" />
 </div>
-<p>Finally, as these measures require a constant timecourse on which to do frequency and power analyses, they cannot be run on scrubbed data (Power et al., 2012) in which volumes with excessive movement have been removed.</p>
+<p>Finally, as these measures require a constant timecourse on which to do frequency and power analyses, they cannot be run on scrubbed data <span class="bibtex" id="id10">[alff-power_spurious_2012]</span> in which volumes with excessive movement have been removed.</p>
 </div>
 <div class="section" id="applications-and-recommendations">
 <h2>Applications and Recommendations<a class="headerlink" href="#applications-and-recommendations" title="Permalink to this headline">¶</a></h2>
-<p>ALFF and f/ALFF have been used to uncover differences in amplitude power both between subjects and between conditions. Zang et al. (2007) found that children with ADHD show reduced ALFF amplitude in some brain areas and increased amplitude in others compared to controls, while Yan and colleagues (2009) saw increased amplitude in the Default Mode Network during Eyes Open vs. Eyes Closed resting periods. Changes in f/ALFF have also been observed with aging (Hu et al., 2013).</p>
-<p>The increased specificity to the gray matter signal for f/ALFF compared to ALFF may suggest favoring the former, but doing so would come at the cost of reduced test-retest reliability. As such, in order to maximize the reliability across subjects while providing sufficient specificity to examine individual differences, reporting both measures is recommended (Zuo et al., 2010).</p>
+<p>ALFF and f/ALFF have been used to uncover differences in amplitude power both between subjects and between conditions. Zang et al. <span class="bibtex" id="id11">[alff-zang_altered_2007]</span> found that children with ADHD show reduced ALFF amplitude in some brain areas and increased amplitude in others compared to controls, while Yan and colleagues (2009) saw increased amplitude in the Default Mode Network during Eyes Open vs. Eyes Closed resting periods. Changes in f/ALFF have also been observed with aging <span class="bibtex" id="id12">[alff-hu_changes_2014]</span>.</p>
+<p>The increased specificity to the gray matter signal for f/ALFF compared to ALFF may suggest favoring the former, but doing so would come at the cost of reduced test-retest reliability. As such, in order to maximize the reliability across subjects while providing sufficient specificity to examine individual differences, reporting both measures is recommended <span class="bibtex" id="id13">[alff-zuo_oscillating_2010]</span>.</p>
 </div>
 <div class="section" id="configuring-cpac-to-run-alff-and-f-alff">
 <h2>Configuring CPAC to Run ALFF and f/ALFF<a class="headerlink" href="#configuring-cpac-to-run-alff-and-f-alff" title="Permalink to this headline">¶</a></h2>
@@ -102,27 +102,6 @@
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-user/alff-0"><dl class="citation">
-<dt class="bibtex label" id="hu-changes-2014"><span class="brackets">1</span></dt>
-<dd><p>Hu, S., Chao, H.H.-A., Zhang, S., Ide, J.S., and Li, C.-S. R. 2014 May. Changes in cerebral morphometry and amplitude of low-frequency fluctuations of BOLD signals during healthy aging: correlation with inhibitory control. <em>Brain struct funct 219(3):983–994</em>. <a class="reference external" href="https://dx.doi.org/10.1007/s00429-013-0548-0">doi:10.1007/s00429-013-0548-0</a></p>
-</dd>
-<dt class="bibtex label" id="power-spurious-2012"><span class="brackets">2</span></dt>
-<dd><p>Power, J.D., Barnes, K.A., Snyder, A.Z., Schlaggar, B.L., and Petersen, S.E. 2012 February. Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion. <em>Neuroimage 59(3):2142–2154</em>. <a class="reference external" href="https://dx.doi.org/10.1016/j.neuroimage.2011.10.018">doi:10.1016/j.neuroimage.2011.10.018</a></p>
-</dd>
-<dt class="bibtex label" id="shrout-intraclass-1979"><span class="brackets">3</span></dt>
-<dd><p>Shrout, P.E. and Fleiss, J.L. 1979 March. Intraclass correlations: uses in assessing rater reliability. <em>Psychol bull 86(2):420–428</em>. <a class="reference external" href="https://dx.doi.org/10.1037/0033-2909.86.2.420">doi:10.1037/0033-2909.86.2.420</a></p>
-</dd>
-<dt class="bibtex label" id="zang-altered-2007"><span class="brackets">4</span></dt>
-<dd><p>Zang, Y.-F., He, Y., Zhu, C.-Z., Cao, Q.-J., Sui, M.-Q., Liang, M., Tian, L.-X., Jiang, T.-Z., and Wang, Y.-F. 2007 March. Altered baseline brain activity in children with ADHD revealed by resting-state functional MRI. <em>Brain dev 29(2):83–91</em>. <a class="reference external" href="https://dx.doi.org/10.1016/j.braindev.2006.07.002">doi:10.1016/j.braindev.2006.07.002</a></p>
-</dd>
-<dt class="bibtex label" id="zou-improved-2008"><span class="brackets">5</span></dt>
-<dd><p>Zou, Q.-H., Zhu, C.-Z., Yang, Y., Zuo, X.-N., Long, X.-Y., Cao, Q.-J., Wang, Y.-F., and Zang, Y.-F. 2008 July. An improved approach to detection of amplitude of low-frequency fluctuation (ALFF) for resting-state fMRI: fractional ALFF. <em>J neurosci methods 172(1):137–141</em>. <a class="reference external" href="https://dx.doi.org/10.1016/j.jneumeth.2008.04.012">doi:10.1016/j.jneumeth.2008.04.012</a></p>
-</dd>
-<dt class="bibtex label" id="zuo-oscillating-2010"><span class="brackets">6</span></dt>
-<dd><p>Zuo, X.-N., DiMartino, A., Kelly, C., Shehzad, Z.E., Gee, D.G., Klein, D.F., Castellanos, F.X., Biswal, B.B., and Milham, M.P. 2010 January. The Oscillating Brain: Complex and Reliable. <em>Neuroimage 49(2):1432–1445</em>. <a class="reference external" href="https://dx.doi.org/10.1016/j.neuroimage.2009.09.037">doi:10.1016/j.neuroimage.2009.09.037</a></p>
-</dd>
-</dl>
-</p>
 </div>
 </div>
 
