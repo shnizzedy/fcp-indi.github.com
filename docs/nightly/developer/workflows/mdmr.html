@@ -51,7 +51,7 @@
 <span id="multivariate-distance-matrix-regression-mdmr"></span><h1>Multivariate Distance Matrix Regression (MDMR)<a class="headerlink" href="#module-CPAC.cwas" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="CPAC.cwas.create_cwas">
-<code class="sig-prename descclassname">CPAC.cwas.</code><code class="sig-name descname">create_cwas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'cwas'</span></em>, <em class="sig-param"><span class="n">working_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">crash_dir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/cwas/pipeline#create_cwas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.cwas.create_cwas" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">CPAC.cwas.</span></code><code class="sig-name descname"><span class="pre">create_cwas</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cwas'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crash_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/cwas/pipeline#create_cwas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.cwas.create_cwas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connectome Wide Association Studies</p>
 <p>This workflow performs CWAS on a group of subjects.</p>
 <dl class="field-list simple">
@@ -103,9 +103,9 @@ inputspec.parallel_nodes : integer
 </pre></div>
 </div>
 <p>Workflow Graph:</p>
-<a class="reference internal image-reference" href="developer/workflows/../../images/generated/cwas.png"><img alt="developer/workflows/../../images/generated/cwas.png" src="developer/workflows/../../images/generated/cwas.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="images/generated/cwas.png"><img alt="images/generated/cwas.png" src="images/generated/cwas.png" style="width: 500px;" /></a>
 <p>Detailed Workflow Graph:</p>
-<a class="reference internal image-reference" href="developer/workflows/../../images/generated/cwas_detailed.png"><img alt="developer/workflows/../../images/generated/cwas_detailed.png" src="developer/workflows/../../images/generated/cwas_detailed.png" style="width: 500px;" /></a>
+<a class="reference internal image-reference" href="images/generated/cwas_detailed.png"><img alt="images/generated/cwas_detailed.png" src="images/generated/cwas_detailed.png" style="width: 500px;" /></a>
 <p class="rubric">References</p>
 <dl class="citation">
 <dt class="label" id="rc1cc86c9c014-1"><span class="brackets">1</span></dt>
@@ -116,7 +116,7 @@ inputspec.parallel_nodes : integer
 
 <dl class="py function">
 <dt id="CPAC.cwas.joint_mask">
-<code class="sig-prename descclassname">CPAC.cwas.</code><code class="sig-name descname">joint_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">subjects</span></em>, <em class="sig-param"><span class="n">mask_file</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/cwas/cwas#joint_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.cwas.joint_mask" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">CPAC.cwas.</span></code><code class="sig-name descname"><span class="pre">joint_mask</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subjects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/cwas/cwas#joint_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.cwas.joint_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a joint mask (intersection) common to all the subjects in a provided list
 and a provided mask</p>
 <dl class="field-list simple">
@@ -139,7 +139,7 @@ and a provided mask</p>
 
 <dl class="py function">
 <dt id="CPAC.cwas.nifti_cwas">
-<code class="sig-prename descclassname">CPAC.cwas.</code><code class="sig-name descname">nifti_cwas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">subjects</span></em>, <em class="sig-param"><span class="n">mask_file</span></em>, <em class="sig-param"><span class="n">regressor_file</span></em>, <em class="sig-param"><span class="n">participant_column</span></em>, <em class="sig-param"><span class="n">columns_string</span></em>, <em class="sig-param"><span class="n">permutations</span></em>, <em class="sig-param"><span class="n">voxel_range</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/cwas/cwas#nifti_cwas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CPAC.cwas.nifti_cwas" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">CPAC.cwas.</span></code><code class="sig-name descname"><span class="pre">nifti_cwas</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subjects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regressor_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">participant_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permutations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">voxel_range</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/cwas/cwas#nifti_cwas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.cwas.nifti_cwas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs CWAS for a group of subjects</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -259,7 +259,7 @@ easier</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

@@ -201,7 +201,7 @@
                                        <span class="s1">&#39;blur_fwhm&#39;</span><span class="p">,</span>
                                        <span class="s1">&#39;fac&#39;</span><span class="p">,</span>
                                        <span class="s1">&#39;monkey&#39;</span><span class="p">]),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;AFNI_options&#39;</span><span class="p">)</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;AFNI_options_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">skullstrip_args</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;spat_norm&#39;</span><span class="p">,</span>
                                                          <span class="s1">&#39;spat_norm_dxyz&#39;</span><span class="p">,</span>
@@ -228,7 +228,7 @@
                                                          <span class="s1">&#39;monkey&#39;</span><span class="p">],</span>
                                             <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;expr&#39;</span><span class="p">],</span>
                                             <span class="n">function</span><span class="o">=</span><span class="n">create_3dskullstrip_arg_string</span><span class="p">),</span>
-                              <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_skullstrip_args&#39;</span><span class="p">)</span>
+                              <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;anat_skullstrip_args_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">inputnode_afni</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
         <span class="n">mask_vol</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
@@ -310,7 +310,7 @@
     <span class="p">])</span>
 
     <span class="n">anat_skullstrip</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">SkullStrip</span><span class="p">(),</span>
-                              <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_skullstrip&#39;</span><span class="p">)</span>
+                              <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;anat_skullstrip_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">anat_skullstrip</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">([</span><span class="s1">&#39;desc-preproc_T1w&#39;</span><span class="p">,</span> <span class="s1">&#39;desc-reorient_T1w&#39;</span><span class="p">,</span>
@@ -320,7 +320,7 @@
 
     <span class="c1"># Generate anatomical brain mask</span>
     <span class="n">anat_brain_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">Calc</span><span class="p">(),</span>
-                              <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_brain_mask&#39;</span><span class="p">)</span>
+                              <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;anat_brain_mask_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">anat_brain_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="s1">&#39;step(a)&#39;</span>
     <span class="n">anat_brain_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
@@ -350,43 +350,43 @@
                                        <span class="s1">&#39;surfaces&#39;</span><span class="p">,</span>
                                        <span class="s1">&#39;threshold&#39;</span><span class="p">,</span>
                                        <span class="s1">&#39;vertical_gradient&#39;</span><span class="p">]),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;BET_options&#39;</span><span class="p">)</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;BET_options_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">anat_skullstrip</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
-        <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">BET</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;anat_skullstrip&#39;</span><span class="p">)</span>
+        <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">BET</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;anat_BET_skullstrip_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">anat_skullstrip</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">output_type</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
 
     <span class="n">inputnode_bet</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
-        <span class="n">frac</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">frac</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;frac&#39;</span><span class="p">],</span>
         <span class="n">mask_boolean</span><span class="o">=</span>
-        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;mask_boolean&#39;</span><span class="p">],</span>
         <span class="n">mesh_boolean</span><span class="o">=</span>
-        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;mesh_boolean&#39;</span><span class="p">],</span>
-        <span class="n">outline</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">outline</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;outline&#39;</span><span class="p">],</span>
-        <span class="n">padding</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">padding</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;padding&#39;</span><span class="p">],</span>
-        <span class="n">radius</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">radius</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;radius&#39;</span><span class="p">],</span>
         <span class="n">reduce_bias</span><span class="o">=</span>
-        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;reduce_bias&#39;</span><span class="p">],</span>
         <span class="n">remove_eyes</span><span class="o">=</span>
-        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;remove_eyes&#39;</span><span class="p">],</span>
-        <span class="n">robust</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">robust</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;robust&#39;</span><span class="p">],</span>
-        <span class="n">skull</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">skull</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;skull&#39;</span><span class="p">],</span>
-        <span class="n">surfaces</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">surfaces</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;surfaces&#39;</span><span class="p">],</span>
-        <span class="n">threshold</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">threshold</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;threshold&#39;</span><span class="p">],</span>
         <span class="n">vertical_gradient</span><span class="o">=</span>
-        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_wf</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">anatomical_preproc</span><span class="p">[</span><span class="s1">&#39;brain_extraction&#39;</span><span class="p">][</span>
             <span class="s1">&#39;FSL-BET&#39;</span><span class="p">][</span><span class="s1">&#39;vertical_gradient&#39;</span><span class="p">],</span>
     <span class="p">)</span>
 
@@ -463,7 +463,7 @@
     <span class="n">unet_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;model_path&#39;</span><span class="p">,</span> <span class="s1">&#39;cimg_in&#39;</span><span class="p">],</span>
                                       <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_path&#39;</span><span class="p">],</span>
                                       <span class="n">function</span><span class="o">=</span><span class="n">predict_volumes</span><span class="p">),</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;unet_mask&#39;</span><span class="p">)</span>
+                        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;unet_mask_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;unet_model&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">unet_mask</span><span class="p">,</span> <span class="s1">&#39;model_path&#39;</span><span class="p">)</span>
@@ -477,7 +477,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># fslmaths &lt;whole head&gt; -mul &lt;mask&gt; brain.nii.gz</span>
     <span class="n">unet_masked_brain</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">MultiImageMaths</span><span class="p">(),</span>
-                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;unet_masked_brain&#39;</span><span class="p">)</span>
+                                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;unet_masked_brain_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">unet_masked_brain</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">op_string</span> <span class="o">=</span> <span class="s2">&quot;-mul </span><span class="si">%s</span><span class="s2">&quot;</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">([</span><span class="s1">&#39;desc-wf_T1w&#39;</span><span class="p">,</span> <span class="s1">&#39;desc-reorient_T1w&#39;</span><span class="p">,</span>
@@ -488,7 +488,8 @@
     <span class="c1"># flirt -v -dof 6 -in brain.nii.gz -ref NMT_SS_0.5mm.nii.gz -o brain_rot2atl -omat brain_rot2atl.mat -interp sinc</span>
     <span class="c1"># TODO: antsRegistration -z 0 -d 3 -r [NMT_SS_0.5mm.nii.gz,brain.nii.gz,0] -o [transform,brain_rot2atl.nii.gz,brain_inv_rot2atl.nii.gz] -t Rigid[0.1] -m MI[NMT_SS_0.5mm.nii.gz,brain.nii.gz,1,32,Regular,0.25] -c [1000x500x250x100,1e-08,10] -s 3.0x2.0x1.0x0.0 -f 8x4x2x1 -u 1 -t Affine[0.1] -m MI[NMT_SS_0.5mm.nii.gz,brain.nii.gz,1,32,Regular,0.25] -c [1000x500x250x100,1e-08,10] -s 3.0x2.0x1.0x0.0 -f 8x4x2x1 -u 1</span>
     <span class="n">native_brain_to_template_brain</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span>
-                                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;native_brain_to_template_brain&#39;</span><span class="p">)</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;native_brain_to_template_&#39;</span>
+                                                  <span class="sa">f</span><span class="s1">&#39;brain_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">native_brain_to_template_brain</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dof</span> <span class="o">=</span> <span class="mi">6</span>
     <span class="n">native_brain_to_template_brain</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">interp</span> <span class="o">=</span> <span class="s1">&#39;sinc&#39;</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">unet_masked_brain</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
@@ -500,7 +501,8 @@
     <span class="c1"># flirt -in head.nii.gz -ref NMT_0.5mm.nii.gz -o head_rot2atl -applyxfm -init brain_rot2atl.mat</span>
     <span class="c1"># TODO: antsApplyTransforms -d 3 -i head.nii.gz -r NMT_0.5mm.nii.gz -n Linear -o head_rot2atl.nii.gz -v -t transform1Rigid.mat -t transform2Affine.mat -t transform0DerivedInitialMovingTranslation.mat</span>
     <span class="n">native_head_to_template_head</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span>
-                                           <span class="n">name</span><span class="o">=</span><span class="s1">&#39;native_head_to_template_head&#39;</span><span class="p">)</span>
+                                           <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;native_head_to_template_&#39;</span>
+                                                <span class="sa">f</span><span class="s1">&#39;head_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">native_head_to_template_head</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">apply_xfm</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">([</span><span class="s1">&#39;desc-wf_T1w&#39;</span><span class="p">,</span> <span class="s1">&#39;desc-reorient_T1w&#39;</span><span class="p">,</span>
@@ -515,7 +517,7 @@
 
     <span class="c1"># fslmaths NMT_SS_0.5mm.nii.gz -bin templateMask.nii.gz</span>
     <span class="n">template_brain_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">MathsCommand</span><span class="p">(),</span>
-                                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;template_brain_mask&#39;</span><span class="p">)</span>
+                                  <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;template_brain_mask_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">template_brain_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="s1">&#39;-bin&#39;</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;T1w_brain_template&#39;</span><span class="p">)</span>
@@ -523,7 +525,8 @@
 
     <span class="c1"># ANTS 3 -m  CC[head_rot2atl.nii.gz,NMT_0.5mm.nii.gz,1,5] -t SyN[0.25] -r Gauss[3,0] -o atl2T1rot -i 60x50x20 --use-Histogram-Matching  --number-of-affine-iterations 10000x10000x10000x10000x10000 --MI-option 32x16000</span>
     <span class="n">ants_template_head_to_template</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">ants</span><span class="o">.</span><span class="n">Registration</span><span class="p">(),</span>
-                                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;template_head_to_template&#39;</span><span class="p">)</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;template_head_to_&#39;</span>
+                                                  <span class="sa">f</span><span class="s1">&#39;template_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">ants_template_head_to_template</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CC&#39;</span><span class="p">]</span>
     <span class="n">ants_template_head_to_template</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">metric_weight</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
     <span class="n">ants_template_head_to_template</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">transforms</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SyN&#39;</span><span class="p">]</span>
@@ -544,7 +547,7 @@
 
     <span class="n">template_head_transform_to_template</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
         <span class="n">interface</span><span class="o">=</span><span class="n">ants</span><span class="o">.</span><span class="n">ApplyTransforms</span><span class="p">(),</span>
-        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;template_head_transform_to_template&#39;</span><span class="p">)</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;template_head_transform_to_template_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">template_head_transform_to_template</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">3</span>
 
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">template_brain_mask</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
@@ -564,7 +567,8 @@
 
     <span class="c1"># flirt -in brain_rot2atl_mask.nii.gz -ref brain.nii.gz -o brain_mask.nii.gz -applyxfm -init brain_rot2native.mat</span>
     <span class="n">template_brain_to_native_brain</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FLIRT</span><span class="p">(),</span>
-                                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;template_brain_to_native_brain&#39;</span><span class="p">)</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;template_brain_to_native_&#39;</span>
+                                                  <span class="sa">f</span><span class="s1">&#39;brain_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">template_brain_to_native_brain</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">apply_xfm</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">template_head_transform_to_template</span><span class="p">,</span> <span class="s1">&#39;output_image&#39;</span><span class="p">,</span>
                <span class="n">template_brain_to_native_brain</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
@@ -574,7 +578,8 @@
                <span class="s1">&#39;in_matrix_file&#39;</span><span class="p">)</span>
 
     <span class="c1"># fslmaths brain_mask.nii.gz -thr .5 -bin brain_mask_thr.nii.gz</span>
-    <span class="n">refined_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">Threshold</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;refined_mask&#39;</span><span class="p">)</span>
+    <span class="n">refined_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">Threshold</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;refined_mask&#39;</span>
+                                                           <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">refined_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">thresh</span> <span class="o">=</span> <span class="mf">0.5</span>
     <span class="n">refined_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="s1">&#39;-bin&#39;</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">template_brain_to_native_brain</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">refined_mask</span><span class="p">,</span>
@@ -641,7 +646,8 @@
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;inputs&quot;: [&quot;T1w&quot;],</span>
-<span class="sd">     &quot;outputs&quot;: [&quot;desc-reorient_T1w&quot;]}</span>
+<span class="sd">     &quot;outputs&quot;: [&quot;desc-preproc_T1w&quot;,</span>
+<span class="sd">                 &quot;desc-reorient_T1w&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">anat_deoblique</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">Refit</span><span class="p">(),</span>
@@ -658,7 +664,8 @@
 
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">anat_deoblique</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">anat_reorient</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
 
-    <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;desc-reorient_T1w&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">anat_reorient</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">)}</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;desc-preproc_T1w&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">anat_reorient</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">),</span>
+               <span class="s1">&#39;desc-reorient_T1w&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">anat_reorient</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">)}</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">wf</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span></div>
 
@@ -702,8 +709,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
-<span class="sd">                &quot;space-T1w_desc-brain_mask&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
+<span class="sd">                 &quot;space-T1w_desc-brain_mask&quot;),</span>
 <span class="sd">                &quot;T1w_ACPC_template&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;desc-preproc_T1w&quot;,</span>
 <span class="sd">                 &quot;space-T1w_desc-brain_mask&quot;]}</span>
@@ -738,8 +745,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
-<span class="sd">                &quot;T1w_brain_ACPC_template&quot;],</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
+<span class="sd">                 &quot;T1w_brain_ACPC_template&quot;)],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;desc-preproc_T1w&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -770,8 +777,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
-<span class="sd">                &quot;space-T1w_desc-brain_mask&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
+<span class="sd">                 &quot;space-T1w_desc-brain_mask&quot;),</span>
 <span class="sd">                &quot;T1w_brain_ACPC_template&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;desc-preproc_T1w&quot;,</span>
 <span class="sd">                 &quot;space-T1w_desc-brain_mask&quot;]}</span>
@@ -976,7 +983,8 @@
 <span class="sd">     &quot;option_val&quot;: &quot;UNet&quot;,</span>
 <span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
 <span class="sd">                &quot;T1w_brain_template&quot;,</span>
-<span class="sd">                &quot;T1w_template&quot;],</span>
+<span class="sd">                &quot;T1w_template&quot;,</span>
+<span class="sd">                &quot;unet_model&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-T1w_desc-brain_mask&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -994,7 +1002,8 @@
 <span class="sd">     &quot;option_val&quot;: &quot;UNet&quot;,</span>
 <span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
 <span class="sd">                &quot;T1w_brain_template&quot;,</span>
-<span class="sd">                &quot;T1w_template&quot;],</span>
+<span class="sd">                &quot;T1w_template&quot;,</span>
+<span class="sd">                &quot;unet_model&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-T1w_desc-acpcbrain_mask&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -1056,8 +1065,8 @@
 <span class="sd">     &quot;switch&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
-<span class="sd">                [&quot;space-T1w_desc-brain_mask&quot;, &quot;space-T1w_desc-acpcbrain_mask&quot;]],</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
+<span class="sd">                 [&quot;space-T1w_desc-brain_mask&quot;, &quot;space-T1w_desc-acpcbrain_mask&quot;])],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;desc-brain_T1w&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -1104,9 +1113,7 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run_freesurfer&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
-<span class="sd">                &quot;T1w_brain_template&quot;,</span>
-<span class="sd">                &quot;T1w_template&quot;],</span>
+<span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;]],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-T1w_desc-brain_mask&quot;,</span>
 <span class="sd">                 &quot;freesurfer_subject_dir&quot;,</span>
 <span class="sd">                 &quot;label-CSF_mask&quot;,</span>
@@ -1119,19 +1126,20 @@
 <span class="sd">                 &quot;sulcal_depth_surface_maps&quot;,</span>
 <span class="sd">                 &quot;cortical_thickness_surface_maps&quot;,</span>
 <span class="sd">                 &quot;cortical_volume_surface_maps&quot;,</span>
-<span class="sd">                 &quot;white_matter_surface_mesh&quot;]}</span>
+<span class="sd">                 &quot;white_matter_surface_mesh&quot;,</span>
+<span class="sd">                 &quot;raw_average&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">reconall</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">freesurfer</span><span class="o">.</span><span class="n">ReconAll</span><span class="p">(),</span>
                        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;anat_freesurfer_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="n">freesurfer_subject_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-        <span class="n">cfg</span><span class="o">.</span><span class="n">pipeline_setup</span><span class="p">[</span><span class="s1">&#39;working_directory&#39;</span><span class="p">],</span>
+    <span class="n">freesurfer_subject_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">pipeline_setup</span><span class="p">[</span>
+                                              <span class="s1">&#39;working_directory&#39;</span><span class="p">][</span><span class="s1">&#39;path&#39;</span><span class="p">],</span>
         <span class="sa">f</span><span class="s1">&#39;anat_preproc_freesurfer_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
         <span class="s1">&#39;anat_freesurfer&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">freesurfer_subject_dir</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">mkdirs</span><span class="p">(</span><span class="n">freesurfer_subject_dir</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">freesurfer_subject_dir</span><span class="p">)</span>
 
     <span class="n">reconall</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">directive</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span>
     <span class="n">reconall</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">subjects_dir</span> <span class="o">=</span> <span class="n">freesurfer_subject_dir</span>
@@ -1142,7 +1150,40 @@
                                      <span class="s2">&quot;T1w&quot;</span><span class="p">])</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">reconall</span><span class="p">,</span> <span class="s1">&#39;T1_files&#39;</span><span class="p">)</span>
 
-    <span class="c1">### segmentation output ###</span>
+    <span class="c1"># register FS brain mask to native space</span>
+    <span class="n">fs_brain_mask_to_native</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
+        <span class="n">interface</span><span class="o">=</span><span class="n">freesurfer</span><span class="o">.</span><span class="n">ApplyVolTransform</span><span class="p">(),</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fs_brain_mask_to_native&#39;</span><span class="p">)</span>
+    <span class="n">fs_brain_mask_to_native</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">reg_header</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">reconall</span><span class="p">,</span> <span class="s1">&#39;brainmask&#39;</span><span class="p">,</span> <span class="n">fs_brain_mask_to_native</span><span class="p">,</span> <span class="s1">&#39;source_file&#39;</span><span class="p">)</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">reconall</span><span class="p">,</span> <span class="s1">&#39;rawavg&#39;</span><span class="p">,</span> <span class="n">fs_brain_mask_to_native</span><span class="p">,</span> <span class="s1">&#39;target_file&#39;</span><span class="p">)</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">reconall</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">,</span>
+               <span class="n">fs_brain_mask_to_native</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">)</span>
+
+    <span class="c1"># convert brain mask file from .mgz to .nii.gz</span>
+    <span class="n">fs_brain_mask_to_nifti</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">],</span>
+                                                   <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">],</span>
+                                                   <span class="n">function</span><span class="o">=</span><span class="n">mri_convert</span><span class="p">),</span>
+                                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fs_brainmask_to_nifti&#39;</span><span class="p">)</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">fs_brain_mask_to_native</span><span class="p">,</span> <span class="s1">&#39;transformed_file&#39;</span><span class="p">,</span>
+               <span class="n">fs_brain_mask_to_nifti</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
+
+    <span class="c1"># binarize the brain mask</span>
+    <span class="n">binarize_fs_brain_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">maths</span><span class="o">.</span><span class="n">MathsCommand</span><span class="p">(),</span>
+                                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;binarize_fs_brainmask&#39;</span><span class="p">)</span>
+    <span class="n">binarize_fs_brain_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="s1">&#39;-bin&#39;</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">fs_brain_mask_to_nifti</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
+               <span class="n">binarize_fs_brain_mask</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
+
+    <span class="c1"># fill holes</span>
+    <span class="n">fill_fs_brain_mask</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">afni</span><span class="o">.</span><span class="n">MaskTool</span><span class="p">(),</span>
+                                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fill_fs_brainmask&#39;</span><span class="p">)</span>
+    <span class="n">fill_fs_brain_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">fill_holes</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">fill_fs_brain_mask</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">binarize_fs_brain_mask</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
+               <span class="n">fill_fs_brain_mask</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
+
     <span class="c1"># register FS segmentations (aseg.mgz) to native space</span>
     <span class="n">fs_aseg_to_native</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">freesurfer</span><span class="o">.</span><span class="n">ApplyVolTransform</span><span class="p">(),</span>
                                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fs_aseg_to_native&#39;</span><span class="p">)</span>
@@ -1173,6 +1214,7 @@
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">fs_aseg_to_nifti</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">pick_tissue</span><span class="p">,</span> <span class="s1">&#39;multiatlas_Labels&#39;</span><span class="p">)</span>
 
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;space-T1w_desc-brain_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">fill_fs_brain_mask</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">),</span>
         <span class="s1">&#39;freesurfer_subject_dir&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">reconall</span><span class="p">,</span> <span class="s1">&#39;subjects_dir&#39;</span><span class="p">),</span>
         <span class="s1">&#39;label-CSF_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">pick_tissue</span><span class="p">,</span> <span class="s1">&#39;csf_mask&#39;</span><span class="p">),</span>
         <span class="s1">&#39;label-WM_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">pick_tissue</span><span class="p">,</span> <span class="s1">&#39;wm_mask&#39;</span><span class="p">),</span>
@@ -1238,7 +1280,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

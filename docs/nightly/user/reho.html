@@ -82,17 +82,17 @@
 <div class="section" id="configuration-without-the-gui">
 <h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">regional_homogeneity</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>    <span class="nt">/cpac_templates/ho_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/rois_3mm.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
 
-  <span class="c1"># ReHo</span>
-  <span class="c1"># Calculate Regional Homogeneity (ReHo) for all voxels.</span>
-  <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
+  <span class="c1"># Normalize each time series before running Dual Regression SCA.</span>
+ <span class=" -Error"> </span><span class="nt">norm_timeseries_for_DR</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
 
-  <span class="c1"># Number of neighboring voxels used when calculating ReHo</span>
-  <span class="c1"># 7 (Faces)</span>
-  <span class="c1"># 19 (Faces + Edges)</span>
-  <span class="c1"># 27 (Faces + Edges + Corners)</span>
-  <span class="nt">cluster_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">27</span>
+
+<span class="nt">amplitude_low_frequency_fluctuation</span><span class="p">:</span>
+
+  <span class="c1"># ALFF &amp; f/ALFF</span>
+  <span class="c1"># Calculate Amplitude of Low Frequency Fluctuations (ALFF) and and fractional ALFF (f/ALFF) for all voxels.</span>
 </pre></div>
 </div>
 </div>
@@ -204,7 +204,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

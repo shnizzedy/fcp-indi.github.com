@@ -85,17 +85,17 @@
 <div class="section" id="configuration-without-the-gui">
 <h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">amplitude_low_frequency_fluctuation</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>  <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
 
-  <span class="c1"># ALFF &amp; f/ALFF</span>
-  <span class="c1"># Calculate Amplitude of Low Frequency Fluctuations (ALFF) and and fractional ALFF (f/ALFF) for all voxels.</span>
-  <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
-
-  <span class="c1"># Frequency cutoff (in Hz) for the high-pass filter used when calculating f/ALFF.</span>
-  <span class="nt">highpass_cutoff</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.01</span><span class="p p-Indicator">]</span>
-
-  <span class="c1"># Frequency cutoff (in Hz) for the low-pass filter used when calculating f/ALFF</span>
-  <span class="nt">lowpass_cutoff</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">0.1</span><span class="p p-Indicator">]</span>
+  <span class="c1"># Enter paths to region-of-interest (ROI) NIFTI files (.nii or .nii.gz) to be used for seed-based correlation analysis, and then select which types of analyses to run.</span>
+  <span class="c1"># Denote which analyses to run for each ROI path by listing the names below. For example, if you wish to run Avg and MultReg, you would enter: &#39;/path/to/ROI.nii.gz&#39;: Avg, MultReg</span>
+  <span class="c1"># available analyses:</span>
+  <span class="c1">#   /path/to/atlas.nii.gz: Avg, DualReg, MultReg</span>
+  <span class="nt">sca_roi_paths</span><span class="p">:</span>
+    <span class="nt">/cpac_templates/PNAS_Smith09_rsn10.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DualReg</span>
+    <span class="nt">/cpac_templates/CC400.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/ez_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
+    <span class="nt">/cpac_templates/aal_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
 </pre></div>
 </div>
 </div>
@@ -220,7 +220,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

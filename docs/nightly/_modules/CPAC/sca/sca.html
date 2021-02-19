@@ -133,8 +133,7 @@
 
     <span class="n">sca</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Workflow</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name_sca</span><span class="p">)</span>
     <span class="n">inputNode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;timeseries_one_d&#39;</span><span class="p">,</span>
-                                                <span class="s1">&#39;functional_file&#39;</span><span class="p">,</span>
-                                                <span class="p">]),</span>
+                                                       <span class="s1">&#39;functional_file&#39;</span><span class="p">,]),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
     <span class="n">outputNode</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">IdentityInterface</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span>
@@ -142,7 +141,7 @@
                                                     <span class="s1">&#39;correlation_files&#39;</span><span class="p">,</span>
                                                     <span class="s1">&#39;Z_score&#39;</span><span class="p">,</span>
                                                     <span class="p">]),</span>
-                        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;outputspec&#39;</span><span class="p">)</span>
 
     <span class="c1"># 2. Compute voxel-wise correlation with Seed Timeseries</span>
     <span class="n">corr</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">preprocess</span><span class="o">.</span><span class="n">TCorr1D</span><span class="p">(),</span>
@@ -165,35 +164,33 @@
     <span class="n">concat</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s1">&#39;NIFTI_GZ&#39;</span>
 
     <span class="c1"># also write out volumes as individual files</span>
-    <span class="n">split</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">Split</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;split_raw_volumes_sca&#39;</span><span class="p">)</span>
-    <span class="n">split</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="s1">&#39;t&#39;</span>
-    <span class="n">split</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">out_base_name</span> <span class="o">=</span> <span class="s1">&#39;sca_&#39;</span>
+    <span class="c1">#split = pe.Node(interface=fsl.Split(), name=&#39;split_raw_volumes_sca&#39;)</span>
+    <span class="c1">#split.inputs.dimension = &#39;t&#39;</span>
+    <span class="c1">#split.inputs.out_base_name = &#39;sca_&#39;</span>
 
-    <span class="n">get_roi_num_list</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;timeseries_file&#39;</span><span class="p">,</span>
-                                                          <span class="s1">&#39;prefix&#39;</span><span class="p">],</span>
-                                             <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;roi_list&#39;</span><span class="p">],</span>
-                                             <span class="n">function</span><span class="o">=</span><span class="n">get_roi_num_list</span><span class="p">),</span>
-                               <span class="n">name</span><span class="o">=</span><span class="s1">&#39;get_roi_num_list&#39;</span><span class="p">)</span>
-    <span class="n">get_roi_num_list</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;sca&quot;</span>
+    <span class="c1">#get_roi_num_list = pe.Node(util.Function(input_names=[&#39;timeseries_file&#39;,</span>
+    <span class="c1">#                                                      &#39;prefix&#39;],</span>
+    <span class="c1">#                                         output_names=[&#39;roi_list&#39;],</span>
+    <span class="c1">#                                         function=get_roi_num_list),</span>
+    <span class="c1">#                           name=&#39;get_roi_num_list&#39;)</span>
+    <span class="c1">#get_roi_num_list.inputs.prefix = &quot;sca&quot;</span>
 
-    <span class="n">rename_rois</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">Rename</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;output_rois&#39;</span><span class="p">,</span>
-                             <span class="n">iterfield</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">,</span> <span class="s1">&#39;format_string&#39;</span><span class="p">])</span>
-    <span class="n">rename_rois</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">keep_ext</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1">#sca.connect(inputNode, &#39;timeseries_one_d&#39;, get_roi_num_list,</span>
+    <span class="c1">#            &#39;timeseries_file&#39;)</span>
+
+    <span class="c1">#rename_rois = pe.MapNode(interface=util.Rename(), name=&#39;output_rois&#39;,</span>
+    <span class="c1">#                         iterfield=[&#39;in_file&#39;, &#39;format_string&#39;])</span>
+    <span class="c1">#rename_rois.inputs.keep_ext = True</span>
+
+    <span class="c1">#sca.connect(split, &#39;out_files&#39;, rename_rois, &#39;in_file&#39;)</span>
+    <span class="c1">#sca.connect(get_roi_num_list, &#39;roi_list&#39;, rename_rois, &#39;format_string&#39;)</span>
 
     <span class="n">sca</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">concat</span><span class="p">,</span> <span class="s1">&#39;in_files&#39;</span><span class="p">)</span>
-    <span class="n">sca</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">concat</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">split</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
+    <span class="c1">#sca.connect(concat, &#39;out_file&#39;, split, &#39;in_file&#39;)</span>
     <span class="n">sca</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">concat</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span>
                 <span class="n">outputNode</span><span class="p">,</span> <span class="s1">&#39;correlation_stack&#39;</span><span class="p">)</span>
-
-    <span class="n">sca</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;timeseries_one_d&#39;</span><span class="p">,</span> <span class="n">get_roi_num_list</span><span class="p">,</span>
-                <span class="s1">&#39;timeseries_file&#39;</span><span class="p">)</span>
-
-    <span class="n">sca</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">split</span><span class="p">,</span> <span class="s1">&#39;out_files&#39;</span><span class="p">,</span> <span class="n">rename_rois</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">)</span>
-
-    <span class="n">sca</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">get_roi_num_list</span><span class="p">,</span> <span class="s1">&#39;roi_list&#39;</span><span class="p">,</span> <span class="n">rename_rois</span><span class="p">,</span> <span class="s1">&#39;format_string&#39;</span><span class="p">)</span>
-
-    <span class="n">sca</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">rename_rois</span><span class="p">,</span> <span class="s1">&#39;out_file&#39;</span><span class="p">,</span> <span class="n">outputNode</span><span class="p">,</span>
-                <span class="s1">&#39;correlation_files&#39;</span><span class="p">)</span>
+    <span class="c1">#sca.connect(rename_rois, &#39;out_file&#39;, outputNode,</span>
+    <span class="c1">#            &#39;correlation_files&#39;)</span>
 
     <span class="k">return</span> <span class="n">sca</span></div>
 
@@ -495,16 +492,17 @@
                                      <span class="s2">&quot;space-template_bold&quot;</span><span class="p">])</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">sca_roi</span><span class="p">,</span> <span class="s1">&#39;inputspec.functional_file&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">roi_timeseries_for_sca</span><span class="p">,</span>
-               <span class="p">(</span><span class="s1">&#39;outputspec.roi_outputs&#39;</span><span class="p">,</span> <span class="n">extract_one_d</span><span class="p">),</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">roi_timeseries_for_sca</span><span class="p">,</span> <span class="s1">&#39;outputspec.roi_csv&#39;</span><span class="p">,</span>
+               <span class="c1">#(&#39;outputspec.roi_outputs&#39;, extract_one_d),</span>
                <span class="n">sca_roi</span><span class="p">,</span> <span class="s1">&#39;inputspec.timeseries_one_d&#39;</span><span class="p">)</span>
 
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;desc-MeanSCA_timeseries&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">roi_timeseries_for_sca</span><span class="p">,</span>
-                                    <span class="p">(</span><span class="s1">&#39;outputspec.roi_outputs&#39;</span><span class="p">,</span>
-                                     <span class="n">extract_one_d</span><span class="p">)),</span>
+        <span class="s1">&#39;desc-MeanSCA_timeseries&#39;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">roi_timeseries_for_sca</span><span class="p">,</span> <span class="s1">&#39;outputspec.roi_csv&#39;</span><span class="p">),</span>
+                                    <span class="c1">#(&#39;outputspec.roi_outputs&#39;,</span>
+                                    <span class="c1"># extract_one_d)),</span>
         <span class="s1">&#39;desc-MeanSCA_correlations&#39;</span><span class="p">:</span>
-            <span class="p">(</span><span class="n">sca_roi</span><span class="p">,</span> <span class="s1">&#39;outputspec.correlation_files&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">sca_roi</span><span class="p">,</span> <span class="s1">&#39;outputspec.correlation_stack&#39;</span><span class="p">),</span>
         <span class="s1">&#39;atlas_name&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">roi_dataflow_for_sca</span><span class="p">,</span> <span class="s1">&#39;outputspec.out_name&#39;</span><span class="p">)</span>
     <span class="p">}</span>
 
@@ -690,8 +688,8 @@
                                      <span class="s2">&quot;space-template_bold&quot;</span><span class="p">])</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">sc_temp_reg</span><span class="p">,</span> <span class="s1">&#39;inputspec.subject_rest&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">roi_timeseries_for_multreg</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;outputspec.roi_outputs&#39;</span><span class="p">,</span>
-                                            <span class="n">extract_one_d</span><span class="p">),</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">roi_timeseries_for_multreg</span><span class="p">,</span> <span class="s1">&#39;outputspec.roi_csv&#39;</span><span class="p">,</span>
+                     <span class="c1">#(&#39;outputspec.roi_outputs&#39;, extract_one_d),</span>
                      <span class="n">sc_temp_reg</span><span class="p">,</span> <span class="s1">&#39;inputspec.subject_timeseries&#39;</span><span class="p">)</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;space-template_desc-bold_mask&#39;</span><span class="p">)</span>
@@ -755,7 +753,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

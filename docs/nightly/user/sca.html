@@ -98,29 +98,29 @@
 <div class="section" id="configuration-without-the-gui">
 <h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">seed_based_correlation_analysis</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>    <span class="nt">/ndmg_atlases/label/Human/Talairach_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Brodmann_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Desikan_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Glasser_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Slab907_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Yeo-17-liberal_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Yeo-17_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Yeo-7-liberal_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+    <span class="nt">/ndmg_atlases/label/Human/Yeo-7_space-MNI152NLin6_res-1x1x1.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg</span>
+
+  <span class="c1"># Functional time-series and ROI realignment method: [&#39;ROI_to_func&#39;] or [&#39;func_to_ROI&#39;]</span>
+  <span class="c1"># &#39;ROI_to_func&#39; will realign the atlas/ROI to functional space (fast)</span>
+  <span class="c1"># &#39;func_to_ROI&#39; will realign the functional time series to the atlas/ROI space</span>
+  <span class="c1">#</span>
+  <span class="c1">#     NOTE: in rare cases, realigning the ROI to the functional space may</span>
+  <span class="c1">#           result in small misalignments for very small ROIs - please double</span>
+  <span class="c1">#           check your data if you see issues</span>
+ <span class=" -Error"> </span><span class="nt">realignment</span><span class="p">:</span> <span class="s">&#39;ROI_to_func&#39;</span>
+
+
+<span class="nt">seed_based_correlation_analysis</span><span class="p">:</span>
 
   <span class="c1"># SCA - Seed-Based Correlation Analysis</span>
-  <span class="c1"># For each extracted ROI Average time series, CPAC will generate a whole-brain correlation map.</span>
-  <span class="c1"># It should be noted that for a given seed/ROI, SCA maps for ROI Average time series will be the same.</span>
-  <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
-
-  <span class="c1"># Enter paths to region-of-interest (ROI) NIFTI files (.nii or .nii.gz) to be used for time-series extraction, and then select which types of analyses to run.</span>
-  <span class="c1"># Denote which analyses to run for each ROI path by listing the names below. For example, if you wish to run Avg and MultReg, you would enter: &#39;/path/to/ROI.nii.gz&#39;: Avg, MultReg</span>
-  <span class="c1"># available analyses:</span>
-  <span class="c1">#   /path/to/atlas.nii.gz: Avg, DualReg, MultReg</span>
-  <span class="nt">sca_roi_paths</span><span class="p">:</span>
-    <span class="nt">/cpac_templates/PNAS_Smith09_rsn10.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DualReg</span>
-    <span class="nt">/cpac_templates/CC400.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
-    <span class="nt">/cpac_templates/ez_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
-    <span class="nt">/cpac_templates/aal_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
-    <span class="nt">/cpac_templates/CC200.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
-    <span class="nt">/cpac_templates/tt_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
-    <span class="nt">/cpac_templates/ho_mask_pad.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
-    <span class="nt">/cpac_templates/rois_3mm.nii.gz</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Avg, MultReg</span>
-
-  <span class="c1"># Normalize each time series before running Dual Regression SCA.</span>
-  <span class="nt">norm_timeseries_for_DR</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">True</span>
 </pre></div>
 </div>
 </div>
@@ -239,7 +239,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

@@ -93,10 +93,6 @@
 
     <span class="k">if</span> <span class="n">reg_tool</span> <span class="o">==</span> <span class="s1">&#39;ants&#39;</span><span class="p">:</span>
 
-        <span class="n">input_image_type</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">time_series</span><span class="p">:</span>
-            <span class="n">input_image_type</span> <span class="o">=</span> <span class="mi">3</span>
-
         <span class="k">if</span> <span class="n">multi_input</span><span class="p">:</span>
             <span class="n">apply_warp</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">MapNode</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">ants</span><span class="o">.</span><span class="n">ApplyTransforms</span><span class="p">(),</span>
                                     <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;apply_warp_</span><span class="si">{</span><span class="n">wf_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -106,8 +102,10 @@
                                  <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;apply_warp_</span><span class="si">{</span><span class="n">wf_name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="n">apply_warp</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="n">apply_warp</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">input_image_type</span> <span class="o">=</span> <span class="n">input_image_type</span>
         <span class="n">apply_warp</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_ants_cores</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">time_series</span><span class="p">:</span>
+            <span class="n">apply_warp</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">input_image_type</span> <span class="o">=</span> <span class="mi">3</span>
 
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;reference&#39;</span><span class="p">,</span> <span class="n">apply_warp</span><span class="p">,</span> <span class="s1">&#39;reference_image&#39;</span><span class="p">)</span>
 
@@ -255,10 +253,18 @@
                                                        <span class="s1">&#39;transform&#39;</span><span class="p">]),</span>
                         <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputspec&#39;</span><span class="p">)</span>
 
+    <span class="n">multi_input</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="s1">&#39;statmap&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+        <span class="n">multi_input</span> <span class="o">=</span> <span class="kc">True</span>
 
+    <span class="n">stack</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="s1">&#39;correlations&#39;</span> <span class="ow">in</span> <span class="n">label</span><span class="p">:</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">apply_xfm</span> <span class="o">=</span> <span class="n">apply_transform</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;warp_</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">_to_template&#39;</span><span class="p">,</span> <span class="n">reg_tool</span><span class="p">,</span>
-                                <span class="n">time_series</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_cpus</span><span class="o">=</span><span class="n">num_cpus</span><span class="p">,</span>
+                                <span class="n">time_series</span><span class="o">=</span><span class="n">stack</span><span class="p">,</span>
+                                <span class="n">multi_input</span><span class="o">=</span><span class="n">multi_input</span><span class="p">,</span>
+                                <span class="n">num_cpus</span><span class="o">=</span><span class="n">num_cpus</span><span class="p">,</span>
                                 <span class="n">num_ants_cores</span><span class="o">=</span><span class="n">num_ants_cores</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">reg_tool</span> <span class="o">==</span> <span class="s1">&#39;ants&#39;</span><span class="p">:</span>
@@ -1029,7 +1035,7 @@
         <span class="p">)</span>
 
         <span class="c1"># Input registration parameters</span>
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;interpolation&#39;</span><span class="p">,</span> <span class="n">flirt_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;interp&#39;</span><span class="p">)</span>
+        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;interpolation&#39;</span><span class="p">,</span> <span class="n">flirt_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;inputspec.interp&#39;</span><span class="p">)</span>
 
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;input_brain&#39;</span><span class="p">,</span>
                    <span class="n">flirt_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;inputspec.input_brain&#39;</span><span class="p">)</span>
@@ -1205,13 +1211,13 @@
     <span class="n">collect_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
                                  <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;collect_transforms</span><span class="si">{</span><span class="n">symm</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_initial_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_affine_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)</span>
 
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_rigid_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_transforms</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_affine_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_initial_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_transforms</span><span class="p">,</span> <span class="s1">&#39;in3&#39;</span><span class="p">)</span>
 
     <span class="c1"># check transform list to exclude Nonetype (missing) init/rig/affine</span>
@@ -1252,13 +1258,13 @@
                                      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;collect_inv_transforms&#39;</span>
                                           <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">symm</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_affine_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_initial_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)</span>
 
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_rigid_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_initial_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_affine_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in3&#39;</span><span class="p">)</span>
 
     <span class="c1"># check transform list to exclude Nonetype (missing) init/rig/affine</span>
@@ -1313,16 +1319,16 @@
                                  <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;collect_all_transforms&#39;</span>
                                       <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">symm</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_initial_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.warp_field&#39;</span><span class="p">,</span>
                <span class="n">collect_all_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_rigid_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_affine_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_all_transforms</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_affine_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_rigid_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_all_transforms</span><span class="p">,</span> <span class="s1">&#39;in3&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.warp_field&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_initial_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_all_transforms</span><span class="p">,</span> <span class="s1">&#39;in4&#39;</span><span class="p">)</span>
 
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">collect_all_transforms</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span>
@@ -1348,23 +1354,23 @@
 
     <span class="n">write_composite_inv_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">input_image_type</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">write_composite_inv_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dimension</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">write_composite_inv_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">invert_transform_flags</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span>
-                                                             <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
+    <span class="n">write_composite_inv_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">invert_transform_flags</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span>
+                                                             <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
 
     <span class="n">collect_all_inv_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
                                          <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;collect_all_inv_transforms&#39;</span>
                                          <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">symm</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.inverse_warp_field&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_initial_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_all_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_affine_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_rigid_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_all_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_rigid_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_affine_xfm&#39;</span><span class="p">,</span>
                <span class="n">collect_all_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in3&#39;</span><span class="p">)</span>
 
-    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.ants_initial_xfm&#39;</span><span class="p">,</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ants_reg_anat_mni</span><span class="p">,</span> <span class="s1">&#39;outputspec.inverse_warp_field&#39;</span><span class="p">,</span>
                <span class="n">collect_all_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in4&#39;</span><span class="p">)</span>
 
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">collect_all_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span>
@@ -1440,7 +1446,7 @@
         <span class="n">write_composite_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">output_image</span> <span class="o">=</span> \
             <span class="sa">f</span><span class="s2">&quot;from-bold_to-</span><span class="si">{</span><span class="n">sym</span><span class="si">}</span><span class="s2">template_mode-image_xfm.nii.gz&quot;</span>
 
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;input_brain&#39;</span><span class="p">,</span>
+        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;mean_bold&#39;</span><span class="p">,</span>
                    <span class="n">write_composite_xfm</span><span class="p">,</span> <span class="s1">&#39;input_image&#39;</span><span class="p">)</span>
 
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;T1w_brain_template_funcreg&#39;</span><span class="p">,</span>
@@ -1455,10 +1461,10 @@
         <span class="n">collect_all_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
                                          <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;collect_all_transforms&#39;</span><span class="p">)</span>
 
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">change_transform</span><span class="p">,</span> <span class="s1">&#39;updated_affine_file&#39;</span><span class="p">,</span>
+        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;T1w_to_template_xfm&#39;</span><span class="p">,</span>
                    <span class="n">collect_all_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)</span>
 
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;T1w_to_template_xfm&#39;</span><span class="p">,</span>
+        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">change_transform</span><span class="p">,</span> <span class="s1">&#39;updated_affine_file&#39;</span><span class="p">,</span>
                    <span class="n">collect_all_transforms</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">)</span>
 
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">collect_all_transforms</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span>
@@ -1469,7 +1475,7 @@
             <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;write_composite_inv_xfm&#39;</span><span class="p">,</span>
             <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
         <span class="n">write_composite_inv_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">print_out_composite_warp_file</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">write_composite_inv_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">invert_transform_flags</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
+        <span class="n">write_composite_inv_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">invert_transform_flags</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
         <span class="n">write_composite_inv_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">output_image</span> <span class="o">=</span> \
             <span class="sa">f</span><span class="s2">&quot;from-</span><span class="si">{</span><span class="n">sym</span><span class="si">}</span><span class="s2">template_to-bold_mode-image_xfm.nii.gz&quot;</span>
 
@@ -1488,10 +1494,10 @@
         <span class="n">collect_inv_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
                                          <span class="n">name</span><span class="o">=</span><span class="s1">&#39;collect_inv_transforms&#39;</span><span class="p">)</span>
 
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;template_to_T1w_xfm&#39;</span><span class="p">,</span>
+        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">change_transform</span><span class="p">,</span> <span class="s1">&#39;updated_affine_file&#39;</span><span class="p">,</span>
                    <span class="n">collect_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)</span>
 
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">change_transform</span><span class="p">,</span> <span class="s1">&#39;updated_affine_file&#39;</span><span class="p">,</span>
+        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;template_to_T1w_xfm&#39;</span><span class="p">,</span>
                    <span class="n">collect_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;in2&#39;</span><span class="p">)</span>
 
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">collect_inv_transforms</span><span class="p">,</span> <span class="s1">&#39;out&#39;</span><span class="p">,</span>
@@ -1509,7 +1515,7 @@
         <span class="n">write_composite_xfm</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">ConvertWarp</span><span class="p">(),</span>
                                       <span class="n">name</span><span class="o">=</span><span class="s1">&#39;combine_fsl_warps&#39;</span><span class="p">)</span>
 
-        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;T1w_brain_template&#39;</span><span class="p">,</span>
+        <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;T1w_brain_template_funcreg&#39;</span><span class="p">,</span>
                    <span class="n">write_composite_xfm</span><span class="p">,</span> <span class="s1">&#39;reference&#39;</span><span class="p">)</span>
 
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">inputNode</span><span class="p">,</span> <span class="s1">&#39;coreg_xfm&#39;</span><span class="p">,</span> <span class="n">write_composite_xfm</span><span class="p">,</span> <span class="s1">&#39;premat&#39;</span><span class="p">)</span>
@@ -1528,13 +1534,12 @@
 <span class="k">def</span> <span class="nf">register_FSL_anat_to_template</span><span class="p">(</span><span class="n">wf</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">strat_pool</span><span class="p">,</span> <span class="n">pipe_num</span><span class="p">,</span> <span class="n">opt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    {&quot;name&quot;: &quot;register_FSL_anat_to_template&quot;,</span>
-<span class="sd">     &quot;config&quot;: [&quot;registration_workflows&quot;, &quot;anatomical_registration&quot;,</span>
-<span class="sd">                &quot;registration&quot;],</span>
-<span class="sd">     &quot;switch&quot;: &quot;run&quot;,</span>
-<span class="sd">     &quot;option_key&quot;: &quot;using&quot;,</span>
+<span class="sd">     &quot;config&quot;: [&quot;registration_workflows&quot;, &quot;anatomical_registration&quot;],</span>
+<span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
+<span class="sd">     &quot;option_key&quot;: [&quot;registration&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: [&quot;FSL&quot;, &quot;FSL-linear&quot;],</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
-<span class="sd">                &quot;desc-brain_T1w&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
+<span class="sd">                 &quot;desc-brain_T1w&quot;),</span>
 <span class="sd">                &quot;T1w_template&quot;,</span>
 <span class="sd">                &quot;T1w_brain_template&quot;,</span>
 <span class="sd">                &quot;template_ref_mask&quot;],</span>
@@ -1546,14 +1551,16 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">fsl</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">FSL_registration_connector</span><span class="p">(</span><span class="s1">&#39;register_FSL_anat_to_&#39;</span>
-                                              <span class="sa">f</span><span class="s1">&#39;template_</span><span class="si">{</span><span class="n">pipe_idx</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span>
+                                              <span class="sa">f</span><span class="s1">&#39;template_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span>
                                               <span class="s1">&#39;T1w&#39;</span><span class="p">,</span> <span class="n">opt</span><span class="p">)</span>
 
-    <span class="n">fsl</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;registration_workflows&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;anatomical_registration&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-FNIRT&#39;</span><span class="p">][</span><span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
+    <span class="n">fsl</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
+        <span class="s1">&#39;anatomical_registration&#39;</span><span class="p">][</span><span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-FNIRT&#39;</span><span class="p">][</span>
+        <span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
 
-    <span class="n">fsl</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">fnirt_config</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;registration_workflows&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-FNIRT&#39;</span><span class="p">][</span><span class="s1">&#39;fnirt_config&#39;</span><span class="p">]</span>
+    <span class="n">fsl</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">fnirt_config</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
+        <span class="s1">&#39;anatomical_registration&#39;</span><span class="p">][</span><span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-FNIRT&#39;</span><span class="p">][</span>
+        <span class="s1">&#39;fnirt_config&#39;</span><span class="p">]</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;desc-brain_T1w&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">fsl</span><span class="p">,</span> <span class="s1">&#39;inputspec.input_brain&#39;</span><span class="p">)</span>
@@ -1568,7 +1575,7 @@
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;T1w_template&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">fsl</span><span class="p">,</span> <span class="s1">&#39;inputspec.reference_head&#39;</span><span class="p">)</span>
 
-    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;ref_mask&#39;</span><span class="p">)</span>
+    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;template_ref_mask&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">fsl</span><span class="p">,</span> <span class="s1">&#39;inputspec.reference_mask&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">wf</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
@@ -1578,16 +1585,15 @@
                                             <span class="n">opt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    {&quot;name&quot;: &quot;register_symmetric_FSL_anat_to_template&quot;,</span>
-<span class="sd">     &quot;config&quot;: [&quot;registration_workflows&quot;, &quot;anatomical_registration&quot;,</span>
-<span class="sd">                &quot;registration&quot;],</span>
-<span class="sd">     &quot;switch&quot;: &quot;run&quot;,</span>
-<span class="sd">     &quot;option_key&quot;: &quot;using&quot;,</span>
+<span class="sd">     &quot;config&quot;: [&quot;registration_workflows&quot;, &quot;anatomical_registration&quot;],</span>
+<span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
+<span class="sd">     &quot;option_key&quot;: [&quot;registration&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: [&quot;FSL&quot;, &quot;FSL-linear&quot;],</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
-<span class="sd">                &quot;desc-brain_T1w&quot;,</span>
-<span class="sd">                &quot;T1w_template&quot;,</span>
-<span class="sd">                &quot;T1w_brain_template&quot;,</span>
-<span class="sd">                &quot;template_ref_mask&quot;],</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-preproc_T1w&quot;, &quot;desc-reorient_T1w&quot;, &quot;T1w&quot;],</span>
+<span class="sd">                 &quot;desc-brain_T1w&quot;),</span>
+<span class="sd">                &quot;T1w_template_symmetric&quot;,</span>
+<span class="sd">                &quot;T1w_brain_template_symmetric&quot;,</span>
+<span class="sd">                &quot;template_dilated_symmetric_brain_mask&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-symtemplate_desc-brain_T1w&quot;,</span>
 <span class="sd">                 &quot;from-T1w_to-symtemplate_mode-image_desc-linear_xfm&quot;,</span>
 <span class="sd">                 &quot;from-symtemplate_to-T1w_mode-image_desc-linear_xfm&quot;,</span>
@@ -1597,14 +1603,16 @@
 
     <span class="n">fsl</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">FSL_registration_connector</span><span class="p">(</span><span class="s1">&#39;register_FSL_anat_to_&#39;</span>
                                               <span class="sa">f</span><span class="s1">&#39;template_symmetric_&#39;</span>
-                                              <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pipe_idx</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="s1">&#39;T1w&#39;</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span>
+                                              <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="s1">&#39;T1w&#39;</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span>
                                               <span class="n">symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">fsl</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;registration_workflows&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;anatomical_registration&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-FNIRT&#39;</span><span class="p">][</span><span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
+    <span class="n">fsl</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
+        <span class="s1">&#39;anatomical_registration&#39;</span><span class="p">][</span><span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-FNIRT&#39;</span><span class="p">][</span>
+        <span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
 
-    <span class="n">fsl</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">fnirt_config</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;registration_workflows&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-FNIRT&#39;</span><span class="p">][</span><span class="s1">&#39;fnirt_config&#39;</span><span class="p">]</span>
+    <span class="n">fsl</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">fnirt_config</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
+        <span class="s1">&#39;anatomical_registration&#39;</span><span class="p">][</span><span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;FSL-FNIRT&#39;</span><span class="p">][</span>
+        <span class="s1">&#39;fnirt_config&#39;</span><span class="p">]</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;desc-brain_T1w&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">fsl</span><span class="p">,</span> <span class="s1">&#39;inputspec.input_brain&#39;</span><span class="p">)</span>
@@ -1619,7 +1627,7 @@
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;T1w_template_symmetric&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">fsl</span><span class="p">,</span> <span class="s1">&#39;inputspec.reference_head&#39;</span><span class="p">)</span>
 
-    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;dilated_symmetric_brain_mask&#39;</span><span class="p">)</span>
+    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;template_dilated_symmetric_brain_mask&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">fsl</span><span class="p">,</span> <span class="s1">&#39;inputspec.reference_mask&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">wf</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
@@ -1636,8 +1644,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;using&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: [&quot;FSL&quot;, &quot;FSL-linear&quot;],</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;bold_coreg_input&quot;,</span>
-<span class="sd">                &quot;space-bold_desc-brain_mask&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;bold_coreg_input&quot;,</span>
+<span class="sd">                 &quot;space-bold_desc-brain_mask&quot;),</span>
 <span class="sd">                &quot;EPI_template&quot;,</span>
 <span class="sd">                &quot;EPI_template_mask&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-template_desc-brain_bold&quot;,</span>
@@ -1704,7 +1712,8 @@
     <span class="n">params</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span><span class="s1">&#39;anatomical_registration&#39;</span><span class="p">][</span>
         <span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs&#39;</span><span class="p">][</span><span class="s1">&#39;T1_registration&#39;</span><span class="p">]</span>
 
-    <span class="n">ants</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">ANTs_registration_connector</span><span class="p">(</span><span class="s1">&#39;ANTS_T1_to_template&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span>
+    <span class="n">ants</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">ANTs_registration_connector</span><span class="p">(</span><span class="s1">&#39;ANTS_T1_to_template_&#39;</span>
+                                                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span>
                                                 <span class="n">params</span><span class="p">,</span> <span class="s1">&#39;T1w&#39;</span><span class="p">)</span>
 
     <span class="n">ants</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
@@ -1764,8 +1773,8 @@
         <span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs&#39;</span><span class="p">][</span><span class="s1">&#39;T1_registration&#39;</span><span class="p">]</span>
 
     <span class="n">ants</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">ANTs_registration_connector</span><span class="p">(</span><span class="s1">&#39;ANTS_T1_to_template_&#39;</span>
-                                                <span class="s1">&#39;symmetric&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span>
-                                                <span class="s1">&#39;T1w&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                                                <span class="sa">f</span><span class="s1">&#39;symmetric_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span>
+                                                <span class="n">params</span><span class="p">,</span> <span class="s1">&#39;T1w&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
     <span class="n">ants</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
         <span class="s1">&#39;anatomical_registration&#39;</span><span class="p">][</span><span class="s1">&#39;registration&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs&#39;</span><span class="p">][</span><span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
@@ -1807,8 +1816,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;using&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;ANTS&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;bold_coreg_input&quot;,</span>
-<span class="sd">                &quot;space-bold_desc-brain_mask&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;bold_coreg_input&quot;,</span>
+<span class="sd">                 &quot;space-bold_desc-brain_mask&quot;),</span>
 <span class="sd">                &quot;EPI_template&quot;,</span>
 <span class="sd">                &quot;EPI_template_mask&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-template_desc-brain_bold&quot;,</span>
@@ -1823,8 +1832,9 @@
     <span class="n">params</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span><span class="s1">&#39;functional_registration&#39;</span><span class="p">][</span>
         <span class="s1">&#39;EPI_registration&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs&#39;</span><span class="p">][</span><span class="s1">&#39;parameters&#39;</span><span class="p">]</span>
 
-    <span class="n">ants</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">ANTs_registration_connector</span><span class="p">(</span><span class="s1">&#39;ANTS_T1_to_EPI_template&#39;</span><span class="p">,</span>
-                                                <span class="n">cfg</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+    <span class="n">ants</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">ANTs_registration_connector</span><span class="p">(</span><span class="s1">&#39;ANTS_T1_to_EPI_template&#39;</span>
+                                                <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span>
+                                                <span class="s1">&#39;bold&#39;</span><span class="p">)</span>
 
     <span class="n">ants</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
         <span class="s1">&#39;functional_registration&#39;</span><span class="p">][</span><span class="s1">&#39;EPI_registration&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs&#39;</span><span class="p">][</span>
@@ -1931,10 +1941,10 @@
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;inputs&quot;: [&quot;bold_coreg_input&quot;,</span>
 <span class="sd">                &quot;desc-brain_T1w&quot;,</span>
-<span class="sd">                &quot;diff_phase_dwell&quot;,</span>
-<span class="sd">                &quot;diff_phase_pedir&quot;,</span>
-<span class="sd">                &quot;despiked_fieldmap&quot;,</span>
-<span class="sd">                &quot;fieldmap_mask&quot;],</span>
+<span class="sd">                &quot;diffphase_dwell&quot;,</span>
+<span class="sd">                &quot;diffphase_pedir&quot;,</span>
+<span class="sd">                (&quot;despiked_fieldmap&quot;,</span>
+<span class="sd">                 &quot;fieldmap_mask&quot;)],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-T1w_desc-mean_bold&quot;,</span>
 <span class="sd">                 &quot;from-bold_to-T1w_mode-image_desc-linear_xfm&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -1958,10 +1968,10 @@
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">func_to_anat</span><span class="p">,</span> <span class="s1">&#39;inputspec.anat&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">diff_complete</span><span class="p">:</span>
-        <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;diff_phase_dwell&#39;</span><span class="p">)</span>
+        <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;diffphase_dwell&#39;</span><span class="p">)</span>
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">func_to_anat</span><span class="p">,</span> <span class="s1">&#39;echospacing_input.echospacing&#39;</span><span class="p">)</span>
 
-        <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;diff_phase_pedir&#39;</span><span class="p">)</span>
+        <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;diffphase_pedir&#39;</span><span class="p">)</span>
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">func_to_anat</span><span class="p">,</span> <span class="s1">&#39;pedir_input.pedir&#39;</span><span class="p">)</span>
 
         <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;despiked_fieldmap&quot;</span><span class="p">)</span>
@@ -1988,14 +1998,14 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;bold_coreg_input&quot;,</span>
-<span class="sd">                &quot;T1w&quot;,</span>
-<span class="sd">                &quot;from-bold_to-T1w_mode-image_desc-linear_xfm&quot;,</span>
-<span class="sd">                &quot;label-CSF_probseg&quot;,</span>
-<span class="sd">                &quot;diff_phase_dwell&quot;,</span>
-<span class="sd">                &quot;diff_phase_pedir&quot;,</span>
-<span class="sd">                &quot;despiked_fieldmap&quot;,</span>
-<span class="sd">                &quot;fieldmap_mask&quot;],</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;bold_coreg_input&quot;,</span>
+<span class="sd">                 &quot;from-bold_to-T1w_mode-image_desc-linear_xfm&quot;),</span>
+<span class="sd">                (&quot;T1w&quot;,</span>
+<span class="sd">                 [&quot;label-WM_probseg&quot;, &quot;label-WM_mask&quot;]),</span>
+<span class="sd">                &quot;diffphase_dwell&quot;,</span>
+<span class="sd">                &quot;diffphase_pedir&quot;,</span>
+<span class="sd">                (&quot;despiked_fieldmap&quot;,</span>
+<span class="sd">                 &quot;fieldmap_mask&quot;)],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-T1w_desc-mean_bold&quot;,</span>
 <span class="sd">                 &quot;from-bold_to-T1w_mode-image_desc-linear_xfm&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -2011,8 +2021,7 @@
                                                         <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">func_to_anat_bbreg</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">bbr_schedule</span> <span class="o">=</span> \
         <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span><span class="s1">&#39;functional_registration&#39;</span><span class="p">][</span>
-            <span class="s1">&#39;coregistration&#39;</span><span class="p">][</span><span class="s1">&#39;boundary_based_registration&#39;</span><span class="p">][</span>
-            <span class="s1">&#39;bbr_schedule&#39;</span><span class="p">]</span>
+            <span class="s1">&#39;coregistration&#39;</span><span class="p">][</span><span class="s1">&#39;boundary_based_registration&#39;</span><span class="p">][</span><span class="s1">&#39;bbr_schedule&#39;</span><span class="p">]</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;bold_coreg_input&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">func_to_anat_bbreg</span><span class="p">,</span> <span class="s1">&#39;inputspec.func&#39;</span><span class="p">)</span>
@@ -2025,16 +2034,16 @@
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span>
                <span class="n">func_to_anat_bbreg</span><span class="p">,</span> <span class="s1">&#39;inputspec.linear_reg_matrix&#39;</span><span class="p">)</span>
 
-    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;label-CSF_probseg&#39;</span><span class="p">)</span>
+    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">([</span><span class="s2">&quot;label-WM_probseg&quot;</span><span class="p">,</span> <span class="s2">&quot;label-WM_mask&quot;</span><span class="p">])</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span>
                <span class="n">func_to_anat_bbreg</span><span class="p">,</span> <span class="s1">&#39;inputspec.anat_wm_segmentation&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">diff_complete</span><span class="p">:</span>
-        <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;diff_phase_dwell&#39;</span><span class="p">)</span>
+        <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;diffphase_dwell&#39;</span><span class="p">)</span>
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span>
                    <span class="n">func_to_anat_bbreg</span><span class="p">,</span> <span class="s1">&#39;echospacing_input.echospacing&#39;</span><span class="p">)</span>
 
-        <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;diff_phase_pedir&#39;</span><span class="p">)</span>
+        <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;diffphase_pedir&#39;</span><span class="p">)</span>
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">func_to_anat_bbreg</span><span class="p">,</span> <span class="s1">&#39;pedir_input.pedir&#39;</span><span class="p">)</span>
 
         <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;despiked_fieldmap&quot;</span><span class="p">)</span>
@@ -2065,11 +2074,11 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: [&quot;target_template&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: &quot;T1_template&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;from-bold_to-T1w_mode-image_desc-linear_xfm&quot;,</span>
-<span class="sd">                &quot;from-T1w_to-template_mode-image_xfm&quot;,</span>
-<span class="sd">                &quot;from-template_to-T1w_mode-image_xfm&quot;,</span>
-<span class="sd">                &quot;desc-mean_bold&quot;,</span>
-<span class="sd">                &quot;desc-brain_T1w&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;desc-mean_bold&quot;,</span>
+<span class="sd">                 &quot;from-bold_to-T1w_mode-image_desc-linear_xfm&quot;),</span>
+<span class="sd">                (&quot;from-T1w_to-template_mode-image_xfm&quot;,</span>
+<span class="sd">                 &quot;from-template_to-T1w_mode-image_xfm&quot;,</span>
+<span class="sd">                 &quot;desc-brain_T1w&quot;),</span>
 <span class="sd">                &quot;T1w_brain_template_funcreg&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;from-bold_to-template_mode-image_xfm&quot;,</span>
 <span class="sd">                 &quot;from-template_to-bold_mode-image_xfm&quot;]}</span>
@@ -2173,9 +2182,9 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: [&quot;target_template&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: &quot;T1_template&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-cleaned_bold&quot;, &quot;desc-preproc_bold&quot;,</span>
-<span class="sd">                 &quot;desc-reorient_bold&quot;, &quot;bold&quot;],</span>
-<span class="sd">                &quot;from-bold_to-template_mode-image_xfm&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-cleaned_bold&quot;, &quot;desc-preproc_bold&quot;,</span>
+<span class="sd">                  &quot;desc-reorient_bold&quot;, &quot;bold&quot;],</span>
+<span class="sd">                 &quot;from-bold_to-template_mode-image_xfm&quot;),</span>
 <span class="sd">                &quot;T1w_brain_template_funcreg&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-template_desc-cleaned_bold&quot;,</span>
 <span class="sd">                 &quot;space-template_desc-preproc_bold&quot;,</span>
@@ -2236,8 +2245,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;space-bold_desc-brain_mask&quot;,</span>
-<span class="sd">                &quot;from-bold_to-template_mode-image_xfm&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;space-bold_desc-brain_mask&quot;,</span>
+<span class="sd">                 &quot;from-bold_to-template_mode-image_xfm&quot;),</span>
 <span class="sd">                &quot;T1w_brain_template_funcreg&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-template_desc-bold_mask&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -2251,18 +2260,12 @@
 
     <span class="n">num_ants_cores</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pipeline_setup</span><span class="p">[</span><span class="s1">&#39;system_config&#39;</span><span class="p">][</span><span class="s1">&#39;num_ants_threads&#39;</span><span class="p">]</span>
 
-    <span class="n">apply_xfm</span> <span class="o">=</span> <span class="n">apply_transform</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;warp_ts_to_T1template_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">reg_tool</span><span class="p">,</span>
-                                <span class="n">time_series</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_cpus</span><span class="o">=</span><span class="n">num_cpus</span><span class="p">,</span>
+    <span class="n">apply_xfm</span> <span class="o">=</span> <span class="n">apply_transform</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;warp_bold_mask_to_T1template_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                                <span class="n">reg_tool</span><span class="p">,</span> <span class="n">time_series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                <span class="n">num_cpus</span><span class="o">=</span><span class="n">num_cpus</span><span class="p">,</span>
                                 <span class="n">num_ants_cores</span><span class="o">=</span><span class="n">num_ants_cores</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">reg_tool</span> <span class="o">==</span> <span class="s1">&#39;ants&#39;</span><span class="p">:</span>
-        <span class="n">apply_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
-            <span class="s1">&#39;functional_registration&#39;</span><span class="p">][</span><span class="s1">&#39;func_registration_to_template&#39;</span><span class="p">][</span>
-            <span class="s1">&#39;ANTs_pipelines&#39;</span><span class="p">][</span><span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">reg_tool</span> <span class="o">==</span> <span class="s1">&#39;fsl&#39;</span><span class="p">:</span>
-        <span class="n">apply_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
-            <span class="s1">&#39;functional_registration&#39;</span><span class="p">][</span><span class="s1">&#39;func_registration_to_template&#39;</span><span class="p">][</span>
-            <span class="s1">&#39;FNIRT_pipelines&#39;</span><span class="p">][</span><span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
+    <span class="n">apply_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="s2">&quot;NearestNeighbor&quot;</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;space-bold_desc-brain_mask&quot;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">apply_xfm</span><span class="p">,</span> <span class="s1">&#39;inputspec.input_image&#39;</span><span class="p">)</span>
@@ -2292,8 +2295,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: &quot;None&quot;,</span>
 <span class="sd">     &quot;option_val&quot;: &quot;None&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;space-bold_desc-brain_mask&quot;,</span>
-<span class="sd">                &quot;from-bold_to-template_mode-image_xfm&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;space-bold_desc-brain_mask&quot;,</span>
+<span class="sd">                 &quot;from-bold_to-template_mode-image_xfm&quot;),</span>
 <span class="sd">                &quot;T1w_brain_template_deriv&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-template_res-derivative_desc-bold_mask&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -2307,18 +2310,12 @@
 
     <span class="n">num_ants_cores</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pipeline_setup</span><span class="p">[</span><span class="s1">&#39;system_config&#39;</span><span class="p">][</span><span class="s1">&#39;num_ants_threads&#39;</span><span class="p">]</span>
 
-    <span class="n">apply_xfm</span> <span class="o">=</span> <span class="n">apply_transform</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;warp_ts_to_T1template_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">reg_tool</span><span class="p">,</span>
-                                <span class="n">time_series</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_cpus</span><span class="o">=</span><span class="n">num_cpus</span><span class="p">,</span>
+    <span class="n">apply_xfm</span> <span class="o">=</span> <span class="n">apply_transform</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;warp_deriv_mask_to_T1template_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                                <span class="n">reg_tool</span><span class="p">,</span> <span class="n">time_series</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                <span class="n">num_cpus</span><span class="o">=</span><span class="n">num_cpus</span><span class="p">,</span>
                                 <span class="n">num_ants_cores</span><span class="o">=</span><span class="n">num_ants_cores</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">reg_tool</span> <span class="o">==</span> <span class="s1">&#39;ants&#39;</span><span class="p">:</span>
-        <span class="n">apply_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
-            <span class="s1">&#39;functional_registration&#39;</span><span class="p">][</span><span class="s1">&#39;func_registration_to_template&#39;</span><span class="p">][</span>
-            <span class="s1">&#39;ANTs_pipelines&#39;</span><span class="p">][</span><span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">reg_tool</span> <span class="o">==</span> <span class="s1">&#39;fsl&#39;</span><span class="p">:</span>
-        <span class="n">apply_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">registration_workflows</span><span class="p">[</span>
-            <span class="s1">&#39;functional_registration&#39;</span><span class="p">][</span><span class="s1">&#39;func_registration_to_template&#39;</span><span class="p">][</span>
-            <span class="s1">&#39;FNIRT_pipelines&#39;</span><span class="p">][</span><span class="s1">&#39;interpolation&#39;</span><span class="p">]</span>
+    <span class="n">apply_xfm</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="s2">&quot;NearestNeighbor&quot;</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s2">&quot;space-bold_desc-brain_mask&quot;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">apply_xfm</span><span class="p">,</span> <span class="s1">&#39;inputspec.input_image&#39;</span><span class="p">)</span>
@@ -2346,9 +2343,9 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: [&quot;target_template&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: &quot;EPI_template&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [[&quot;desc-cleaned_bold&quot;, &quot;desc-preproc_bold&quot;,</span>
-<span class="sd">                 &quot;desc-reorient_bold&quot;, &quot;bold&quot;],</span>
-<span class="sd">                &quot;from-bold_to-template_mode-image_xfm&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-cleaned_bold&quot;, &quot;desc-preproc_bold&quot;,</span>
+<span class="sd">                  &quot;desc-reorient_bold&quot;, &quot;bold&quot;],</span>
+<span class="sd">                 &quot;from-bold_to-template_mode-image_xfm&quot;),</span>
 <span class="sd">                &quot;EPI_template&quot;],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-template_desc-cleaned_bold&quot;,</span>
 <span class="sd">                 &quot;space-template_desc-preproc_bold&quot;,</span>
@@ -2446,7 +2443,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

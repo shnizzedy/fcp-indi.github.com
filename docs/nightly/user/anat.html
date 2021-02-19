@@ -197,15 +197,20 @@
 <div class="section" id="configuration-without-the-gui">
 <h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">anatomical_preproc</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>  <span class="c1"># Threshold of transformation distance to consider that the loop converged</span>
+  <span class="c1"># (-1 means numpy.finfo(np.float64).eps and is the default)</span>
+  <span class="nt">convergence_threshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-1</span>
+
+
+<span class="nt">anatomical_preproc</span><span class="p">:</span>
 
   <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
 
   <span class="c1"># Non-local means filtering via ANTs DenoiseImage</span>
-  <span class="nt">non_local_means_filtering</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+  <span class="nt">non_local_means_filtering</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 
   <span class="c1"># N4 bias field correction via ANTs</span>
-  <span class="nt">n4_bias_field_correction</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+  <span class="nt">n4_bias_field_correction</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 
   <span class="nt">acpc_alignment</span><span class="p">:</span>
 
@@ -226,11 +231,11 @@
 
     <span class="c1"># ACPC aligned template</span>
     <span class="nt">T1w_ACPC_template</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/data/standard/MNI152_T1_1mm.nii.gz</span>
-    <span class="nt">T1w_brain_ACPC_template</span><span class="p">:</span>
+    <span class="nt">T1w_brain_ACPC_template</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">None</span>
 
   <span class="nt">brain_extraction</span><span class="p">:</span>
 
-    <span class="c1"># using: [&#39;3dSkullStrip&#39;, &#39;BET&#39;, &#39;UNet&#39;, &#39;niworkflows-ants&#39;, &#39;Freesurfer&#39;]</span>
+    <span class="c1"># using: [&#39;3dSkullStrip&#39;, &#39;BET&#39;, &#39;UNet&#39;, &#39;niworkflows-ants&#39;]</span>
     <span class="c1"># this is a fork option</span>
     <span class="nt">using</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;3dSkullStrip&#39;</span><span class="p p-Indicator">]</span>
 
@@ -305,7 +310,7 @@
       <span class="c1"># Set the threshold value controling the brain vs non-brain voxels, default is 0.5</span>
       <span class="nt">frac</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
 
-      <span class="c1"># Mask created along with skull stripping. It should be `On`, if selected functionalMasking:  [&#39;Anatomical_Refined&#39;] and `FSL` as skull-stripping method.</span>
+      <span class="c1"># Mask created along with skull stripping. It should be `On`, if selected functionalMasking :  [&#39;Anatomical_Refined&#39;] and `FSL` as skull-stripping method.</span>
       <span class="nt">mask_boolean</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
 
       <span class="c1"># Mesh created along with skull stripping</span>
@@ -339,12 +344,12 @@
       <span class="nt">threshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
 
       <span class="c1"># Vertical gradient in fractional intensity threshold (-1,1)</span>
-      <span class="nt">vertical_gradient</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+      <span class="nt">vertical_gradient </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
 
     <span class="nt">UNet</span><span class="p">:</span>
 
       <span class="c1"># UNet model</span>
-      <span class="nt">unet_model</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">s3://fcp-indi/resources/cpac/resources/Site-All-T-epoch_36.model</span>
+      <span class="nt">unet_model </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">s3://fcp-indi/resources/cpac/resources/Site-All-T-epoch_36.model</span>
 
     <span class="nt">niworkflows-ants</span><span class="p">:</span>
 
@@ -352,13 +357,7 @@
       <span class="c1"># It is not necessary to change this path unless you intend to use a non-standard template.</span>
 
       <span class="c1"># niworkflows-ants Brain extraction template</span>
-      <span class="nt">template_path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0.nii.gz</span>
-
-      <span class="c1"># niworkflows-ants probability mask</span>
-      <span class="nt">mask_path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0_BrainCerebellumProbabilityMask.nii.gz</span>
-
-      <span class="c1"># niworkflows-ants registration mask (can be optional)</span>
-      <span class="nt">regmask_path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0_BrainCerebellumRegistrationMask.nii.gz</span>
+      <span class="nt">template_path </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0.nii.gz</span>
 </pre></div>
 </div>
 </div>
@@ -434,7 +433,11 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 <div class="section" id="id24">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">segmentation</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>      <span class="c1"># niworkflows-ants registration mask (can be optional)</span>
+      <span class="nt">regmask_path </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0_BrainCerebellumRegistrationMask.nii.gz</span>
+
+
+<span class="nt">segmentation</span><span class="p">:</span>
 
   <span class="c1"># Automatically segment anatomical images into white matter, gray matter,</span>
   <span class="c1"># and CSF based on prior probability maps.</span>
@@ -442,7 +445,7 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 
   <span class="nt">tissue_segmentation</span><span class="p">:</span>
 
-    <span class="c1"># using: [&#39;FSL-FAST&#39;, &#39;Template_Based&#39;, &#39;Freesurfer&#39;, &#39;ANTs_Prior_Based&#39;]</span>
+    <span class="c1"># using: [&#39;FSL-FAST&#39;, &#39;Template_Based&#39;, &#39;FreeSurfer&#39;, &#39;ANTs_Prior_Based&#39;]</span>
     <span class="c1"># this is a fork point</span>
     <span class="nt">using</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;FSL-FAST&#39;</span><span class="p p-Indicator">]</span>
 
@@ -461,13 +464,13 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
           <span class="c1"># A good starting point is 0.95.</span>
 
           <span class="c1"># CSF (cerebrospinal fluid) threshold.</span>
-          <span class="nt">CSF_threshold_value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
+          <span class="nt">CSF_threshold_value </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
 
           <span class="c1"># White matter threshold.</span>
-          <span class="nt">WM_threshold_value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
+          <span class="nt">WM_threshold_value </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
 
           <span class="c1"># Gray matter threshold.</span>
-          <span class="nt">GM_threshold_value</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
+          <span class="nt">GM_threshold_value </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span>
 
       <span class="nt">use_priors</span><span class="p">:</span>
 
@@ -511,15 +514,13 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
       <span class="c1"># Full path to a binarized CSF mask.</span>
       <span class="nt">CSF</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">$FSLDIR/data/standard/tissuepriors/2mm/avg152T1_csf_bin.nii.gz</span>
 
-    <span class="nt">Freesurfer</span><span class="p">:</span>
-
     <span class="nt">ANTs_Prior_Based</span><span class="p">:</span>
 
       <span class="c1"># Generate white matter, gray matter, CSF masks based on antsJointLabelFusion</span>
       <span class="c1"># ANTs Prior-based Segmentation workflow that has shown optimal results for non-human primate data.</span>
 
       <span class="c1"># The atlas image assumed to be used in ANTs Prior-based Segmentation.</span>
-      <span class="nt">template_brain_list</span><span class="p">:</span>
+      <span class="nt">template_brain_list </span><span class="p">:</span>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/monkey_seg/templates/JointLabelCouncil/MacaqueYerkes19_T1w_0.5mm/T1w_brain.nii.gz</span>
         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/monkey_seg/templates/JointLabelCouncil/J_Macaque_11mo_atlas_nACQ_194x252x160space_0.5mm/T1w_brain.nii.gz</span>
 
@@ -527,7 +528,7 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
       <span class="c1"># For performing ANTs Prior-based segmentation method</span>
       <span class="c1"># the number of specified segmentations should be identical to the number of atlas brain image sets.</span>
       <span class="c1"># eg.</span>
-      <span class="c1"># ANTs_prior_seg_template_brain_list:</span>
+      <span class="c1"># ANTs_prior_seg_template_brain_list :</span>
       <span class="c1">#   - atlas1.nii.gz</span>
       <span class="c1">#   - atlas2.nii.gz</span>
       <span class="c1"># ANTs_prior_seg_template_segmentation_list:</span>
@@ -542,19 +543,16 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
       <span class="c1"># https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT</span>
 
       <span class="c1"># Label value corresponding to CSF in multiatlas file</span>
-      <span class="nt">CSF_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">24</span>
+      <span class="nt">CSF_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">24</span>
 
       <span class="c1"># Label value corresponding to Left Gray Matter in multiatlas file</span>
-      <span class="nt">left_GM_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
+      <span class="nt">left_GM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
 
       <span class="c1"># Label value corresponding to Right Gray Matter in multiatlas file</span>
-      <span class="nt">right_GM_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">42</span>
+      <span class="nt">right_GM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">42</span>
 
       <span class="c1"># Label value corresponding to Left White Matter in multiatlas file</span>
-      <span class="nt">left_WM_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
-
-      <span class="c1"># Label value corresponding to Right White Matter in multiatlas file</span>
-      <span class="nt">right_WM_label</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">41</span>
+      <span class="nt">left_WM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
 </pre></div>
 </div>
 </div>
@@ -738,7 +736,7 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

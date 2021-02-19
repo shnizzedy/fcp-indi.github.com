@@ -162,13 +162,34 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
 <div class="section" id="configuration-without-the-gui">
 <span id="nuisance-no-gui"></span><h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">nuisance_corrections</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>      <span class="c1"># Robust brain center estimation. Mutually exclusive with functional,reduce_bias,robust,padding,remove_eyes,surfaces</span>
+      <span class="nt">robust</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+      <span class="c1"># Create a skull image</span>
+      <span class="nt">skull</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+      <span class="c1"># Gets additional skull and scalp surfaces by running bet2 and betsurf. This is mutually exclusive with reduce_bias, robust, padding, remove_eyes</span>
+      <span class="nt">surfaces</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+      <span class="c1"># Apply thresholding to segmented brain image and mask</span>
+      <span class="nt">threshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+
+      <span class="c1"># Vertical gradient in fractional intensity threshold (-1,1)</span>
+      <span class="nt">vertical_gradient</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+   <span class=" -Error"> </span><span class="nt">Anatomical_Refined</span><span class="p">:</span>
+
+      <span class="c1"># Choose whether or not to dilate the anatomical mask if you choose &#39;Anatomical_Refined&#39; as the functional masking option. It will dilate one voxel if enabled.</span>
+      <span class="nt">anatomical_mask_dilation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
+<span class="nt">nuisance_corrections</span><span class="p">:</span>
 
   <span class="nt">1-ICA-AROMA</span><span class="p">:</span>
 
     <span class="c1"># this is a fork point</span>
     <span class="c1">#   run: [On, Off] - this will run both and fork the pipeline</span>
-    <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">On</span><span class="p p-Indicator">]</span>
+    <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">Off</span><span class="p p-Indicator">]</span>
 
     <span class="c1"># Types of denoising strategy:</span>
     <span class="c1">#   nonaggr: nonaggressive-partial component regression</span>
@@ -214,6 +235,7 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
          <span class="nt">Bandpass</span><span class="p">:</span>
            <span class="nt">bottom_frequency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
            <span class="nt">top_frequency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+           <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
 
       <span class="p p-Indicator">-</span>  <span class="nt">Name</span><span class="p">:</span> <span class="s">&#39;defaultNoGSR&#39;</span>
 
@@ -242,6 +264,7 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
          <span class="nt">Bandpass</span><span class="p">:</span>
            <span class="nt">bottom_frequency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
            <span class="nt">top_frequency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+           <span class="nt">method</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
 
     <span class="c1"># Standard Lateral Ventricles Binary Mask</span>
     <span class="c1"># used in CSF mask refinement for CSF signal-related regressions</span>
@@ -263,11 +286,11 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
         <span class="c1"># Erosion proportion, if using erosion.</span>
         <span class="c1"># Default proportion is 0 for anatomical brain mask.</span>
         <span class="c1"># Recommend that do not use erosion in both proportion and millimeter method.</span>
-        <span class="nt">brain_mask_erosion_prop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">brain_mask_erosion_prop </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
 
         <span class="c1"># Erode brain mask in millimeter, default of brain is 30 mm</span>
         <span class="c1"># brain erosion default is using millimeter erosion method when use erosion for brain.</span>
-        <span class="nt">brain_mask_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+        <span class="nt">brain_mask_erosion_mm </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
 
         <span class="c1"># Erode binarized brain mask in millimeter</span>
         <span class="nt">brain_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
@@ -280,7 +303,7 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
         <span class="c1"># Erosion proportion, if use erosion.</span>
         <span class="c1"># Default proportion is 0 for CSF (cerebrospinal fluid)  mask.</span>
         <span class="c1"># Recommend to do not use erosion in both proportion and millimeter method.</span>
-        <span class="nt">csf_erosion_prop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+        <span class="nt">csf_erosion_prop </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
 
         <span class="c1"># Erode brain mask in millimeter, default of csf is 30 mm</span>
         <span class="c1"># CSF erosion default is using millimeter erosion method when use erosion for CSF.</span>
@@ -297,29 +320,6 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
         <span class="c1"># Erosion proportion, if use erosion.</span>
         <span class="c1"># Default proportion is 0.6 for White Matter mask.</span>
         <span class="c1"># Recommend to do not use erosion in both proportion and millimeter method.</span>
-        <span class="c1"># White Matter erosion default is using proportion erosion method when use erosion for White Matter.</span>
-        <span class="nt">wm_erosion_prop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.6</span>
-
-        <span class="c1"># Erode brain mask in millimeter, default of White Matter is 0 mm</span>
-        <span class="nt">wm_mask_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-
-        <span class="c1"># Erode binarized White Matter mask in millimeter</span>
-        <span class="nt">wm_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-
-      <span class="nt">erode_gm</span><span class="p">:</span>
-
-        <span class="c1"># Erode GM binarized tissue mask.</span>
-        <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
-
-        <span class="c1"># Erosion proportion, if use erosion.</span>
-        <span class="c1"># Recommend to do not use erosion in both proportion and millimeter method.</span>
-        <span class="nt">gm_erosion_prop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.6</span>
-
-        <span class="c1"># Erode brain mask in millimeter, default of csf is 30 mm</span>
-        <span class="nt">gm_mask_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
-
-        <span class="c1"># Erode binarized White Matter mask in millimeter</span>
-        <span class="nt">gm_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
 </pre></div>
 </div>
 </div>
@@ -500,7 +500,7 @@ Fox, M.D., Snyder, A.Z., Vincent, J.L., Corbetta, M., Van Essen, D.C., Raichle, 
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

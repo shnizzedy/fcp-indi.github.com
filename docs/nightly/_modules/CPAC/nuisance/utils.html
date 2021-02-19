@@ -455,7 +455,7 @@
                     <span class="c1"># perform the transform using ANTS</span>
                     <span class="n">collect_linear_transforms</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Merge</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_ants_transforms&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ventricles_key</span><span class="p">))</span>
 
-                    <span class="n">nuisance_wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">transforms</span><span class="p">[</span><span class="s1">&#39;anat_to_mni_linear_xfm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)))</span>
+                    <span class="n">nuisance_wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">transforms</span><span class="p">[</span><span class="s1">&#39;mni_to_anat_linear_xfm&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">collect_linear_transforms</span><span class="p">,</span> <span class="s1">&#39;in1&#39;</span><span class="p">)))</span>
 
                     <span class="c1"># generate inverse transform flags, which depends on the number of transforms</span>
                     <span class="n">inverse_transform_flags</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;transform_list&#39;</span><span class="p">],</span>
@@ -756,7 +756,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

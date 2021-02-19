@@ -59,6 +59,11 @@
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">pipeline_setup</span><span class="p">:</span>
 
+  <span class="nt">crash_log_directory</span><span class="p">:</span>
+
+    <span class="c1"># Directory where CPAC should write crash logs.</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/crash</span>
+
   <span class="nt">system_config</span><span class="p">:</span>
 
     <span class="c1"># Select Off if you intend to run CPAC on a single machine.</span>
@@ -110,11 +115,6 @@
     <span class="c1"># The number of participant workflows to run at the same time.</span>
     <span class="c1"># - The maximum number of cores your run can possibly employ will be this setting</span>
     <span class="c1">#   multiplied by the number of cores dedicated to each participant (the &#39;Maximum Number of Cores Per Participant&#39; setting).</span>
-    <span class="nt">num_participants_at_once</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
-
-    <span class="c1"># Full path to the FSL version to be used by CPAC.</span>
-    <span class="c1"># If you have specified an FSL path in your .bashrc file, this path will be set automatically.</span>
-    <span class="nt">FSLDIR</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0</span>
 </pre></div>
 </div>
 </div>
@@ -223,7 +223,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>
