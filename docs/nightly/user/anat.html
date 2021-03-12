@@ -51,12 +51,12 @@
 <h1>Anatomical Preprocessing<a class="headerlink" href="#anatomical-preprocessing" title="Permalink to this headline">¶</a></h1>
 <div class="flowchart-container"><object data="../_static/flowcharts/anatomical.svg" type="image/svg+xml"></object></div><div class="section" id="initial-preprocessing">
 <h2>Initial Preprocessing<a class="headerlink" href="#initial-preprocessing" title="Permalink to this headline">¶</a></h2>
-<p>Initial preprocessing offers methods like ACPC Alignment <a class="bibtex reference internal" href="#anat-glasser-minimal-2013" id="id1">[1]</a>, non-local means filtering <a class="bibtex reference internal" href="#anat-buades-nonlocal-2005" id="id2">[2]</a> and N4 bias field correction <a class="bibtex reference internal" href="#anat-tustison-n4itk-2010" id="id3">[3]</a> to preprocess anatomical images.</p>
+<p>Initial preprocessing offers methods like <a class="reference external" href="https://doi.org/10.1016/j.neuroimage.2013.04.127">ACPC Alignment</a> , <a class="reference external" href="https://www.iro.umontreal.ca/~mignotte/IFT6150/Articles/Buades-NonLocal.pdf">non-local means filtering</a> and <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3071855/">N4 bias field correction</a> to preprocess anatomical images.</p>
 <p>C-PAC provides options for configuring initial preprocessing - users can select:</p>
 <ul class="simple">
-<li><p>ACPC Alignment <a class="bibtex reference internal" href="#anat-wusmhumanconnectomeproject-acpcalignment-2019" id="id4">[4]</a></p></li>
-<li><p>ANTs DenoiseImage <a class="bibtex reference internal" href="#anat-denoiseimage-2017" id="id5">[5]</a></p></li>
-<li><p>ANTs N4BiasFieldCorrection <a class="bibtex reference internal" href="#anat-n4biasfieldcorrection" id="id6">[6]</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Washington-University/HCPpipelines/blob/master/PreFreeSurfer/scripts/ACPCAlignment.sh">ACPC Alignment</a></p></li>
+<li><p><a class="reference external" href="https://manpages.debian.org/experimental/ants/DenoiseImage.1.en.html">ANT’s DenoiseImage</a></p></li>
+<li><p><a class="reference external" href="http://manpages.ubuntu.com/manpages/trusty/man1/N4BiasFieldCorrection.1.html">ANT’s N4BiasFieldCorrection</a></p></li>
 </ul>
 <div class="section" id="configuring-cpac-to-run-initial-preprocessing">
 <h3>Configuring CPAC to run initial preprocessing:<a class="headerlink" href="#configuring-cpac-to-run-initial-preprocessing" title="Permalink to this headline">¶</a></h3>
@@ -87,9 +87,9 @@
 <p>Skull-stripping is the removal of skull and other non-brain tissue like dura and eyes from anatomical images, which could otherwise complicate co-registration and normalization steps.</p>
 <p>C-PAC provides options for configuring skull-stripping - users can select:</p>
 <ul class="simple">
-<li><p>AFNI: 3dSkullStrip <a class="bibtex reference internal" href="#anat-saad-afni-2021" id="id7">[7]</a></p></li>
-<li><p>FSL: BET <a class="bibtex reference internal" href="#anat-bet-2018" id="id8">[8]</a><a class="bibtex reference internal" href="#anat-smith-fast-2002" id="id9">[9]</a>. Further parameters for each of these tools are configurable.</p></li>
-<li><p>niworkflows-ants: niworkflows’s antsBrainExtraction <a class="bibtex reference internal" href="#anat-neuroimagingpreprocessingtools-ants-2019" id="id10">[10]</a></p></li>
+<li><p>AFNI: <a class="reference external" href="https://afni.nimh.nih.gov/pub/dist/doc/program_help/3dSkullStrip.html">3dSkullStrip</a></p></li>
+<li><p>FSL: <a class="reference external" href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/BET/UserGuide">BET</a>. Further parameters for each of these tools are configurable.</p></li>
+<li><p>niworkflows-ants: <a class="reference external" href="https://github.com/poldracklab/niworkflows/blob/master/niworkflows/anat/ants.py">niworkflows’s antsBrainExtraction</a></p></li>
 <li><p>U-Net: U-Net is a Fully Convolutional Network (FCN) for image segmentation. Users can now select this option for brain extraction, especially optimal for non-human primate data.</p></li>
 <li><p>Providing their own brain mask for extraction</p></li>
 </ul>
@@ -168,12 +168,12 @@
 </div>
 <div class="section" id="anatomical-registration">
 <h2>Anatomical Registration<a class="headerlink" href="#anatomical-registration" title="Permalink to this headline">¶</a></h2>
-<p>In order to compare brain activations between subjects, individual functional and anatomical images must first be transformed to match a common template. The most commonly used template (MNI152 <a class="bibtex reference internal" href="#anat-themcconnellbrainimagingcentre-icbm-2014" id="id11">[11]</a>) is maintained by the Montreal Neurological Institute, and is created by combining data from the brains of many different individuals to create an “average” brain. The image below shows how an individual brain is warped to match the shape of the template.</p>
+<p>In order to compare brain activations between subjects, individual functional and anatomical images must first be transformed to match a common template. The most commonly used template (<a class="reference external" href="http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009">MNI152</a>) is maintained by the Montreal Neurological Institute, and is created by combining data from the brains of many different individuals to create an “average” brain. The image below shows how an individual brain is warped to match the shape of the template.</p>
 <div class="figure align-default">
 <img alt="../_images/registration.png" src="../_images/registration.png" />
 </div>
-<p>C-PAC provides the option of either using FSL (FLIRT <a class="bibtex reference internal" href="#anat-flirt-2013" id="id12">[12]</a><span class="bibtex" id="id13">[jenkinson_global_2001]</span><span class="bibtex" id="id14">[jenkinson_improved_2002]</span> and FNIRT <a class="bibtex reference internal" href="#anat-fnirt-2014" id="id15">[13]</a><a class="bibtex reference internal" href="#anat-andersson-nonlinear-2007" id="id16">[14]</a> or Advanced Normalization Tools (ANTS) <a class="bibtex reference internal" href="#anat-avants-ants" id="id17">[15]</a> to register images. Although the use of ANTS requires an extra step during the C-PAC install process, we have found its results to be significantly better than those produced by FSL (a conclusion supported by a recent systematic analysis by Klein et al. <a class="bibtex reference internal" href="#anat-klein-evaluation-2010" id="id18">[16]</a>).</p>
-<p>During registration, individual anatomical images are first transformed to match the common template. Then, the functional data for each subject is registered to their own transformed anatomical image. Finally, functional derivative files are transformed to the common template. For more detail on how C-PAC computes these steps, please see the <a class="reference internal" href="../developer/workflows/registration"><span class="doc">Registration Page of the developer documentation</span></a>.</p>
+<p>C-PAC provides the option of either using FSL (<a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FLIRT">FLIRT</a> and <a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FNIRT">FNIRT</a>) or <a class="reference external" href="http://stnava.github.io/ANTs/">Advanced Normalization Tools (ANTS)</a> to register images. Although the use of ANTS requires an extra step during the C-PAC install process, we have found its results to be significantly better than those produced by FSL (a conclusion supported by a <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/20123029">recent systematic analysis by Klein et al.</a>).</p>
+<p>During registration, individual anatomical images are first transformed to match the common template. Then, the functional data for each subject is registered to their own transformed anatomical image. Finally, functional derivative files are transformed to the common template. For more detail on how C-PAC computes these steps, please see the <a class="reference external" href="http://fcp-indi.github.io/docs/developer/workflows/registration.html">Registration Page of the developer documentation</a>.</p>
 <p>By default, C-PAC will register subject brains to the MNI152 template included with FSL. Users wishing to register their data to a different template (such as a group specific template) can specify alternative template files.</p>
 <div class="section" id="configuring-cpac-to-run-anatomical-registration">
 <h3>Configuring CPAC to Run Anatomical Registration<a class="headerlink" href="#configuring-cpac-to-run-anatomical-registration" title="Permalink to this headline">¶</a></h3>
@@ -184,7 +184,7 @@
 <li><p><strong>Anatomical Template Resolution - [1 An integer indicating three same dimensions (e.g., 1mm, 2mm, 3mm, 4mm); 2 A float number indicating three same dimensions (e.g., 3.5mm etc.); 3 Three numbers connected by ‘x’ indicating three different dimensions (e.g., 2.67mmx2.67mmx3mm etc.)]:</strong> The resolution to which anatomical images should be transformed during registration. This is the resolution at which processed anatomical files will be output.</p></li>
 <li><p><strong>Anatomical Template (Brain Only) - [path]:</strong> Template to be used during registration. It is not necessary to change this path unless you intend to use a non-standard template.</p></li>
 <li><p><strong>Anatomical Template (With Skull) - [path]:</strong> Template to be used during registration. It is not necessary to change this path unless you intend to use a non-standard template.</p></li>
-<li><p><strong>Anatomical to Template Registration Method - [ANTS, FSL, ANTS &amp; FSL]:</strong> Registration method(s) to be used. Options are ANTS <a class="bibtex reference internal" href="#anat-avants-ants" id="id19">[15]</a>, FSL <a class="bibtex reference internal" href="#anat-registration-2020" id="id20">[17]</a>, or both.</p></li>
+<li><p><strong>Anatomical to Template Registration Method - [ANTS, FSL, ANTS &amp; FSL]:</strong> Registration method(s) to be used. Options are <a class="reference external" href="http://stnava.github.io/ANTs/">ANTS</a>, <a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fslcourse/lectures/practicals/reg/">FSL</a>, or both.</p></li>
 <li><p><strong>ANTS skull-on transform - [Off, On]:</strong> Register skull-on anatomical image to template. Calculating the transform with skull-stripped images is reported to be better, but it requires very high-quality skull-stripping. If skull-stripping is imprecise, registration with skull is preferred. Note: This option only affects ANTS due to the fact that FNIRT already uses skull-on images for calculating warps.</p></li>
 <li><p><strong>Interpolation Method - [Linear, BSpline, LanczosWindowedSinc]:</strong> Interpolation method for writing out transformed anatomical images. ANTS registration tools only. Options are Linear, BSpline, or LanczosWindowedSinc.</p></li>
 <li><p><strong>ANTs Registration Parameters :</strong> Clicking on the setting icon will bring up a dialog where you can set ‘antsRegistration’ parameters.</p></li>
@@ -364,12 +364,12 @@
 </div>
 <div class="section" id="anatomical-tissue-segmentation">
 <h2>Anatomical Tissue Segmentation<a class="headerlink" href="#anatomical-tissue-segmentation" title="Permalink to this headline">¶</a></h2>
-<div class="flowchart-container"><object data="../_static/flowcharts/segmentation.svg" type="image/svg+xml"></object></div><p>C-PAC uses FSL/FAST <a class="bibtex reference internal" href="#anat-fast-2020" id="id21">[18]</a> to automatically segment brain images into white matter, gray matter, and CSF. This is done using probability maps that contain information about the likelihood that a given voxel will be of a particular tissue type. Users specify a probability threshold such that voxels meeting a minimum probability of being a particular tissue will be classified as such. This results in masks containing voxels of only a single tissue type.</p>
+<div class="flowchart-container"><object data="../_static/flowcharts/segmentation.svg" type="image/svg+xml"></object></div><p>C-PAC uses <a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FAST">FSL/FAST</a> to automatically segment brain images into white matter, gray matter, and CSF. This is done using probability maps that contain information about the likelihood that a given voxel will be of a particular tissue type. Users specify a probability threshold such that voxels meeting a minimum probability of being a particular tissue will be classified as such. This results in masks containing voxels of only a single tissue type.</p>
 <div class="figure align-default">
 <img alt="../_images/segmentation.png" src="../_images/segmentation.png" />
 </div>
-<p>The default tissue probability maps (referred to as Prior Probability Maps) used during segmentation are based on information from a large number of brains, and are based on the priors distributed with FSL and are included in the “Image Resource Files” package downloaded during installation. Also, CPAC has thresholding and erosion options for anatomical segmentation to further refine the resulting segmentation tissue masks. Threshold value and erosion proportion can be changeable by user. The erosion implementation is adapted from fmriprep <a class="bibtex reference internal" href="#anat-thefmriprepdevelopers-fmriprep-2020" id="id22">[19]</a>.</p>
-<p>For more detail on how CPAC computes these steps, please see the <span class="xref std std-doc">Segmentation Page of the developer documentation</span>.</p>
+<p>The default tissue probability maps (referred to as Prior Probability Maps) used during segmentation are based on information from a large number of brains, and are based on the priors distributed with FSL and are included in the “Image Resource Files” package downloaded during installation. Also, CPAC has thresholding and erosion options for anatomical segmentation to further refine the resulting segmentation tissue masks. Threshold value and erosion proportion can be changeable by user. The erosion implementation is adapted from <a class="reference external" href="https://fmriprep.readthedocs.io/en/stable/">fmriprep</a>.</p>
+<p>For more detail on how CPAC computes these steps, please see the <a class="reference external" href="http://fcp-indi.github.io/docs/developer/workflows/seg_preproc.html">Segmentation Page of the developer documentation</a>.</p>
 <p>Thresholding options have returned, and new erosion options for anatomical segmentation have been introduced. The erosion implementation was adapted from fmriprep.</p>
 <p>If you would like to use different priors, they must first be binarized such that for each voxel the probability for each tissue type is set to either 0% or 100%.</p>
 <p>The following bash script will binarize existing priors:</p>
@@ -423,15 +423,15 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 <li><p><strong>ANTs Prior-Based Segmentation - [On, Off]:</strong> ANTs Prior-based Segmentation workflow that has shown optimal results for non-human primate data. Generate white matter, gray matter, CSF masks based on antsJointLabelFusion.</p></li>
 <li><p><strong>The atlas image - [path]:</strong> The atlas image assumed to be used in ANTs Prior-based Segmentation. Clicking on the <em>+</em> icon to the right of the box here will bring up a dialog where you can define multiple paths to NifTIs containing the atlas image.  You may add multiple images to the box.</p></li>
 <li><p><strong>The atlas segmentation images - [path]:</strong> The number of specified segmentations should be identical to the number of atlas brain images. Clicking on the <em>+</em> icon to the right of the box here will bring up a dialog where you can define multiple paths to NifTIs containing the atlas segmentation image.  You may add multiple images to the box.</p></li>
-<li><p><strong>CSF Label Value - [integer]:</strong> Label value corresponding to CSF in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from Freesurfer Color Lookup Table <a class="bibtex reference internal" href="#anat-fstutorial-2017" id="id23">[20]</a>.</p></li>
-<li><p><strong>Left Gray Matter Label Value - [integer]:</strong> Label value corresponding to Left Gray Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <cite>Freesurfer Color Lookup Table :cite:`anat-_fstutorial_2017</cite>.</p></li>
-<li><p><strong>Right Gray Matter Label Value - [integer]:</strong> Label value corresponding to Right Gray Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <cite>Freesurfer Color Lookup Table :cite:`anat-_fstutorial_2017</cite>.</p></li>
-<li><p><strong>Left White Matter Label Value - [integer]:</strong> Label value corresponding to Left White Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <cite>Freesurfer Color Lookup Table :cite:`anat-_fstutorial_2017</cite>.</p></li>
-<li><p><strong>Right White Matter Label Value - [integer]:</strong> Label value corresponding to Right White Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <cite>Freesurfer Color Lookup Table :cite:`anat-_fstutorial_2017</cite>.</p></li>
+<li><p><strong>CSF Label Value - [integer]:</strong> Label value corresponding to CSF in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT">Freesurfer Color Lookup Table.</a></p></li>
+<li><p><strong>Left Gray Matter Label Value - [integer]:</strong> Label value corresponding to Left Gray Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT">Freesurfer Color Lookup Table.</a></p></li>
+<li><p><strong>Right Gray Matter Label Value - [integer]:</strong> Label value corresponding to Right Gray Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT">Freesurfer Color Lookup Table.</a></p></li>
+<li><p><strong>Left White Matter Label Value - [integer]:</strong> Label value corresponding to Left White Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT">Freesurfer Color Lookup Table.</a></p></li>
+<li><p><strong>Right White Matter Label Value - [integer]:</strong> Label value corresponding to Right White Matter in multiatlas file. It is not necessary to change this values unless your CSF/GM/WM label values are different from <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT">Freesurfer Color Lookup Table.</a></p></li>
 </ol>
 </div>
-<div class="section" id="id24">
-<h3>Configuration Without the GUI<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>Configuration Without the GUI<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>      <span class="c1"># niworkflows-ants registration mask (can be optional)</span>
       <span class="nt">regmask_path </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0_BrainCerebellumRegistrationMask.nii.gz</span>
@@ -559,69 +559,11 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<p id="bibtex-bibliography-user/anat-0"><dl class="citation">
-<dt class="bibtex label" id="anat-glasser-minimal-2013"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Glasser, M.F., Sotiropoulos, S.N., Wilson, J.A., Coalson, T.S., Fischl, B., Andersson, J.L., Xu, J., Jbabdi, S., Webster, M., Polimeni, J.R., Van Essen, D.C., and Jenkinson, M. 2013 October. The minimal preprocessing pipelines for the Human Connectome Project. <em>Neuroimage 80:105–124</em>. <a class="reference external" href="https://dx.doi.org/10.1016/j.neuroimage.2013.04.127">doi:10.1016/j.neuroimage.2013.04.127</a></p>
-</dd>
-<dt class="bibtex label" id="anat-buades-nonlocal-2005"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
-<dd><p>Buades, A., Coll, B., and Morel, J.-M. 2005. A Non-Local Algorithm for Image Denoising. <em>2005 IEEE Computer Society Conference on Computer Vision and Pattern Recognition (CVPR’05).</em> San Diego, CA, USA: IEEE.</p>
-</dd>
-<dt class="bibtex label" id="anat-tustison-n4itk-2010"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
-<dd><p>Tustison, N.J., Avants, B.B., Cook, P.A., Zheng, Y., Egan, A., Yushkevich, P.A., and Gee, J.C. 2010 June. N4ITK: Improved N3 Bias Correction. <em>IEEE trans med imaging 29(6):1310–1320</em>. <a class="reference external" href="https://dx.doi.org/10.1109/TMI.2010.2046908">doi:10.1109/TMI.2010.2046908</a></p>
-</dd>
-<dt class="bibtex label" id="anat-wusmhumanconnectomeproject-acpcalignment-2019"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
-<dd><p>WUSM Human Connectome Project. 2019 October. <a class="reference external" href="https://github.com/Washington-University/HCPpipelines/blob/13bf2c9/PreFreeSurfer/scripts/ACPCAlignment.sh">ACPCAlignment.sh</a>.</p>
-</dd>
-<dt class="bibtex label" id="anat-denoiseimage-2017"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
-<dd><p>2017 October. DenoiseImage(1) — ants. In: <a class="reference external" href="https://manpages.debian.org/experimental/ants/DenoiseImage.1.en.html"><em>Debian experimental — Debian Manpages.</em></a></p>
-</dd>
-<dt class="bibtex label" id="anat-n4biasfieldcorrection"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
-<dd><p>N4BiasFieldCorrection - part of ANTS registration suite. In: <a class="reference external" href="http://manpages.ubuntu.com/manpages/trusty/man1/N4BiasFieldCorrection.1.html"><em>Ubuntu Manpage.</em></a></p>
-</dd>
-<dt class="bibtex label" id="anat-saad-afni-2021"><span class="brackets"><a class="fn-backref" href="#id7">7</a></span></dt>
-<dd><p>Saad, Z.S. 2021 February. <a class="reference external" href="https://afni.nimh.nih.gov/pub/dist/doc/program_help/3dSkullStrip.html">AFNI program: 3dSkullStrip</a>.</p>
-</dd>
-<dt class="bibtex label" id="anat-bet-2018"><span class="brackets"><a class="fn-backref" href="#id8">8</a></span></dt>
-<dd><p>2018 January. <a class="reference external" href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/BET/UserGuide">BET/UserGuide</a>, <em>Fslwiki.</em></p>
-</dd>
-<dt class="bibtex label" id="anat-smith-fast-2002"><span class="brackets"><a class="fn-backref" href="#id9">9</a></span></dt>
-<dd><p>Smith, S.M. 2002. Fast robust automated brain extraction. <em>Human brain mapping 17(3):143–155</em>. <a class="reference external" href="https://dx.doi.org/10.1002/hbm.10062">doi:10.1002/hbm.10062</a></p>
-</dd>
-<dt class="bibtex label" id="anat-neuroimagingpreprocessingtools-ants-2019"><span class="brackets"><a class="fn-backref" href="#id10">10</a></span></dt>
-<dd><p>NeuroImaging PREProcessing toolS. 2019 June. <a class="reference external" href="https://github.com/nipreps/niworkflows/blob/0.10.2/niworkflows/anat/ants.py">ants.py</a>.</p>
-</dd>
-<dt class="bibtex label" id="anat-themcconnellbrainimagingcentre-icbm-2014"><span class="brackets"><a class="fn-backref" href="#id11">11</a></span></dt>
-<dd><p>The McConnell Brain Imaging Centre. 2014 February. <a class="reference external" href="http://www.bic.mni.mcgill.ca/ServicesAtlases/ICBM152NLin2009">ICBM 152 Nonlinear atlases version 2009</a>, <em>Bic.</em></p>
-</dd>
-<dt class="bibtex label" id="anat-flirt-2013"><span class="brackets"><a class="fn-backref" href="#id12">12</a></span></dt>
-<dd><p>2013 February. <a class="reference external" href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Atlases#Harvard-Oxford_cortical_and_subcortical_structural_atlases">FLIRT</a>, <em>Fslwiki.</em></p>
-</dd>
-<dt class="bibtex label" id="anat-fnirt-2014"><span class="brackets"><a class="fn-backref" href="#id15">13</a></span></dt>
-<dd><p>2014 January. <a class="reference external" href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FNIRT">FNIRT</a>, <em>Fslwiki.</em></p>
-</dd>
-<dt class="bibtex label" id="anat-andersson-nonlinear-2007"><span class="brackets"><a class="fn-backref" href="#id16">14</a></span></dt>
-<dd><p>Andersson, J.L.R., Jenkinson, M., and Smith, S. 2007 June. <a class="reference external" href="https://www.fmrib.ox.ac.uk/datasets/techrep/tr07ja2/tr07ja2.pdf">Non-linear registration, aka spatial normalisation</a>, <em>Fmrib technial report. TR07JA2</em>. Oxford, United Kingdom: FMRIB Centre.</p>
-</dd>
-<dt class="bibtex label" id="anat-avants-ants"><span class="brackets">15</span><span class="fn-backref">(<a href="#id17">1</a>,<a href="#id19">2</a>)</span></dt>
-<dd><p>Avants, B.B., Tustison, N.J., and Johnson, H.J. <a class="reference external" href="http://stnava.github.io/ANTs/">ANTs: Advanced Normalization Tools</a>.</p>
-</dd>
-<dt class="bibtex label" id="anat-klein-evaluation-2010"><span class="brackets"><a class="fn-backref" href="#id18">16</a></span></dt>
-<dd><p>Klein, A., Ghosh, S.S., Avants, B., Yeo, B.T.T., Fischl, B., Ardekani, B., Gee, J.C., Mann, J.J., and Parsey, R.V. 2010 May. Evaluation of volume-based and surface-based brain image registration methods. <em>Neuroimage 51(1):214–220</em>. <a class="reference external" href="https://dx.doi.org/10.1016/j.neuroimage.2010.01.091">doi:10.1016/j.neuroimage.2010.01.091</a></p>
-</dd>
-<dt class="bibtex label" id="anat-registration-2020"><span class="brackets"><a class="fn-backref" href="#id20">17</a></span></dt>
-<dd><p>2020. <a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fslcourse/lectures/practicals/registration/">Registration Practical</a>, <em>Fsl course.</em></p>
-</dd>
-<dt class="bibtex label" id="anat-fast-2020"><span class="brackets"><a class="fn-backref" href="#id21">18</a></span></dt>
-<dd><p>2020 April. <a class="reference external" href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FAST">FAST</a>, <em>Fslwiki.</em></p>
-</dd>
-<dt class="bibtex label" id="anat-thefmriprepdevelopers-fmriprep-2020"><span class="brackets"><a class="fn-backref" href="#id22">19</a></span></dt>
-<dd><p>The fMRIPrep developers. 2020. <em><a class="reference external" href="https://fmriprep.org/en/stable/">fMRIPrep: A Robust Preprocessing Pipeline for fMRI Data — fmriprep documentation.</a></em></p>
-</dd>
-<dt class="bibtex label" id="anat-fstutorial-2017"><span class="brackets"><a class="fn-backref" href="#id23">20</a></span></dt>
-<dd><p>2017 December. <a class="reference external" href="https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/AnatomicalROI/FreeSurferColorLUT">FsTutorial/AnatomicalROI/FreeSurferColorLUT</a>, <em>Free surfer wiki.</em></p>
-</dd>
-</dl>
-</p>
+<p><a class="reference external" href="https://afni.nimh.nih.gov/pub/dist/doc/program_help/3dSkullStrip.html">AFNI 3dSkullStrip</a></p>
+<p>Smith, Stephen M., <a class="reference external" href="http://dx.doi.org/10.1002/hbm.10062">Fast robust automated brain extraction</a>, Human Brain Mapping 2002, Volume 17 Issue 3, page 143-155.</p>
+<ol class="upperalpha simple" start="14">
+<li><p>Tustison et al., <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3071855/pdf/nihms279873.pdf">N4ITK: Improved N3 Bias Correction</a>, IEEE Transactions on Medical Imaging, 29(6):1310-1320, June 2010.</p></li>
+</ol>
 </div>
 </div>
 
@@ -667,7 +609,7 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 </li>
 <li class="toctree-l5"><a class="reference internal" href="#anatomical-tissue-segmentation">Anatomical Tissue Segmentation</a><ul>
 <li class="toctree-l6"><a class="reference internal" href="#configuring-cpac-to-run-anatomical-tissue-segmentation">Configuring CPAC to Run Anatomical Tissue Segmentation</a></li>
-<li class="toctree-l6"><a class="reference internal" href="#id24">Configuration Without the GUI</a></li>
+<li class="toctree-l6"><a class="reference internal" href="#id6">Configuration Without the GUI</a></li>
 </ul>
 </li>
 <li class="toctree-l5"><a class="reference internal" href="#references">References</a></li>
@@ -736,7 +678,7 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

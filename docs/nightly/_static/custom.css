@@ -15,11 +15,7 @@ object {
   content: "[";
 }
 .bibtex .brackets::after {
-  content: "]";
-}
-
-.bibtex a.fn-backref::before, .bibtex a.fn-backref::after {
-  display: none;
+  content: "]"
 }
 
 .bibtex.label {
