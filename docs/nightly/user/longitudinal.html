@@ -70,12 +70,7 @@
 <div class="section" id="configuration-without-the-gui">
 <h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>  <span class="c1"># If you wish to employ Freesurfer outputs for brain masking or tissue segmentation in the voxel-based pipeline,</span>
-  <span class="c1"># select those &#39;Freesurfer-&#39; labeled options further below in anatomical_preproc.</span>
-  <span class="nt">run_freesurfer</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
-
-
-<span class="nt">longitudinal_template_generation</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">longitudinal_template_generation</span><span class="p">:</span>
 
   <span class="c1"># If you have multiple T1w&#39;s, you can generate your own run-specific custom</span>
   <span class="c1"># T1w template to serve as an intermediate to the standard template for</span>
@@ -103,6 +98,11 @@
   <span class="nt">cost</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">corratio</span>
 
   <span class="c1"># Number of threads used for one run of the template generation algorithm</span>
+  <span class="nt">thread_pool</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+
+  <span class="c1"># Threshold of transformation distance to consider that the loop converged</span>
+  <span class="c1"># (-1 means numpy.finfo(np.float64).eps and is the default)</span>
+  <span class="nt">convergence_threshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-1</span>
 </pre></div>
 </div>
 </div>
