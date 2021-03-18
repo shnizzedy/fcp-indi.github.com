@@ -51,7 +51,7 @@
 <div class="section" id="let-s-go">
 <h2>Let’s Go!<a class="headerlink" href="#let-s-go" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li><p>The recommended way to run C-PAC is through the use of a container such as Docker or Singularity. Using these containers can be facilitated by <a class="reference internal" href="cpac"><span class="doc">cpac (Python package)</span></a>.</p></li>
+<li><p>The recommended way to run C-PAC is through the use of a container such as Docker or Singularity. Using these containers can be facilitated by <a class="reference internal" href="cpac"><span class="doc">cpac (Python package)</span></a>. C-PAC is also available as a <a class="reference external" href="https://brainlife.io/app/5f3593e84615e04651bf9364"><img alt="brainlife.io/app" src="https://img.shields.io/badge/brainlife.io-app-green.svg" /></a>.</p></li>
 <li><p>Containers are completely pre-built environments that help ensure reproducibility (same exact library versions, behavior, etc.).</p></li>
 <li><p>Docker is the more common option, but may require administrative rights on your system. This is a good option for personal machines.</p></li>
 <li><p>Singularity is the preferred option for shared resources like servers and clusters with many users. Either you or a system administrator can pull a C-PAC Singularity container for global use across your lab or organization.</p></li>
@@ -212,8 +212,8 @@
 <span class="go">  ----------------------------  --------------------  ------</span>
 <span class="go">  /home/circleci/build          /home/circleci/build  rw</span>
 <span class="go">  /home/circleci/build          /tmp                  rw</span>
-<span class="go">  /home/circleci/build/log      /crash                rw</span>
 <span class="go">  /home/circleci/build/outputs  /output               rw</span>
+<span class="go">  /home/circleci/build/log      /crash                rw</span>
 <span class="go">Logging messages will refer to the Docker paths.</span>
 
 <span class="go">INFO: //matlab/startup.m does not exist ... creating</span>
@@ -374,12 +374,12 @@
 <span class="go">  ----------------------------  --------------------  ------</span>
 <span class="go">  /home/circleci/build          /home/circleci/build  rw</span>
 <span class="go">  /home/circleci/build          /tmp                  rw</span>
-<span class="go">  /home/circleci/build/log      /crash                rw</span>
+<span class="go">  /home/circleci/build/log      /logs                 rw</span>
 <span class="go">  /home/circleci/build/outputs  /output               rw</span>
 <span class="go">Logging messages will refer to the Docker paths.</span>
 
-<span class="go">mkdir: cannot create directory ‘//matlab’: Permission denied</span>
 <span class="go">INFO: //matlab/startup.m does not exist ... creating</span>
+<span class="go">mkdir: cannot create directory ‘//matlab’: Permission denied</span>
 <span class="go">touch: cannot touch &#39;//matlab/startup.m&#39;: No such file or directory</span>
 <span class="go">/usr/lib/freesurfer/FreeSurferEnv.sh: line 231: //matlab/startup.m: No such file or directory</span>
 <span class="go">/usr/lib/freesurfer/FreeSurferEnv.sh: line 232: //matlab/startup.m: No such file or directory</span>
