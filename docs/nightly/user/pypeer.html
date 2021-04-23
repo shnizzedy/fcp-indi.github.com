@@ -4,8 +4,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PyPEER Integration &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>PyPEER Integration &#8212; C-PAC 1.8.0.g671e2da1-dev Beta documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -35,7 +36,7 @@
         <li class="right" >
           <a href="vmhc" title="Voxel-Mirrored Homotopic Connectivity (VMHC)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="derivatives" accesskey="U">Computable Derivatives</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">PyPEER Integration</a></li> 
@@ -47,15 +48,15 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="pypeer-integration">
+  <section id="pypeer-integration">
 <h1>PyPEER Integration<a class="headerlink" href="#pypeer-integration" title="Permalink to this headline">¶</a></h1>
 <p>PEER is a previously developed support vector regression-based method for retrospectively estimating eye gaze from the fMRI signal in the eye’s orbit. PyPEER is the Python package created by Jake Son [<a class="reference external" href="https://github.com/ChildMindInstitute/PyPEER">https://github.com/ChildMindInstitute/PyPEER</a>] which implements the PEER method in Python.</p>
 <p>C-PAC can prepare your pipeline results directly for Predictive Eye Estimation, given the appropriate input files. The PyPEER package comes pre-installed in the C-PAC Docker and Singularity containers, so no setup is necessary.</p>
-<div class="section" id="configuring-cpac-to-run-pypeer">
+<section id="configuring-cpac-to-run-pypeer">
 <h2>Configuring CPAC to Run PyPEER<a class="headerlink" href="#configuring-cpac-to-run-pypeer" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/pypeer_gui.png" src="../_images/pypeer_gui.png" />
-</div>
+</figure>
 <ol class="arabic simple">
 <li><p><strong>PEER Eye Scan Names:</strong> Scan/series names of the PEER calibration scans to be used for training the model.</p></li>
 <li><p><strong>PEER Data Scan Names:</strong> Scan/series names of the naturalistic viewing data to be used for estimation.</p></li>
@@ -65,7 +66,7 @@
 <li><p><strong>Perform Motion Scrubbing:</strong> PyPEER employs a minimal preprocessing strategy. If motion scrubbing is desired, this can be selected here. C-PAC will not employ its standard nuisance regression selections on scans selected for PEER calibration and estimation.</p></li>
 <li><p><strong>Motion Scrubbing Threshold:</strong> The threshold for motion (in mm) to use for motion scrubbing, if it is selected. PyPEER employs the Power (2012) measurement for framewise displacement.</p></li>
 </ol>
-<div class="section" id="configuration-without-the-gui">
+<section id="configuration-without-the-gui">
 <h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="c1"># PACKAGE INTEGRATIONS</span>
@@ -106,16 +107,16 @@
     <span class="nt">scrub_thresh</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.2</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="references">
+</section>
+</section>
+<section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p>Jake Son, Lei Ai, Ryan Lim, Ting Xu, Stanley Colcombe, Alexandre Rosa Franco, Jessica Cloud, Stephen LaConte, Jonathan Lisinski, Arno Klein, R. Cameron Craddock, Michael Milham. <a class="reference external" href="https://www.biorxiv.org/content/10.1101/347765v5">Evaluating fMRI-Based Estimation of Eye Gaze during Naturalistic Viewing.</a> <a class="reference external" href="https://doi.org/10.1101/347765">https://doi.org/10.1101/347765</a></p>
 <p>Fox, M.D., Zhang, D., Snyder, A.Z., Raichle, M.E., 2009. <a class="reference external" href="http://jn.physiology.org/content/101/6/3270.full.pdf">The global signal and observed anticorrelated resting state brain networks</a>. J Neurophysiol 101, 3270-3283.</p>
 <p>Power, J.D., Barnes, K.A., Snyder, A.Z., Schlaggar, B.L., Petersen, S.E., 2011. <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pubmed/22019881">Spurious but systematic correlations in functional connectivity MRI networks arise from subject motion</a>. Neuroimage 59, 2142-2154.</p>
 <p>Power, J.D., Barnes, K.A., Snyder, A.Z., Schlaggar, B.L., Petersen, S.E., 2012. <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pubmed/22440651">Steps toward optimizing motion artifact removal in functional connectivity MRI; a reply to Carp</a>. Neuroimage.</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -199,7 +200,7 @@
         <li class="right" >
           <a href="vmhc" title="Voxel-Mirrored Homotopic Connectivity (VMHC)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="derivatives" >Computable Derivatives</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">PyPEER Integration</a></li> 
@@ -208,7 +209,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

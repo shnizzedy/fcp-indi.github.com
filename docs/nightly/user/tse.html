@@ -4,8 +4,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Timeseries Extraction &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Timeseries Extraction &#8212; C-PAC 1.8.0.g671e2da1-dev Beta documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -35,7 +36,7 @@
         <li class="right" >
           <a href="aroma_ica" title="ICA-AROMA (Independent Component Analysis - Automatic Removal of Motion Artifacts)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" accesskey="U">Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Timeseries Extraction</a></li> 
@@ -47,24 +48,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="timeseries-extraction">
+  <section id="timeseries-extraction">
 <h1>Timeseries Extraction<a class="headerlink" href="#timeseries-extraction" title="Permalink to this headline">¶</a></h1>
 <p>C-PAC lets you easily export BOLD timeseries in a number of different ways. This can be useful for those wishing to undertake advanced analysis not included in C-PAC, but still take advantage of its robust pre-processing features. For instructions on how to use these seeds within C-PAC
 , please see <a class="reference internal" href="sca"><span class="doc">Seed-based Correlation Analysis</span></a>.</p>
 <p>ROI Timeseries Extraction allows you to export the timeseries for one or more regions of interest (ROIs). This is done by calculating the average timeseries across all voxels within an ROI. As such, C-PAC will output one timeseries for each ROI specified by you.</p>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/roi_timeseries.png" src="../_images/roi_timeseries.png" />
-</div>
+</figure>
 <p>When an ROI is placed within a functionally homogeneous area, averaging signals in this way can produce a timeseries which may more accurately reflect the overall activity pattern in the region than does the timeseries of any individual voxel. Voxel Timeseries Extraction will export the individual timeseries of all voxels within one or more masks.</p>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/voxel_timeseries.png" src="../_images/voxel_timeseries.png" />
-</div>
-</div>
-<div class="section" id="configuring-roi-time-series-extraction">
+</figure>
+</section>
+<section id="configuring-roi-time-series-extraction">
 <h1>Configuring ROI Time Series Extraction<a class="headerlink" href="#configuring-roi-time-series-extraction" title="Permalink to this headline">¶</a></h1>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/tse_gui.png" src="../_images/tse_gui.png" />
-</div>
+</figure>
 <ol class="arabic simple">
 <li><p><strong>Time Series Extraction- [On,Off]:</strong>  Extract the average time series of one or more ROIs/seeds. Must be enabled if you wish to run seed-based correlation analysis.</p></li>
 <li><dl class="simple">
@@ -79,7 +80,7 @@
 <li><p><strong>Realignment - [ROI to func, func to ROI]:</strong> Choose functional time-series and ROI realignment method. ‘ROI to func’ will realign the atlas/ROI to functional space (fast). ‘func to ROI’ will realign the functional time series to the atlas/ROI space. NOTE: in rare cases, realigning the ROI to the functional space may result in small misalignments for very small ROIs - please double check your data if you see issues.</p></li>
 <li><p><strong>Outputs - [CSV, NUMPY]:</strong> Choose to save voxelwise time series extraction outputs as a csv file or a Numpy array.  Voxelwise TSE outputs are saved as a text file and 1D file by default.  ROI Average TSE outputs are saved as a tab-delimited value file (‘roi_stats.csv’) only.</p></li>
 </ol>
-<div class="section" id="configuration-without-the-gui">
+<section id="configuration-without-the-gui">
 <h2>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h2>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">timeseries_extraction</span><span class="p">:</span>
@@ -130,8 +131,8 @@
   <span class="nt">realignment</span><span class="p">:</span> <span class="s">&#39;ROI_to_func&#39;</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -213,7 +214,7 @@
         <li class="right" >
           <a href="aroma_ica" title="ICA-AROMA (Independent Component Analysis - Automatic Removal of Motion Artifacts)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" >Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Timeseries Extraction</a></li> 
@@ -222,7 +223,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

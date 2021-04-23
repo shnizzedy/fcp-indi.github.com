@@ -4,8 +4,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Functional Preprocessing &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Functional Preprocessing &#8212; C-PAC 1.8.0.g671e2da1-dev Beta documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -35,7 +36,7 @@
         <li class="right" >
           <a href="anat" title="Anatomical Preprocessing"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" accesskey="U">Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Functional Preprocessing</a></li> 
@@ -47,13 +48,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="functional-preprocessing">
+  <section id="functional-preprocessing">
 <h1>Functional Preprocessing<a class="headerlink" href="#functional-preprocessing" title="Permalink to this headline">¶</a></h1>
-<div class="flowchart-container"><object data="../_static/flowcharts/functional.svg" type="image/svg+xml"></object></div><div class="section" id="initial-preprocessing">
+<div class="flowchart-container"><object data="../_static/flowcharts/functional.svg" type="image/svg+xml"></object></div><section id="initial-preprocessing">
 <h2>Initial Preprocessing<a class="headerlink" href="#initial-preprocessing" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/func_init_options.png" src="../_images/func_init_options.png" />
-</div>
+</figure>
 <ol class="arabic">
 <li><p><strong>ANT’s N4BiasFieldCorrection - [On, Off]:</strong> Choose On to perform N4 Bias Field Correction on mean EPI image, may help enhance coregistration quality. Default is Off.</p></li>
 <li><p><strong>Despike - [On, Off, On/Off]:</strong> Choose On to perform AFNI 3dDespike. Default is Off.</p></li>
@@ -78,7 +79,7 @@
 </div></blockquote>
 </li>
 </ol>
-<div class="section" id="configuration-without-the-gui">
+<section id="configuration-without-the-gui">
 <span id="func-init-without-gui"></span><h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>  <span class="nt">functional_registration</span><span class="p">:</span>
@@ -281,15 +282,15 @@
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="slice-timing-correction">
+</section>
+</section>
+<section id="slice-timing-correction">
 <h2>Slice Timing Correction<a class="headerlink" href="#slice-timing-correction" title="Permalink to this headline">¶</a></h2>
 <p>Most fMRI images are created by combining multiple 2D slices into a single 3D volume. Slices are acquired one after another, either sequentially in ascending or descending order, or in an interleaved manner, such that every other slice is acquired in a first pass, and the remaining slices are acquired in a second pass. The time elapsed between the acquisition of the first and last slice is equivalent to the repetition time (TR) used. Slice timing correction acts to adjust the timecourse of voxels in each slice to account for these differences. This is done by interpolating the data in each slice to match the timing of a reference slice. Slice timing correction is necessary because many statistical models used for fMRI analysis assume that all voxels are measured simultaneously. As such, differences in acquisition time between slices can cause confounds.</p>
 <p>You can configure your slice time correction settings through the C-PAC pipeline configuration editor, under the <em>Time Series Options</em> tab in the <em>Functional Preprocessing</em> section. Here you can select whether or not to run Slice Time Correction, as well as which slice acquisition pattern to enter.</p>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/ts_options.png" src="../_images/ts_options.png" />
-</div>
+</figure>
 <ol class="arabic simple">
 <li><p><strong>First Timepoint - [integer]:</strong> The starting volume of the scan.  If you need to censor the first volumes of a scan to facilitate stable magnetization, you can do so here.</p></li>
 <li><p><strong>Last Timepoint - [integer/text]:</strong> The last volume of the timeseries.  If you wish to cut off the timeseries before a specific point, you can do so here.  Otherwise, set this to ‘End’.</p></li>
@@ -298,7 +299,7 @@
 <li><p><strong>Slice Acquisition Pattern - [Use NifTI Header, alt+z, alt+z2, alt-z, alt-z2, seq+z, seq-z]:</strong> The order of slice acquisition for the scans.</p></li>
 </ol>
 <p>Note that if a scan parameters file was used to construct the participant list, the parameters defined in this file will override the settings used here.</p>
-<div class="section" id="id1">
+<section id="id1">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">functional_preproc</span><span class="p">:</span>
@@ -311,8 +312,8 @@
     <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">On</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="through-the-data-configuration">
+</section>
+<section id="through-the-data-configuration">
 <h3>Through the Data Configuration<a class="headerlink" href="#through-the-data-configuration" title="Permalink to this headline">¶</a></h3>
 <p>You can also specify slice timing parameters within the subject list.  If you wish to specify slice timing correction parameters in this way, scan parameters must be supplied to C-PAC in a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file, and the path to this file provided when <a class="reference internal" href="subject_list_config"><span class="doc">setting up a new subject list</span></a>.</p>
 <div class="line-block">
@@ -356,18 +357,18 @@
 <p>The path to the acquisition order file for each scan should be specified in the “Acquisition” column of your <code class="file docutils literal notranslate"><span class="pre">scan_parameters.csv</span></code> or <code class="file docutils literal notranslate"><span class="pre">scan_parameters_multiscan.csv</span></code> file.</p>
 <p><strong>Note:</strong> alt+z2 is the order most commonly used on Siemens scanners for interleaved scans with an even number of slices.</p>
 <p><strong>Note:</strong> Scan parameter information specified for slice timing correction will override the settings specified in the pipeline configuration YAML.</p>
-</div>
-</div>
-<div class="section" id="field-map-based-distortion-correction">
+</section>
+</section>
+<section id="field-map-based-distortion-correction">
 <h2>Field Map-Based Distortion Correction<a class="headerlink" href="#field-map-based-distortion-correction" title="Permalink to this headline">¶</a></h2>
 <p>Distortion correction is a method that aims to reduce distortion in EPI (fMRI) images caused by inhomogeneities in the magnetic field (which often stem from differences in tissue across tissue boundaries in the head). C-PAC has the option of including field map-based distortion correction into your pre-processing pipeline, and two methods, <strong>Phase Difference (PhaseDiff)</strong> or <strong>Phase-Encoding Polarity (Blip-up/Blip-down)</strong> to perform distortion correction.</p>
 <p>Performing PhaseDiff distortion correction requires the acquisition of a phase difference image and two magnitude images. The “best of the two” magnitude images is chosen, and a final input of one phase difference file and one magnitude file are then used by the pre-processing pipeline.
 Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-encoding direction-specific EPI field maps to correct for distortion in the direction of the phase-encoding. It uses AFNI 3dQWarp to calculate the distortion unwarp for EPI field maps of opposite/same phase encoding direction.</p>
 <p>These files are used to generate the field map during pre-processing, and they can be provided to the C-PAC pipeline through the data configuration (participant list) file. More information on how to set this data configuration file is <a class="reference external" href="http://fcp-indi.github.io/docs/user/subject_list_config.html">available here</a>.</p>
 <p>The C-PAC pipeline configuration builder provides options for configuring the Distortion Correction workflow. The field maps are generated within the distortion correction workflow, and the result is subsequently sent to the functional-to-anatomical registration step (FSL FLIRT, and with Boundary-Based Registration if selected and if tissue segmentation is run), where the distortion is “un-warped” during the transform.</p>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/fmap_dist_corr.png" src="../_images/fmap_dist_corr.png" />
-</div>
+</figure>
 <ol class="arabic simple">
 <li><p><strong>Distortion correction - [On, Off]:</strong> Perform field map-based distortion correction.</p></li>
 <li><p><strong>PhaseDiff - [On, Off]:</strong> Perform field map correction using a single phase difference image, a subtraction of the two phase images from each echo. Default scanner for this method is SIEMENS.</p></li>
@@ -379,7 +380,7 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 <li><p><strong>Dwell to asymmetric ratio - [float]:</strong> This is the ratio between the Dwell time, as referenced above, and the asymmetric time. Here, the default value is 0.93902439.</p></li>
 <li><p><strong>Phase encoding direction - [string]:</strong> This is the position of the voxels in the input image, and can have values of x/y/z or -x/-y/-z.</p></li>
 </ol>
-<div class="section" id="id2">
+<section id="id2">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">functional_preproc</span><span class="p">:</span>
@@ -414,13 +415,13 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
       <span class="nt">fmap_skullstrip_AFNI_threshold</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.6</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="functional-to-anatomical-registration">
+</section>
+</section>
+<section id="functional-to-anatomical-registration">
 <h2>Functional to Anatomical Registration<a class="headerlink" href="#functional-to-anatomical-registration" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/func_to_anat_reg.png" src="../_images/func_to_anat_reg.png" />
-</div>
+</figure>
 <ol class="arabic simple">
 <li><p><strong>Run Functional-to-Anatomical Registration - [On, Off]:</strong> Register the functional timeseries and functional mean images to the T1 anatomical images.</p></li>
 <li><p><strong>Using BB Register - [On, Off, On/Off]:</strong> Use Boundary-Based Registration in the functional-to-anatomical registration process. This uses the anatomical segmentation outputs to improve the co-registration of functional images to the anatomical. However, this may not be the best option if your anatomical images feature low contrast, resulting in segmentation which may not be of high quality.</p></li>
@@ -429,7 +430,7 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 <li><p><strong>Functional Volume to Use as Input (Selected Functional Volume only) - [integer]:</strong> Only for when ‘Use as Functional-to-Anatomical Registration Input’ is set to ‘Selected Functional Volume’. Input the index of which volume from the functional 4D timeseries input file you wish to use as the input for functional-to-anatomical registration.</p></li>
 <li><p><strong>Functional Masking - [AFNI, FSL, FSL_AFNI, Anatomical_Refined]:</strong> Choose which tool to be used in functional masking - AFNI (3dAutoMask), FSL (BET), FSL_AFNI (BET+3dAutoMask) or Anatomical_Refined (generate functional mask by registering anatomical mask to functional space). Default is AFNI.</p></li>
 </ol>
-<div class="section" id="id3">
+<section id="id3">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">registration_workflows</span><span class="p">:</span>
@@ -471,13 +472,13 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
     <span class="nt">using</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;AFNI&#39;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="configuring-fsl-bet-options">
+</section>
+<section id="configuring-fsl-bet-options">
 <h3>Configuring FSL BET options:<a class="headerlink" href="#configuring-fsl-bet-options" title="Permalink to this headline">¶</a></h3>
 <p><strong>Note:</strong> These options are pre-set for FSL BET’s default values. These do not need to be modified unless you are looking to optimize the results of skull-stripping for your particular dataset.</p>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/func_masking_fsl.png" src="../_images/func_masking_fsl.png" />
-</div>
+</figure>
 <ol class="arabic simple">
 <li><p><strong>Threshold - [0.3]:</strong> Set the threshold value controlling the brain vs non-brain voxels. Default is 0.3</p></li>
 <li><p><strong>Radius - [0]:</strong> Integer value of head radius. Default is 0.</p></li>
@@ -494,8 +495,8 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 <li><p><strong>Remove eyes - [Off,On]:</strong> Eyes and optic nerve cleanup. Mutually exclusive with functional, reduce_bias, robust, padding, remove_eyes, surfaces.</p></li>
 <li><p><strong>Robust brain center - [Off, On]:</strong> Robust brain center estimation. Mutually exclusive with functional, reduce_bias, robust, padding, remove_eyes, surfaces.</p></li>
 </ol>
-</div>
-<div class="section" id="id4">
+</section>
+<section id="id4">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">functional_preproc</span><span class="p">:</span>
@@ -544,13 +545,13 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
       <span class="nt">vertical_gradient</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="functional-to-template-registration">
+</section>
+</section>
+<section id="functional-to-template-registration">
 <h2>Functional to Template Registration<a class="headerlink" href="#functional-to-template-registration" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-default">
+<figure class="align-default">
 <img alt="../_images/func_to_template_reg.png" src="../_images/func_to_template_reg.png" />
-</div>
+</figure>
 <ol class="arabic simple">
 <li><p><strong>Run Functional to Template Registration - [On, Off]:</strong> Register functional images to a standard MNI152 template or EPI template. This option must be enabled if you wish to calculate any derivatives.</p></li>
 <li><p><strong>Functional Resolution - [1 An integer indicating three same dimensions (e.g., 1mm, 2mm, 3mm, 4mm); 2 A float number indicating three same dimensions (e.g., 3.5mm etc.); 3 Three numbers connected by ‘x’ indicating three different dimensions (e.g., 2.67mmx2.67mmx3mm etc.)]:</strong> The resolution (in mm) to which the preprocessed, registered functional timeseries outputs are written into. <strong>Note that selecting a 1 mm or 2 mm resolution might substantially increase your RAM needs- these resolutions should be selected with caution. For most cases, 3 mm or 4 mm resolutions are suggested. Float numbers and three different dimensions are supported.</strong></p></li>
@@ -563,7 +564,7 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 <li><p><strong>Standard Brain Template - [path]:</strong> Used as a reference image for functional EPI registration.</p></li>
 <li><p><strong>ANTs Registration Parameters :</strong> Clicking on the setting icon will bring up a dialog where you can set ‘antsRegistration’ parameters.</p></li>
 </ol>
-<div class="section" id="id5">
+<section id="id5">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">registration_workflows</span><span class="p">:</span>
@@ -749,9 +750,9 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
         <span class="nt">identity_matrix</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/ident.mat</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -855,7 +856,7 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
         <li class="right" >
           <a href="anat" title="Anatomical Preprocessing"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" >Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Functional Preprocessing</a></li> 
@@ -864,7 +865,7 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>

@@ -4,8 +4,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Testing CPAC &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Testing CPAC &#8212; C-PAC 1.8.0.g671e2da1-dev Beta documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -31,7 +32,7 @@
         <li class="right" >
           <a href="workflows/network_centrality" title="Network Centrality"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" accesskey="U">Welcome to CPAC’s developer documentation!</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Testing CPAC</a></li> 
       </ul>
@@ -42,13 +43,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="testing-cpac">
+  <section id="testing-cpac">
 <span id="testing"></span><h1>Testing CPAC<a class="headerlink" href="#testing-cpac" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="creating-tests">
+<section id="creating-tests">
 <span id="id1"></span><h2>Creating Tests<a class="headerlink" href="#creating-tests" title="Permalink to this headline">¶</a></h2>
-<p>This section describes how to create tests to verify the integrity of CPAC</p>
+<p>Python tests can be <a class="reference external" href="https://docs.python.org/3/library/doctest.html">written in docstrings</a> or in separate <a href="https://docs.pytest.org/en/6.2.x/goodpractices.html#tests-as-part-of-application-code"><code>tests/test_*.py</code> modules</a>.</p>
+</section>
+<section id="running-tests">
+<span id="id2"></span><h2>Running Tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
+<p>In a running container (Docker or Singularity), you can run all current tests by running <code class="docutils literal notranslate"><span class="pre">/code/dev/circleci_data/test_in_image.sh</span></code>:</p>
+<div class="highlight-BASH notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> code
+pip install -r dev/circleci_data/requirements.txt
+coverage run -m pytest --junitxml<span class="o">=</span>test-results/junit.xml --doctest-ignore-import-errors --continue-on-collection-errors --doctest-modules --ignore<span class="o">=</span>CPAC/cwas/tests/test_mdmr_cython.py --ignore<span class="o">=</span>dev/circleci_data/test_install.py dev/circleci_data/
+coverage report --include<span class="o">=</span><span class="s2">&quot;./*&quot;</span> --omit<span class="o">=</span><span class="s2">&quot;/home/circleci/.local/*&quot;</span>
+coverage html
+</pre></div>
 </div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -72,6 +84,7 @@
 <li class="toctree-l2"><a class="reference internal" href="workflows/index#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Testing CPAC</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#creating-tests">Creating Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-tests">Running Tests</a></li>
 </ul>
 </li>
 </ul>
@@ -105,7 +118,7 @@
         <li class="right" >
           <a href="workflows/network_centrality" title="Network Centrality"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Testing CPAC</a></li> 
       </ul>
@@ -113,7 +126,7 @@
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>
