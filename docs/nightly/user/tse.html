@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Timeseries Extraction &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <title>Timeseries Extraction &#8212; C-PAC 1.8.0 Beta documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="aroma_ica" title="ICA-AROMA (Independent Component Analysis - Automatic Removal of Motion Artifacts)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" accesskey="U">Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Timeseries Extraction</a></li> 
@@ -83,7 +83,12 @@
 <section id="configuration-without-the-gui">
 <h2>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h2>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">timeseries_extraction</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>    <span class="c1"># Options:</span>
+    <span class="c1">#     [&#39;z-scored&#39;, &#39;raw&#39;]</span>
+    <span class="nt">output</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;z-scored&#39;</span><span class="p p-Indicator">]</span>
+
+
+<span class="nt">timeseries_extraction</span><span class="p">:</span>
 
   <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
 
@@ -124,11 +129,6 @@
   <span class="c1"># Functional time-series and ROI realignment method: [&#39;ROI_to_func&#39;] or [&#39;func_to_ROI&#39;]</span>
   <span class="c1"># &#39;ROI_to_func&#39; will realign the atlas/ROI to functional space (fast)</span>
   <span class="c1"># &#39;func_to_ROI&#39; will realign the functional time series to the atlas/ROI space</span>
-  <span class="c1">#</span>
-  <span class="c1">#     NOTE: in rare cases, realigning the ROI to the functional space may</span>
-  <span class="c1">#           result in small misalignments for very small ROIs - please double</span>
-  <span class="c1">#           check your data if you see issues</span>
-  <span class="nt">realignment</span><span class="p">:</span> <span class="s">&#39;ROI_to_func&#39;</span>
 </pre></div>
 </div>
 </section>
@@ -214,7 +214,7 @@
         <li class="right" >
           <a href="aroma_ica" title="ICA-AROMA (Independent Component Analysis - Automatic Removal of Motion Artifacts)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" >Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Timeseries Extraction</a></li> 

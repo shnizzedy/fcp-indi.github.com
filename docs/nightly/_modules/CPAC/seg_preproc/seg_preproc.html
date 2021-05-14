@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CPAC.seg_preproc.seg_preproc &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <title>CPAC.seg_preproc.seg_preproc &#8212; C-PAC 1.8.0 Beta documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/custom.css" />
@@ -27,7 +27,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.seg_preproc.seg_preproc</a></li> 
       </ul>
@@ -233,7 +233,9 @@
 
         <span class="n">overlap_segmentmap_with_prior</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span>
             <span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">MultiImageMaths</span><span class="p">(),</span>
-            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;overlap_</span><span class="si">%s</span><span class="s1">_map_with_prior&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">))</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;overlap_</span><span class="si">%s</span><span class="s1">_map_with_prior&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">wf_name</span><span class="p">),</span>
+            <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.775</span><span class="p">,</span>
+            <span class="n">mem_x</span><span class="o">=</span><span class="p">(</span><span class="mi">5022839943792975</span> <span class="o">/</span> <span class="mi">2417851639229258349412352</span><span class="p">,</span> <span class="s1">&#39;in_file&#39;</span><span class="p">))</span>
         <span class="n">overlap_segmentmap_with_prior</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">op_string</span> <span class="o">=</span> <span class="s1">&#39;-mas </span><span class="si">%s</span><span class="s1"> &#39;</span>
 
         <span class="n">preproc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">input_1</span><span class="p">,</span> <span class="n">value_1</span><span class="p">,</span>
@@ -587,21 +589,27 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: [&quot;tissue_segmentation&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: &quot;FSL-FAST&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;desc-brain_T1w&quot;,</span>
-<span class="sd">                &quot;space-T1w_desc-brain_mask&quot;,</span>
-<span class="sd">                &quot;from-template_to-T1w_mode-image_desc-linear_xfm&quot;,</span>
+<span class="sd">     &quot;inputs&quot;: [([&quot;desc-brain_T1w&quot;, &quot;space-longitudinal_desc-brain_T1w&quot;],</span>
+<span class="sd">                 [&quot;space-T1w_desc-brain_mask&quot;,</span>
+<span class="sd">                  &quot;space-longitudinal_desc-brain_mask&quot;],</span>
+<span class="sd">                 [&quot;from-template_to-T1w_mode-image_desc-linear_xfm&quot;,</span>
+<span class="sd">                  &quot;from-template_to-longitudinal_mode-image_desc-linear_xfm&quot;]),</span>
 <span class="sd">                &quot;CSF_path&quot;,</span>
 <span class="sd">                &quot;GM_path&quot;,</span>
 <span class="sd">                &quot;WM_path&quot;],</span>
-<span class="sd">     &quot;outputs&quot;: [&quot;label-CSF_mask&quot;,</span>
-<span class="sd">                 &quot;label-GM_mask&quot;,</span>
-<span class="sd">                 &quot;label-WM_mask&quot;,</span>
-<span class="sd">                 &quot;label-CSF_desc-preproc_mask&quot;,</span>
-<span class="sd">                 &quot;label-GM_desc-preproc_mask&quot;,</span>
+<span class="sd">     &quot;outputs&quot;: [&quot;label-CSF_mask&quot;, &quot;label-GM_mask&quot;, &quot;label-WM_mask&quot;,</span>
+<span class="sd">                 &quot;label-CSF_desc-preproc_mask&quot;, &quot;label-GM_desc-preproc_mask&quot;,</span>
 <span class="sd">                 &quot;label-WM_desc-preproc_mask&quot;,</span>
-<span class="sd">                 &quot;label-CSF_probseg&quot;,</span>
-<span class="sd">                 &quot;label-GM_probseg&quot;,</span>
-<span class="sd">                 &quot;label-WM_probseg&quot;]}</span>
+<span class="sd">                 &quot;label-CSF_probseg&quot;, &quot;label-GM_probseg&quot;, &quot;label-WM_probseg&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-CSF_mask&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-GM_mask&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-WM_mask&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-CSF_desc-preproc_mask&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-GM_desc-preproc_mask&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-WM_desc-preproc_mask&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-CSF_probseg&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-GM_probseg&quot;,</span>
+<span class="sd">                 &quot;space-longitudinal_label-WM_probseg&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c1"># FSL-FAST</span>
@@ -610,8 +618,11 @@
     <span class="c1">#  &#39;probability_maps&#39; output is a list of individual probability maps</span>
     <span class="c1">#      triggered by &#39;probability_maps&#39; boolean input (-p)</span>
 
-    <span class="n">segment</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FAST</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;segment_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                      <span class="n">mem_gb</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+    <span class="n">segment</span> <span class="o">=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="n">fsl</span><span class="o">.</span><span class="n">FAST</span><span class="p">(),</span>
+                      <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;segment_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                      <span class="n">mem_gb</span><span class="o">=</span><span class="mf">3.48</span><span class="p">,</span>
+                      <span class="n">mem_x</span><span class="o">=</span><span class="p">(</span><span class="mi">3444233104315183</span> <span class="o">/</span> <span class="mi">19342813113834066795298816</span><span class="p">,</span>
+                             <span class="s1">&#39;in_files&#39;</span><span class="p">))</span>
     <span class="n">segment</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">img_type</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">segment</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">segments</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">segment</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">probability_maps</span> <span class="o">=</span> <span class="kc">True</span>
@@ -629,17 +640,27 @@
         <span class="n">function</span><span class="o">=</span><span class="n">check_if_file_is_empty</span><span class="p">,</span> <span class="n">input_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;in_file&#39;</span><span class="p">],</span>
         <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;out_file&#39;</span><span class="p">]))</span>
 
-    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;desc-brain_T1w&#39;</span><span class="p">)</span>
+    <span class="n">connect</span><span class="p">,</span> <span class="n">resource</span> <span class="o">=</span> \
+        <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">([</span><span class="s2">&quot;desc-brain_T1w&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;space-longitudinal_desc-brain_T1w&quot;</span><span class="p">],</span>
+                            <span class="n">report_fetched</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">connect</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">segment</span><span class="p">,</span> <span class="s1">&#39;in_files&#39;</span><span class="p">)</span>
 
-    <span class="n">use_custom_threshold</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span>
-                               <span class="s1">&#39;FSL-FAST&#39;</span><span class="p">][</span><span class="s1">&#39;thresholding&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Custom&#39;</span>
+    <span class="n">long</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">xfm</span> <span class="o">=</span> <span class="s1">&#39;from-template_to-T1w_mode-image_desc-linear_xfm&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;space-longitudinal&#39;</span> <span class="ow">in</span> <span class="n">resource</span><span class="p">:</span>
+        <span class="n">long</span> <span class="o">=</span> <span class="s1">&#39;space-longitudinal_&#39;</span>
+        <span class="n">xfm</span> <span class="o">=</span> <span class="s1">&#39;from-template_to-longitudinal_mode-image_desc-linear_xfm&#39;</span>
 
-    <span class="n">use_priors</span> <span class="o">=</span> <span class="kc">True</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span>
+    <span class="n">use_custom_threshold</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span>
+                               <span class="s1">&#39;FSL-FAST&#39;</span><span class="p">][</span><span class="s1">&#39;thresholding&#39;</span><span class="p">][</span>
+                               <span class="s1">&#39;use&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Custom&#39;</span>
+
+    <span class="n">use_priors</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span>
         <span class="s1">&#39;FSL-FAST&#39;</span><span class="p">][</span><span class="s1">&#39;use_priors&#39;</span><span class="p">][</span><span class="s1">&#39;run&#39;</span><span class="p">]</span>
 
-    <span class="n">xfm_prov</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_cpac_provenance</span><span class="p">(</span>
-        <span class="s1">&#39;from-template_to-T1w_mode-image_desc-linear_xfm&#39;</span><span class="p">)</span>
+    <span class="n">xfm_prov</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_cpac_provenance</span><span class="p">(</span><span class="n">xfm</span><span class="p">)</span>
     <span class="n">reg_tool</span> <span class="o">=</span> <span class="n">check_prov_for_regtool</span><span class="p">(</span><span class="n">xfm_prov</span><span class="p">)</span>
 
     <span class="n">process_csf</span> <span class="o">=</span> <span class="n">process_segment_map</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;CSF_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">use_priors</span><span class="p">,</span>
@@ -672,18 +693,19 @@
         <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;WM_path&#39;</span><span class="p">)</span>
         <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_wm</span><span class="p">,</span> <span class="s1">&#39;inputspec.tissue_prior&#39;</span><span class="p">)</span>
 
-    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;desc-brain_T1w&#39;</span><span class="p">)</span>
+    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">([</span><span class="s2">&quot;desc-brain_T1w&quot;</span><span class="p">,</span>
+                                     <span class="s2">&quot;space-longitudinal_desc-brain_T1w&quot;</span><span class="p">])</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_csf</span><span class="p">,</span> <span class="s1">&#39;inputspec.brain&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_gm</span><span class="p">,</span> <span class="s1">&#39;inputspec.brain&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_wm</span><span class="p">,</span> <span class="s1">&#39;inputspec.brain&#39;</span><span class="p">)</span>
 
-    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;space-T1w_desc-brain_mask&#39;</span><span class="p">)</span>
+    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">([</span><span class="s2">&quot;space-T1w_desc-brain_mask&quot;</span><span class="p">,</span>
+                                     <span class="s2">&quot;space-longitudinal_desc-brain_mask&quot;</span><span class="p">])</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_csf</span><span class="p">,</span> <span class="s1">&#39;inputspec.brain_mask&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_gm</span><span class="p">,</span> <span class="s1">&#39;inputspec.brain_mask&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_wm</span><span class="p">,</span> <span class="s1">&#39;inputspec.brain_mask&#39;</span><span class="p">)</span>
 
-    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span>
-        <span class="s1">&#39;from-template_to-T1w_mode-image_desc-linear_xfm&#39;</span><span class="p">)</span>
+    <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">xfm</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_csf</span><span class="p">,</span> <span class="s1">&#39;inputspec.template_to_T1_xfm&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_gm</span><span class="p">,</span> <span class="s1">&#39;inputspec.template_to_T1_xfm&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">process_wm</span><span class="p">,</span> <span class="s1">&#39;inputspec.template_to_T1_xfm&#39;</span><span class="p">)</span>
@@ -711,16 +733,23 @@
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="n">get_csf</span><span class="p">,</span> <span class="s1">&#39;probability_maps&#39;</span><span class="p">)</span>
 
     <span class="n">outputs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;label-CSF_probseg&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">get_csf</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;label-GM_probseg&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="n">pick_wm_prob_1</span><span class="p">)),</span>
-        <span class="s1">&#39;label-WM_probseg&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="n">pick_wm_prob_2</span><span class="p">)),</span>
-        <span class="s1">&#39;label-CSF_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;tissue_class_files&#39;</span><span class="p">,</span> <span class="n">pick_wm_class_0</span><span class="p">)),</span>
-        <span class="s1">&#39;label-GM_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;tissue_class_files&#39;</span><span class="p">,</span> <span class="n">pick_wm_class_1</span><span class="p">)),</span>
-        <span class="s1">&#39;label-WM_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;tissue_class_files&#39;</span><span class="p">,</span> <span class="n">pick_wm_class_2</span><span class="p">)),</span>
-        <span class="s1">&#39;label-CSF_desc-preproc_mask&#39;</span><span class="p">:</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-CSF_probseg&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">get_csf</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">),</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-GM_probseg&#39;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="n">pick_wm_prob_1</span><span class="p">)),</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-WM_probseg&#39;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;probability_maps&#39;</span><span class="p">,</span> <span class="n">pick_wm_prob_2</span><span class="p">)),</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-CSF_mask&#39;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;tissue_class_files&#39;</span><span class="p">,</span> <span class="n">pick_wm_class_0</span><span class="p">)),</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-GM_mask&#39;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;tissue_class_files&#39;</span><span class="p">,</span> <span class="n">pick_wm_class_1</span><span class="p">)),</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-WM_mask&#39;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">segment</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;tissue_class_files&#39;</span><span class="p">,</span> <span class="n">pick_wm_class_2</span><span class="p">)),</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-CSF_desc-preproc_mask&#39;</span><span class="p">:</span>
             <span class="p">(</span><span class="n">process_csf</span><span class="p">,</span> <span class="s1">&#39;outputspec.segment_mask&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;label-GM_desc-preproc_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">process_gm</span><span class="p">,</span> <span class="s1">&#39;outputspec.segment_mask&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;label-WM_desc-preproc_mask&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">process_wm</span><span class="p">,</span> <span class="s1">&#39;outputspec.segment_mask&#39;</span><span class="p">)</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-GM_desc-preproc_mask&#39;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">process_gm</span><span class="p">,</span> <span class="s1">&#39;outputspec.segment_mask&#39;</span><span class="p">),</span>
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">long</span><span class="si">}</span><span class="s1">label-WM_desc-preproc_mask&#39;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">process_wm</span><span class="p">,</span> <span class="s1">&#39;outputspec.segment_mask&#39;</span><span class="p">)</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">wf</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
@@ -733,8 +762,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: [&quot;tissue_segmentation&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: &quot;Template_Based&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;desc-brain_T1w&quot;,</span>
-<span class="sd">                &quot;from-template_to-T1w_mode-image_desc-linear_xfm&quot;],</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;desc-brain_T1w&quot;,</span>
+<span class="sd">                 &quot;from-template_to-T1w_mode-image_desc-linear_xfm&quot;)],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;label-CSF_mask&quot;,</span>
 <span class="sd">                 &quot;label-GM_mask&quot;,</span>
 <span class="sd">                 &quot;label-WM_mask&quot;]}</span>
@@ -745,15 +774,18 @@
     <span class="n">reg_tool</span> <span class="o">=</span> <span class="n">check_prov_for_regtool</span><span class="p">(</span><span class="n">xfm_prov</span><span class="p">)</span>
     <span class="n">use_ants</span> <span class="o">=</span> <span class="n">reg_tool</span> <span class="o">==</span> <span class="s1">&#39;ants&#39;</span>
 
-    <span class="n">csf_template2t1</span> <span class="o">=</span> <span class="n">tissue_mask_template_to_t1</span><span class="p">(</span><span class="s1">&#39;CSF&#39;</span><span class="p">,</span> <span class="n">use_ants</span><span class="p">)</span>
+    <span class="n">csf_template2t1</span> <span class="o">=</span> <span class="n">tissue_mask_template_to_t1</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;CSF_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> 
+                                                 <span class="n">use_ants</span><span class="p">)</span>
     <span class="n">csf_template2t1</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">tissue_mask_template</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span>
         <span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;Template_Based&#39;</span><span class="p">][</span><span class="s1">&#39;CSF&#39;</span><span class="p">]</span>
 
-    <span class="n">gm_template2t1</span> <span class="o">=</span> <span class="n">tissue_mask_template_to_t1</span><span class="p">(</span><span class="s1">&#39;GM&#39;</span><span class="p">,</span> <span class="n">use_ants</span><span class="p">)</span>
+    <span class="n">gm_template2t1</span> <span class="o">=</span> <span class="n">tissue_mask_template_to_t1</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;GM_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                                                <span class="n">use_ants</span><span class="p">)</span>
     <span class="n">gm_template2t1</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">tissue_mask_template</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span>
         <span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;Template_Based&#39;</span><span class="p">][</span><span class="s1">&#39;GRAY&#39;</span><span class="p">]</span>
 
-    <span class="n">wm_template2t1</span> <span class="o">=</span> <span class="n">tissue_mask_template_to_t1</span><span class="p">(</span><span class="s1">&#39;WM&#39;</span><span class="p">,</span> <span class="n">use_ants</span><span class="p">)</span>
+    <span class="n">wm_template2t1</span> <span class="o">=</span> <span class="n">tissue_mask_template_to_t1</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;WM_</span><span class="si">{</span><span class="n">pipe_num</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                                                <span class="n">use_ants</span><span class="p">)</span>
     <span class="n">wm_template2t1</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">tissue_mask_template</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span>
         <span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;Template_Based&#39;</span><span class="p">][</span><span class="s1">&#39;WHITE&#39;</span><span class="p">]</span>
 
@@ -788,15 +820,15 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: [&quot;tissue_segmentation&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: &quot;Template_Based&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;desc-mean_bold&quot;,</span>
-<span class="sd">                &quot;from-template_to-bold_mode-image_desc-linear_xfm&quot;],</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;desc-mean_bold&quot;,</span>
+<span class="sd">                 &quot;from-template_to-bold_mode-image_desc-linear_xfm&quot;)],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;space-bold_label-CSF_mask&quot;,</span>
 <span class="sd">                 &quot;space-bold_label-GM_mask&quot;,</span>
 <span class="sd">                 &quot;space-bold_label-WM_mask&quot;]}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">xfm_prov</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_cpac_provenance</span><span class="p">(</span>
-        <span class="s1">&#39;from-template_to-T1w_mode-image_desc-linear_xfm&#39;</span><span class="p">)</span>
+        <span class="s1">&#39;from-template_to-bold_mode-image_desc-linear_xfm&#39;</span><span class="p">)</span>
     <span class="n">reg_tool</span> <span class="o">=</span> <span class="n">check_prov_for_regtool</span><span class="p">(</span><span class="n">xfm_prov</span><span class="p">)</span>
     <span class="n">use_ants</span> <span class="o">=</span> <span class="n">reg_tool</span> <span class="o">==</span> <span class="s1">&#39;ants&#39;</span>
 
@@ -846,8 +878,8 @@
 <span class="sd">     &quot;switch&quot;: [&quot;run&quot;],</span>
 <span class="sd">     &quot;option_key&quot;: [&quot;tissue_segmentation&quot;, &quot;using&quot;],</span>
 <span class="sd">     &quot;option_val&quot;: &quot;ANTs_Prior_Based&quot;,</span>
-<span class="sd">     &quot;inputs&quot;: [&quot;desc-brain_T1w&quot;,</span>
-<span class="sd">                &quot;space-T1w_desc-brain_mask&quot;],</span>
+<span class="sd">     &quot;inputs&quot;: [(&quot;desc-brain_T1w&quot;,</span>
+<span class="sd">                 &quot;space-T1w_desc-brain_mask&quot;)],</span>
 <span class="sd">     &quot;outputs&quot;: [&quot;label-CSF_mask&quot;,</span>
 <span class="sd">                 &quot;label-GM_mask&quot;,</span>
 <span class="sd">                 &quot;label-WM_mask&quot;]}</span>
@@ -867,21 +899,21 @@
 
     <span class="n">seg_preproc_ants_prior_based</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">csf_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span>
         <span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs_Prior_Based&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;ANTs_prior_seg_CSF_label&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;CSF_label&#39;</span><span class="p">]</span>
 
     <span class="n">seg_preproc_ants_prior_based</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">left_gm_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span>
         <span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs_Prior_Based&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;ANTs_prior_seg_left_GM_label&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;left_GM_label&#39;</span><span class="p">]</span>
     <span class="n">seg_preproc_ants_prior_based</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">right_gm_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span>
         <span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs_Prior_Based&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;ANTs_prior_seg_right_GM_label&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;right_GM_label&#39;</span><span class="p">]</span>
 
     <span class="n">seg_preproc_ants_prior_based</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">left_wm_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span>
         <span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs_Prior_Based&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;ANTs_prior_seg_left_WM_label&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;left_WM_label&#39;</span><span class="p">]</span>
     <span class="n">seg_preproc_ants_prior_based</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">right_wm_label</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span>
         <span class="s1">&#39;segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;tissue_segmentation&#39;</span><span class="p">][</span><span class="s1">&#39;ANTs_Prior_Based&#39;</span><span class="p">][</span>
-        <span class="s1">&#39;ANTs_prior_seg_right_WM_label&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;right_WM_label&#39;</span><span class="p">]</span>
 
     <span class="n">node</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">strat_pool</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;desc-brain_T1w&#39;</span><span class="p">)</span>
     <span class="n">wf</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span>
@@ -969,7 +1001,7 @@
         <li class="right" >
           <a href="../../../py-modindex" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">CPAC.seg_preproc.seg_preproc</a></li> 
       </ul>

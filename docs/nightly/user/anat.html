@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Anatomical Preprocessing &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <title>Anatomical Preprocessing &#8212; C-PAC 1.8.0 Beta documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="preprocessing" title="Pre-Processing Steps"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" accesskey="U">Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Anatomical Preprocessing</a></li> 
@@ -185,10 +185,10 @@
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">anatomical_preproc</span><span class="p">:</span>
 
   <span class="nt">brain_extraction</span><span class="p">:</span>
+  
+    <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
 
     <span class="c1"># using: [&#39;3dSkullStrip&#39;, &#39;BET&#39;, &#39;UNet&#39;, &#39;niworkflows-ants&#39;]</span>
-    <span class="c1"># this is a fork option</span>
-    <span class="nt">using</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;3dSkullStrip&#39;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
@@ -225,6 +225,8 @@
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">anatomical_preproc</span><span class="p">:</span>
 
   <span class="nt">brain_extraction</span><span class="p">:</span>
+  
+    <span class="nt">using</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;3dSkullStrip&#39;</span><span class="p p-Indicator">]</span>
 
     <span class="c1"># option parameters</span>
     <span class="nt">AFNI-3dSkullStrip</span><span class="p">:</span>
@@ -288,9 +290,6 @@
 
       <span class="c1"># Blur dataset after spatial normalization. Recommended when you have lots of CSF in brain and when you have protruding gyri (finger like). If so, recommended value range is 2-4. Otherwise, leave at 0.</span>
       <span class="nt">blur_fwhm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-
-      <span class="c1"># Set it as True if processing monkey data with AFNI</span>
-      <span class="nt">monkey</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 </pre></div>
 </div>
 </section>
@@ -322,8 +321,10 @@
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">anatomical_preproc</span><span class="p">:</span>
 
   <span class="nt">brain_extraction</span><span class="p">:</span>
+  
+      <span class="nt">monkey</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 
-    <span class="nt">FSL-BET</span><span class="p">:</span>
+  <span class=" -Error">  </span><span class="nt">FSL-BET</span><span class="p">:</span>
 
       <span class="c1"># Set the threshold value controling the brain vs non-brain voxels, default is 0.5</span>
       <span class="nt">frac</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
@@ -360,9 +361,6 @@
 
       <span class="c1"># Apply thresholding to segmented brain image and mask</span>
       <span class="nt">threshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
-
-      <span class="c1"># Vertical gradient in fractional intensity threshold (-1,1)</span>
-      <span class="nt">vertical_gradient </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
 </pre></div>
 </div>
 </section>
@@ -384,8 +382,10 @@
 <div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">anatomical_preproc</span><span class="p">:</span>
 
   <span class="nt">brain_extraction</span><span class="p">:</span>
+  
+      <span class="nt">unet_model </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">s3://fcp-indi/resources/cpac/resources/Site-All-T-epoch_36.model</span>
 
-    <span class="nt">niworkflows-ants</span><span class="p">:</span>
+  <span class=" -Error">  </span><span class="nt">niworkflows-ants</span><span class="p">:</span>
 
       <span class="c1"># Template to be used during niworkflows-ants.</span>
       <span class="c1"># It is not necessary to change this path unless you intend to use a non-standard template.</span>
@@ -395,9 +395,6 @@
 
       <span class="c1"># niworkflows-ants probability mask</span>
       <span class="nt">mask_path </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0_BrainCerebellumProbabilityMask.nii.gz</span>
-
-      <span class="c1"># niworkflows-ants registration mask (can be optional)</span>
-      <span class="nt">regmask_path </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/ants_template/oasis/T_template0_BrainCerebellumRegistrationMask.nii.gz</span>
 </pre></div>
 </div>
 </section>
@@ -550,8 +547,6 @@
         <span class="nt">interpolation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sinc</span>
 
         <span class="c1"># Identity matrix used during FSL-based resampling of anatomical-space data throughout the pipeline.</span>
-        <span class="c1"># It is not necessary to change this path unless you intend to use a different template.</span>
-        <span class="nt">identity_matrix</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/ident.mat</span>
 </pre></div>
 </div>
 </section>
@@ -743,9 +738,6 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
 
       <span class="c1"># Label value corresponding to Left White Matter in multiatlas file</span>
       <span class="nt">left_WM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
-
-      <span class="c1"># Label value corresponding to Right White Matter in multiatlas file</span>
-      <span class="nt">right_WM_label </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">41</span>
 </pre></div>
 </div>
 </section>
@@ -873,7 +865,7 @@ fslmaths avg152T1_${tissue}.nii.gz -thr $threshold -bin avg152T1_${tissue}_2mm_b
         <li class="right" >
           <a href="preprocessing" title="Pre-Processing Steps"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" >Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Anatomical Preprocessing</a></li> 

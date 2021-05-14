@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Functional Preprocessing &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <title>Functional Preprocessing &#8212; C-PAC 1.8.0 Beta documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="anat" title="Anatomical Preprocessing"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" accesskey="U">Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Functional Preprocessing</a></li> 
@@ -82,18 +82,20 @@
 <section id="configuration-without-the-gui">
 <span id="func-init-without-gui"></span><h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>  <span class="nt">functional_registration</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>        <span class="nt">identity_matrix</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/ident.mat</span>
+
+ <span class=" -Error"> </span><span class="nt">functional_registration</span><span class="p">:</span>
 
     <span class="nt">coregistration</span><span class="p">:</span>
-      <span class="c1"># functional (BOLD/EPI) registration to anatomical (structural/T1)</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
 
-      <span class="nt">func_input_prep</span><span class="p">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">input</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;Mean_Functional&#39;</span><span class="p p-Indicator">]</span>
 
         <span class="nt">Mean Functional</span><span class="p">:</span>
 
           <span class="c1"># Run ANTs’ N4 Bias Field Correction on the input BOLD (EPI)</span>
-          <span class="c1"># this can increase tissue contrast which may improve registration quality in some data</span>
-          <span class="nt">n4_correct_func</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+
+
 <span class="nt">functional_preproc</span><span class="p">:</span>
 
   <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
@@ -149,9 +151,9 @@
       <span class="nt">AFNI-3dvolreg</span><span class="p">:</span>
 
         <span class="c1"># This option is useful when aligning high-resolution datasets that may need more alignment than a few voxels.</span>
-        <span class="nt">functional_volreg_twopass</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
+        <span class="nt">functional_volreg_twopass</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
 
-      <span class="c1"># Choose motion correction reference. Options: mean, median, selected volume</span>
+      <span class="c1"># Choose motion correction reference. Options: mean, median, selected_volume</span>
       <span class="nt">motion_correction_reference</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;mean&#39;</span><span class="p p-Indicator">]</span>
 
       <span class="c1"># Choose motion correction reference volume</span>
@@ -213,9 +215,6 @@
       <span class="c1"># mutually exclusive with breathing_rate options above.</span>
       <span class="c1"># If breathing_rate_min is provided, the following</span>
       <span class="c1"># parameter will be ignored.</span>
-
-      <span class="c1"># the frequency cutoff of the filter</span>
-      <span class="nt">lowpass_cutoff</span><span class="p">:</span>
 </pre></div>
 </div>
 <p id="motion-estimate-filter-valid-options">For <code class="docutils literal notranslate"><span class="pre">motion_estimate_filter</span></code>, if <code class="docutils literal notranslate"><span class="pre">breathing_rate_min</span></code> and <code class="docutils literal notranslate"><span class="pre">breathing_rate_max</span></code> are provided, the filter design attributes (<code class="docutils literal notranslate"><span class="pre">center_frequency</span></code>, <code class="docutils literal notranslate"><span class="pre">filter_bandwidth</span></code>, <code class="docutils literal notranslate"><span class="pre">lowpass_cutoff</span></code>) are automatically configured. But if you provide these directly, you don’t need the breathing rates. If all all parameters are provided, the filter design attributes will be ignored in favor of the <code class="docutils literal notranslate"><span class="pre">breathing_rate_*</span></code> attributes. A configuration must match at least one row in the following table:</p>
@@ -302,14 +301,12 @@
 <section id="id1">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">functional_preproc</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>    <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">Off</span><span class="p p-Indicator">]</span>
 
-  <span class="nt">slice_timing_correction</span><span class="p">:</span>
+ <span class=" -Error"> </span><span class="nt">slice_timing_correction</span><span class="p">:</span>
 
     <span class="c1"># Interpolate voxel time courses so they are sampled at the same time points.</span>
     <span class="c1"># this is a fork point</span>
-    <span class="c1">#   run: [On, Off] - this will run both and fork the pipeline</span>
-    <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">On</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
@@ -383,9 +380,9 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 <section id="id2">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">functional_preproc</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>      <span class="nt">lowpass_cutoff</span><span class="p">:</span>
 
-  <span class="nt">distortion_correction</span><span class="p">:</span>
+ <span class=" -Error"> </span><span class="nt">distortion_correction</span><span class="p">:</span>
 
     <span class="c1"># this is a fork point</span>
     <span class="c1">#   run: [On, Off] - this will run both and fork the pipeline</span>
@@ -411,8 +408,6 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
       <span class="nt">fmap_skullstrip_BET_frac</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.5</span>
 
       <span class="c1"># Set the threshold value for the skull-stripping of the magnitude file. Depending on the data, a tighter extraction may be necessary in order to prevent noisy voxels from interfering with preparing the field map.</span>
-      <span class="c1"># The default value is 0.6.</span>
-      <span class="nt">fmap_skullstrip_AFNI_threshold</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.6</span>
 </pre></div>
 </div>
 </section>
@@ -433,9 +428,9 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 <section id="id3">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">registration_workflows</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>        <span class="nt">identity_matrix</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/ident.mat</span>
 
-  <span class="nt">functional_registration</span><span class="p">:</span>
+ <span class=" -Error"> </span><span class="nt">functional_registration</span><span class="p">:</span>
 
     <span class="nt">coregistration</span><span class="p">:</span>
       <span class="c1"># functional (BOLD/EPI) registration to anatomical (structural/T1)</span>
@@ -446,9 +441,9 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 
         <span class="c1"># Choose whether to use the mean of the functional/EPI as the input to functional-to-anatomical registration or one of the volumes from the functional 4D timeseries that you choose.</span>
         <span class="c1"># input: [&#39;Mean Functional&#39;, &#39;Selected_Functional_Volume&#39;]</span>
-        <span class="nt">input</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;Mean_Functional&#39;</span><span class="p p-Indicator">]</span>
+          <span class="nt">n4_correct_func</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
 
-        <span class="nt">Selected Functional Volume</span><span class="p">:</span>
+      <span class=" -Error">  </span><span class="nt">Selected Functional Volume</span><span class="p">:</span>
 
           <span class="c1"># Only for when &#39;Use as Functional-to-Anatomical Registration Input&#39; is set to &#39;Selected Functional Volume&#39;.</span>
           <span class="c1">#Input the index of which volume from the functional 4D timeseries input file you wish to use as the input for functional-to-anatomical registration.</span>
@@ -461,15 +456,13 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 
         <span class="c1"># Standard FSL 5.0 Scheduler used for Boundary Based Registration.</span>
         <span class="c1"># It is not necessary to change this path unless you intend to use non-standard MNI registration.</span>
-        <span class="nt">bbr_schedule</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/bbr.sch</span>
 
-<span class="nt">functional_preproc</span><span class="p">:</span>
+
+      <span class="nt">fmap_skullstrip_AFNI_threshold</span><span class="p">:</span>  <span class="l l-Scalar l-Scalar-Plain">0.6</span>
 
   <span class="nt">func_masking</span><span class="p">:</span>
 
     <span class="c1"># using: [&#39;AFNI&#39;, &#39;FSL&#39;, &#39;FSL_AFNI&#39;, &#39;Anatomical_Refined&#39;, &#39;Anatomical_Based&#39;]</span>
-    <span class="c1"># this is a fork point</span>
-    <span class="nt">using</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;AFNI&#39;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
@@ -499,7 +492,7 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 <section id="id4">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">functional_preproc</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>    <span class="nt">using</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;AFNI&#39;</span><span class="p p-Indicator">]</span>
 
     <span class="nt">FSL-BET</span><span class="p">:</span>
 
@@ -540,9 +533,6 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 
       <span class="c1"># Apply thresholding to segmented brain image and mask</span>
       <span class="nt">threshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Off</span>
-
-      <span class="c1"># Vertical gradient in fractional intensity threshold (-1,1)</span>
-      <span class="nt">vertical_gradient</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
 </pre></div>
 </div>
 </section>
@@ -567,11 +557,11 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
 <section id="id5">
 <h3>Configuration Without the GUI<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">registration_workflows</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>        <span class="nt">identity_matrix</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/ident.mat</span>
 
-  <span class="nt">functional_registration</span><span class="p">:</span>
+        <span class="nt">bbr_schedule</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/bbr.sch</span>
 
-    <span class="nt">EPI_registration</span><span class="p">:</span>
+   <span class=" -Error"> </span><span class="nt">EPI_registration</span><span class="p">:</span>
 
       <span class="c1"># directly register the mean functional to an EPI template</span>
       <span class="c1">#   instead of applying the anatomical T1-to-template transform to the functional data that has been</span>
@@ -746,8 +736,6 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
         <span class="nt">interpolation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sinc</span>
 
         <span class="c1"># Identity matrix used during FSL-based resampling of functional-space data throughout the pipeline.</span>
-        <span class="c1"># It is not necessary to change this path unless you intend to use a different template.</span>
-        <span class="nt">identity_matrix</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/usr/share/fsl/5.0/etc/flirtsch/ident.mat</span>
 </pre></div>
 </div>
 </section>
@@ -856,7 +844,7 @@ Phase-Encoding Polarity (commonly known as blip-up/blip-down) employs phase-enco
         <li class="right" >
           <a href="anat" title="Anatomical Preprocessing"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" >Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Functional Preprocessing</a></li> 

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Seed Based Correlation Analysis &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <title>Seed Based Correlation Analysis &#8212; C-PAC 1.8.0 Beta documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="seg_preproc" title="Segmentation Workflow"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" accesskey="U">Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Seed Based Correlation Analysis</a></li> 
@@ -130,8 +130,8 @@ nifti files</p></li>
 <a class="reference internal image-reference" href="images/generated/sca_detailed.png"><img alt="images/generated/sca_detailed.png" src="images/generated/sca_detailed.png" style="width: 500px;" /></a>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sca_w</span> <span class="o">=</span> <span class="n">create_sca</span><span class="p">(</span><span class="s2">&quot;sca_wf&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sca_w</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">functional_file</span> <span class="o">=</span> <span class="s1">&#39;/home/data/subject/func/rest_bandpassed.nii.gz&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sca_w</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">timeseries_one_d</span> <span class="o">=</span> <span class="s1">&#39;/home/data/subject/func/ts.1D&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sca_w</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">functional_file</span> <span class="o">=</span> <span class="s1">&#39;/home/data/subject/func/rest_bandpassed.nii.gz&#39;</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sca_w</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">timeseries_one_d</span> <span class="o">=</span> <span class="s1">&#39;/home/data/subject/func/ts.1D&#39;</span>  
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sca_w</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> 
 </pre></div>
 </div>
@@ -209,10 +209,10 @@ showing activation patterns related to those in the timeseries.</p>
 <p class="rubric">References</p>
 <p><a class="reference external" href="http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/DualRegression/UserGuide">http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/DualRegression/UserGuide</a></p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span> <span class="o">=</span> <span class="n">create_temporal_reg</span><span class="p">(</span><span class="s1">&#39;temporal regression&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">subject_rest</span> <span class="o">=</span> <span class="s1">&#39;/home/data/subject/func/rest_bandpassed.nii.gz&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">subject_timeseries</span> <span class="o">=</span> <span class="s1">&#39;/home/data/subject/func/timeseries.txt&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">subject_mask</span> <span class="o">=</span> <span class="s1">&#39;/home/data/spatialmaps/spatial_map.nii.gz&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span> <span class="o">=</span> <span class="n">create_temporal_reg</span><span class="p">(</span><span class="s1">&#39;temporal-regression&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">subject_rest</span> <span class="o">=</span> <span class="s1">&#39;/home/data/subject/func/rest_bandpassed.nii.gz&#39;</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">subject_timeseries</span> <span class="o">=</span> <span class="s1">&#39;/home/data/subject/func/timeseries.txt&#39;</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">subject_mask</span> <span class="o">=</span> <span class="s1">&#39;/home/data/spatialmaps/spatial_map.nii.gz&#39;</span>  
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">demean</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">inputspec</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tr_wf</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> 
@@ -327,7 +327,7 @@ containing the names of the timeseries</p>
         <li class="right" >
           <a href="seg_preproc" title="Segmentation Workflow"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" >Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Seed Based Correlation Analysis</a></li> 

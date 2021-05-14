@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Nuisance Signal Regression &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <title>Nuisance Signal Regression &#8212; C-PAC 1.8.0 Beta documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="longitudinal" title="Longitudinal Preprocessing"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" accesskey="U">Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Nuisance Signal Regression</a></li> 
@@ -163,13 +163,16 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
 <section id="configuration-without-the-gui">
 <span id="nuisance-no-gui"></span><h3>Configuration Without the GUI<a class="headerlink" href="#configuration-without-the-gui" title="Permalink to this headline">¶</a></h3>
 <p>The following nested key/value pairs that will be set to these defaults if not defined in your <a class="reference internal" href="pipelines/pipeline_config"><span class="doc">pipeline configuration YAML</span></a>:</p>
-<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span><span class="nt">nuisance_corrections</span><span class="p">:</span>
+<div class="highlight-YAML notranslate"><div class="highlight"><pre><span></span>    <span class="nt">denoising_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nonaggr</span>
 
-  <span class="nt">2-nuisance_regression</span><span class="p">:</span>
+ <span class=" -Error"> </span><span class="nt">2-nuisance_regression</span><span class="p">:</span>
 
     <span class="c1"># this is a fork point</span>
     <span class="c1">#   run: [On, Off] - this will run both and fork the pipeline</span>
     <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">On</span><span class="p p-Indicator">]</span>
+    
+    <span class="c1"># switch to Off if nuisance regression is off and you don&#39;t want to write out the regressors</span>
+    <span class="nt">create_regressors</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">On</span>
 
     <span class="c1"># Select which nuisance signal corrections to apply</span>
     <span class="nt">Regressors</span><span class="p">:</span>
@@ -306,12 +309,6 @@ Power and colleagues (2011) proposed two measures to identify volumes contaminat
         <span class="c1"># Erosion proportion, if use erosion.</span>
         <span class="c1"># Recommend to do not use erosion in both proportion and millimeter method.</span>
         <span class="nt">gm_erosion_prop </span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.6</span>
-
-        <span class="c1"># Erode brain mask in millimeter, default of csf is 30 mm</span>
-        <span class="nt">gm_mask_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
-
-        <span class="c1"># Erode binarized White Matter mask in millimeter</span>
-        <span class="nt">gm_erosion_mm</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
 </pre></div>
 </div>
 </section>
@@ -483,7 +480,7 @@ Fox, M.D., Snyder, A.Z., Vincent, J.L., Corbetta, M., Van Essen, D.C., Raichle, 
         <li class="right" >
           <a href="longitudinal" title="Longitudinal Preprocessing"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index">C-PAC 1.8.0 Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index" >Welcome to C-PAC’s user guide!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="preprocessing" >Pre-Processing Steps</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Nuisance Signal Regression</a></li> 
