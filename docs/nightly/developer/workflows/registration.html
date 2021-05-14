@@ -6,12 +6,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Registration &#8212; C-PAC 1.8.0.g671e2da1-dev Beta documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <title>Registration &#8212; C-PAC 1.8.0.dev Beta documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
     
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="median_angle" title="Median Angle Correction"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" accesskey="U">Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Registration</a></li> 
@@ -51,8 +51,8 @@
   <section id="module-CPAC.registration">
 <span id="registration"></span><h1>Registration<a class="headerlink" href="#module-CPAC.registration" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="CPAC.registration.create_bbregister_func_to_anat">
-<code class="sig-prename descclassname"><span class="pre">CPAC.registration.</span></code><code class="sig-name descname"><span class="pre">create_bbregister_func_to_anat</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase_diff_distcor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bbregister_func_to_anat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/registration/registration#create_bbregister_func_to_anat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.registration.create_bbregister_func_to_anat" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CPAC.registration.create_bbregister_func_to_anat">
+<span class="sig-prename descclassname"><span class="pre">CPAC.registration.</span></span><span class="sig-name descname"><span class="pre">create_bbregister_func_to_anat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase_diff_distcor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bbregister_func_to_anat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/registration/registration#create_bbregister_func_to_anat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.registration.create_bbregister_func_to_anat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers a functional scan in native space to structural.  This is
 meant to be used after create_nonlinear_register() has been run and
 relies on some of it’s outputs.</p>
@@ -96,8 +96,8 @@ take in the appropriate field map-related inputs.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="CPAC.registration.create_fsl_fnirt_nonlinear_reg">
-<code class="sig-prename descclassname"><span class="pre">CPAC.registration.</span></code><code class="sig-name descname"><span class="pre">create_fsl_fnirt_nonlinear_reg</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fsl_fnirt_nonlinear_reg'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/registration/registration#create_fsl_fnirt_nonlinear_reg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.registration.create_fsl_fnirt_nonlinear_reg" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CPAC.registration.create_fsl_fnirt_nonlinear_reg">
+<span class="sig-prename descclassname"><span class="pre">CPAC.registration.</span></span><span class="sig-name descname"><span class="pre">create_fsl_fnirt_nonlinear_reg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fsl_fnirt_nonlinear_reg'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/registration/registration#create_fsl_fnirt_nonlinear_reg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.registration.create_fsl_fnirt_nonlinear_reg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs non-linear registration of an input file to a reference file
 using FSL FNIRT.</p>
 <dl class="field-list simple">
@@ -154,8 +154,8 @@ file to the input file.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="CPAC.registration.create_register_func_to_anat">
-<code class="sig-prename descclassname"><span class="pre">CPAC.registration.</span></code><code class="sig-name descname"><span class="pre">create_register_func_to_anat</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase_diff_distcor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'register_func_to_anat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/registration/registration#create_register_func_to_anat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.registration.create_register_func_to_anat" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CPAC.registration.create_register_func_to_anat">
+<span class="sig-prename descclassname"><span class="pre">CPAC.registration.</span></span><span class="sig-name descname"><span class="pre">create_register_func_to_anat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase_diff_distcor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'register_func_to_anat'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/registration/registration#create_register_func_to_anat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.registration.create_register_func_to_anat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers a functional scan in native space to anatomical space using a
 linear transform and does not include bbregister.</p>
 <dl class="field-list simple">
@@ -195,8 +195,8 @@ take in the appropriate field map-related inputs.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="CPAC.registration.create_wf_calculate_ants_warp">
-<code class="sig-prename descclassname"><span class="pre">CPAC.registration.</span></code><code class="sig-name descname"><span class="pre">create_wf_calculate_ants_warp</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'create_wf_calculate_ants_warp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_ants_skull</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/registration/registration#create_wf_calculate_ants_warp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.registration.create_wf_calculate_ants_warp" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="CPAC.registration.create_wf_calculate_ants_warp">
+<span class="sig-prename descclassname"><span class="pre">CPAC.registration.</span></span><span class="sig-name descname"><span class="pre">create_wf_calculate_ants_warp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'create_wf_calculate_ants_warp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_ants_skull</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/CPAC/registration/registration#create_wf_calculate_ants_warp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#CPAC.registration.create_wf_calculate_ants_warp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the nonlinear ANTS registration transform. This workflow
 employs the antsRegistration tool:</p>
 <p><a class="reference external" href="http://stnava.github.io/ANTs/">http://stnava.github.io/ANTs/</a></p>
@@ -387,7 +387,7 @@ entered in its place if there are other parameters for other stages.</p>
         <li class="right" >
           <a href="median_angle" title="Median Angle Correction"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.g671e2da1-dev Beta documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index">C-PAC 1.8.0.dev Beta documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index" >Welcome to CPAC’s developer documentation!</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="index" >Workflows</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Registration</a></li> 
@@ -396,7 +396,7 @@ entered in its place if there are other parameters for other stages.</p>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, C-PAC Team.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
     </div>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-19224662-10"></script>
     <script>
