@@ -122,29 +122,26 @@
 <span class="sd">            Estimate (in GB) of constant memory to allocate for this</span>
 <span class="sd">            node.</span>
 
-<span class="sd">        mem_x : tuple</span>
-<span class="sd">            .. versionadded:: 1.8.1</span>
-<span class="sd">            .. note::</span>
+<span class="sd">        mem_x : 2-tuple</span>
+<span class="sd">            (``multiplier``, ``input_file``)</span>
+<span class="sd">            (int or float, str)</span>
 
-<span class="sd">                This parameter is likely to change in a future release</span>
-<span class="sd">                as we incorporate more factors into memory estimates.</span>
+<span class="sd">            **Note**</span>
+<span class="sd">            This parameter is likely to change in a future release</span>
+<span class="sd">            as we incorporate more factors into memory estimates.</span>
 
-<span class="sd">            .. seealso::</span>
-<span class="sd">               `⚡️ Setting data- and operation-dependent memory-estimates &lt;https://github.com/FCP-INDI/C-PAC/issues/1509&gt;`_</span>
-<span class="sd">                   GitHub epic of issues related to improving Node</span>
-<span class="sd">                   memory estimates based on the data and operations</span>
-<span class="sd">                   involved.</span>
+<span class="sd">            See also: `⚡️ Setting data- and operation-dependent memory-estimates &lt;https://github.com/FCP-INDI/C-PAC/issues/1509&gt;`_</span>
+<span class="sd">                GitHub epic of issues related to improving Node</span>
+<span class="sd">                memory estimates based on the data and operations</span>
+<span class="sd">                involved.</span>
 
-<span class="sd">            tuple (len 2)</span>
-<span class="sd">                (``multiplier``, ``input_file``)</span>
-<span class="sd">                (int or float, str)</span>
+<span class="sd">            Multiplier for memory allocation such that ``multiplier``</span>
+<span class="sd">            times x * y * z * t of 4-D file at ``input_file`` plus</span>
+<span class="sd">            ``self._mem_gb`` equals the total memory allocation for</span>
+<span class="sd">            the node. ``input_file`` can be a Node input string or</span>
+<span class="sd">            an actual path.</span>
 
-<span class="sd">                Multiplier for memory allocation such that ``multiplier``</span>
-<span class="sd">                times x * y * z * t of 4-D file at ``input_file`` plus</span>
-<span class="sd">                ``self._mem_gb`` equals the total memory allocation for</span>
-<span class="sd">                the node. ``input_file`` can be a Node input string or</span>
-<span class="sd">                an actual path.</span>
-<span class="sd">            &#39;&#39;&#39;</span><span class="p">]))</span>  <span class="c1"># noqa E501</span>
+<span class="sd">        .. versionchanged:: 1.8.1&#39;&#39;&#39;</span><span class="p">]))</span>  <span class="c1"># noqa E501</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mem_gb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
