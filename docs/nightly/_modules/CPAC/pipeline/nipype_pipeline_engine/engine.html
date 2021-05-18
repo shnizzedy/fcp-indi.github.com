@@ -103,12 +103,17 @@
         <span class="k">if</span> <span class="s1">&#39;mem_x&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_mem_x&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;mem_x&#39;</span><span class="p">])</span></div>
 
+    <span class="n">orig_sig_params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
     <span class="fm">__init__</span><span class="o">.</span><span class="n">__signature__</span> <span class="o">=</span> <span class="n">Signature</span><span class="p">(</span><span class="n">parameters</span><span class="o">=</span><span class="p">[</span>
         <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;mem_gb&#39;</span> <span class="k">else</span> <span class="p">(</span>
             <span class="s1">&#39;mem_gb&#39;</span><span class="p">,</span>
             <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;mem_gb&#39;</span><span class="p">,</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span><span class="p">,</span>
                       <span class="n">default</span><span class="o">=</span><span class="n">DEFAULT_MEM_GB</span><span class="p">)</span>
-        <span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">signature</span><span class="p">(</span><span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">orig_sig_params</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[</span>
+            <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;mem_x&#39;</span><span class="p">,</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">KEYWORD_ONLY</span><span class="p">),</span>
+            <span class="n">orig_sig_params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">])</span>
 
     <span class="fm">__init__</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(?&lt;!\s):&#39;</span><span class="p">,</span> <span class="s1">&#39; :&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
         <span class="n">pe</span><span class="o">.</span><span class="n">Node</span><span class="o">.</span><span class="fm">__init__</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(),</span>
@@ -126,16 +131,8 @@
 <span class="sd">                Multiplier for memory allocation such that `multiplier`</span>
 <span class="sd">                times x * y * z * t of 4-D file at `path` plus</span>
 <span class="sd">                `self._mem_gb` equals the total memory allocation for</span>
-<span class="sd">                the node.</span>
-
-<span class="sd">            tuple (len 1) or number</span>
-<span class="sd">                (multiplier, ) or multiplier</span>
-<span class="sd">                (number, ) or number</span>
-<span class="sd">                Multiplier for memory allocation such that `multiplier`</span>
-<span class="sd">                times `wf._largest_func` (x * y * z * t of the largest</span>
-<span class="sd">                functional file in `wf` where `wf` is the Workflow</span>
-<span class="sd">                containing this Node, if this Node is in a Workflow and</span>
-<span class="sd">                `wf` has the attribute `_largest_func`)</span>
+<span class="sd">                the node. `path` can be a Node input string or an</span>
+<span class="sd">                actual path.</span>
 <span class="sd">            &#39;&#39;&#39;</span><span class="p">]))</span>
 
     <span class="nd">@property</span>
@@ -285,9 +282,9 @@
                                     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_largest_func&#39;</span><span class="p">):</span>
                                         <span class="n">node</span><span class="o">.</span><span class="n">_apply_mem_x</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_largest_func</span><span class="p">)</span>
                                     <span class="k">else</span><span class="p">:</span>
-                                        <span class="c1"># memoize the path otherwise</span>
-                                        <span class="n">node</span><span class="o">.</span><span class="n">_mem_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">_mem_x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                                       <span class="n">multiplicand_path</span><span class="p">)</span></div>
+                                        <span class="c1"># TODO: handle S3 files</span>
+                                        <span class="c1"># 1e8 is a small estimate</span>
+                                        <span class="n">node</span><span class="o">.</span><span class="n">_apply_mem_x</span><span class="p">(</span><span class="mf">1e8</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">get_data_size</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
