@@ -97,7 +97,7 @@ re-executed.</p>
 </dd>
 <dt><a class="reference internal" href="#CPAC.pipeline.nipype_pipeline_engine.Node.mem_gb" title="CPAC.pipeline.nipype_pipeline_engine.Node.mem_gb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mem_gb</span></code></a></dt><dd><p>Get estimated memory (GB)</p>
 </dd>
-<dt><a class="reference internal" href="#CPAC.pipeline.nipype_pipeline_engine.Node.mem_x" title="CPAC.pipeline.nipype_pipeline_engine.Node.mem_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mem_x</span></code></a></dt><dd><p>Get memory multiplier</p>
+<dt><a class="reference internal" href="#CPAC.pipeline.nipype_pipeline_engine.Node.mem_x" title="CPAC.pipeline.nipype_pipeline_engine.Node.mem_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mem_x</span></code></a></dt><dd><p>Get (memory multiplier, input file) tuple.</p>
 </dd>
 <dt><a class="reference internal" href="#CPAC.pipeline.nipype_pipeline_engine.Node.n_procs" title="CPAC.pipeline.nipype_pipeline_engine.Node.n_procs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_procs</span></code></a></dt><dd><p>Get the estimated number of processes/threads</p>
 </dd>
@@ -224,14 +224,14 @@ multiprocessing pool</p>
 <dt><strong>mem_gb</strong><span class="classifier">int or float</span></dt><dd><p>Estimate (in GB) of constant memory to allocate for this
 node.</p>
 </dd>
-<dt><strong>mem_x</strong><span class="classifier">tuple or number</span></dt><dd><dl>
-<dt>tuple (len 2)</dt><dd><p>(multiplier, path)
+<dt><strong>mem_x</strong><span class="classifier">tuple</span></dt><dd><dl>
+<dt>tuple (len 2)</dt><dd><p>(<code class="docutils literal notranslate"><span class="pre">multiplier</span></code>, <code class="docutils literal notranslate"><span class="pre">input_file</span></code>)
 (int or float, str)</p>
-<p>Multiplier for memory allocation such that <cite>multiplier</cite>
-times x * y * z * t of 4-D file at <cite>path</cite> plus
-<cite>self._mem_gb</cite> equals the total memory allocation for
-the node. <cite>path</cite> can be a Node input string or an
-actual path.</p>
+<p>Multiplier for memory allocation such that <code class="docutils literal notranslate"><span class="pre">multiplier</span></code>
+times x * y * z * t of 4-D file at <code class="docutils literal notranslate"><span class="pre">input_file</span></code> plus
+<code class="docutils literal notranslate"><span class="pre">self._mem_gb</span></code> equals the total memory allocation for
+the node. <code class="docutils literal notranslate"><span class="pre">input_file</span></code> can be a Node input string or
+an actual path.</p>
 </dd>
 </dl>
 </dd>
@@ -325,7 +325,8 @@ cached results are up-to-date.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="CPAC.pipeline.nipype_pipeline_engine.Node.mem_x">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mem_x</span></span><a class="headerlink" href="#CPAC.pipeline.nipype_pipeline_engine.Node.mem_x" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get memory multiplier</p>
+<dd><p>Get (memory multiplier, input file) tuple. Returns <code class="docutils literal notranslate"><span class="pre">None</span></code>
+if already consumed or not set.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -421,7 +422,7 @@ updates the hash without re-running.</p>
 </dd>
 <dt><a class="reference internal" href="#CPAC.pipeline.nipype_pipeline_engine.MapNode.mem_gb" title="CPAC.pipeline.nipype_pipeline_engine.MapNode.mem_gb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mem_gb</span></code></a></dt><dd><p>Get estimated memory (GB)</p>
 </dd>
-<dt><a class="reference internal" href="#CPAC.pipeline.nipype_pipeline_engine.MapNode.mem_x" title="CPAC.pipeline.nipype_pipeline_engine.MapNode.mem_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mem_x</span></code></a></dt><dd><p>Get memory multiplier</p>
+<dt><a class="reference internal" href="#CPAC.pipeline.nipype_pipeline_engine.MapNode.mem_x" title="CPAC.pipeline.nipype_pipeline_engine.MapNode.mem_x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mem_x</span></code></a></dt><dd><p>Get (memory multiplier, input file) tuple.</p>
 </dd>
 <dt><a class="reference internal" href="#CPAC.pipeline.nipype_pipeline_engine.MapNode.n_procs" title="CPAC.pipeline.nipype_pipeline_engine.MapNode.n_procs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_procs</span></code></a></dt><dd><p>Get the estimated number of processes/threads</p>
 </dd>
@@ -554,14 +555,14 @@ multiprocessing pool</p>
 <dt><strong>mem_gb</strong><span class="classifier">int or float</span></dt><dd><p>Estimate (in GB) of constant memory to allocate for this
 node.</p>
 </dd>
-<dt><strong>mem_x</strong><span class="classifier">tuple or number</span></dt><dd><dl>
-<dt>tuple (len 2)</dt><dd><p>(multiplier, path)
+<dt><strong>mem_x</strong><span class="classifier">tuple</span></dt><dd><dl>
+<dt>tuple (len 2)</dt><dd><p>(<code class="docutils literal notranslate"><span class="pre">multiplier</span></code>, <code class="docutils literal notranslate"><span class="pre">input_file</span></code>)
 (int or float, str)</p>
-<p>Multiplier for memory allocation such that <cite>multiplier</cite>
-times x * y * z * t of 4-D file at <cite>path</cite> plus
-<cite>self._mem_gb</cite> equals the total memory allocation for
-the node. <cite>path</cite> can be a Node input string or an
-actual path.</p>
+<p>Multiplier for memory allocation such that <code class="docutils literal notranslate"><span class="pre">multiplier</span></code>
+times x * y * z * t of 4-D file at <code class="docutils literal notranslate"><span class="pre">input_file</span></code> plus
+<code class="docutils literal notranslate"><span class="pre">self._mem_gb</span></code> equals the total memory allocation for
+the node. <code class="docutils literal notranslate"><span class="pre">input_file</span></code> can be a Node input string or
+an actual path.</p>
 </dd>
 </dl>
 </dd>
@@ -661,7 +662,8 @@ cached results are up-to-date.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="CPAC.pipeline.nipype_pipeline_engine.MapNode.mem_x">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">mem_x</span></span><a class="headerlink" href="#CPAC.pipeline.nipype_pipeline_engine.MapNode.mem_x" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get memory multiplier</p>
+<dd><p>Get (memory multiplier, input file) tuple. Returns <code class="docutils literal notranslate"><span class="pre">None</span></code>
+if already consumed or not set.</p>
 </dd></dl>
 
 <dl class="py property">
