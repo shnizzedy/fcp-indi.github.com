@@ -159,13 +159,11 @@ re-executed.</p>
 <dd><dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>interface</strong><span class="classifier">interface object</span></dt><dd><blockquote>
-<div><p>node specific interface (fsl.Bet(), spm.Coregister())</p>
-</div></blockquote>
-<dl>
-<dt>name<span class="classifier">alphanumeric string</span></dt><dd><p>node specific name</p>
+<dt><strong>interface</strong><span class="classifier">interface object</span></dt><dd><p>node specific interface (fsl.Bet(), spm.Coregister())</p>
 </dd>
-<dt>iterables<span class="classifier">generator</span></dt><dd><p>Input field and list to iterate using the pipeline engine
+<dt><strong>name</strong><span class="classifier">alphanumeric string</span></dt><dd><p>node specific name</p>
+</dd>
+<dt><strong>iterables</strong><span class="classifier">generator</span></dt><dd><p>Input field and list to iterate using the pipeline engine
 for example to iterate over different frac values in fsl.Bet()
 for a single field the input can be a tuple, otherwise a list
 of tuples : :</p>
@@ -199,38 +197,39 @@ node.iterables = [(‘frac’, ‘threshold’),</p>
 </div></blockquote>
 </div></blockquote>
 </dd>
-<dt>itersource<span class="classifier">tuple</span></dt><dd><p>The (name, fields) iterables source which specifies the name
+<dt><strong>itersource</strong><span class="classifier">tuple</span></dt><dd><p>The (name, fields) iterables source which specifies the name
 of the predecessor iterable node and the input fields to use
 from that source node. The output field values comprise the
 key to the iterables parameter value mapping dictionary.</p>
 </dd>
-<dt>synchronize<span class="classifier">boolean</span></dt><dd><p>Flag indicating whether iterables are synchronized.
+<dt><strong>synchronize</strong><span class="classifier">boolean</span></dt><dd><p>Flag indicating whether iterables are synchronized.
 If the iterables are synchronized, then this iterable
 node is expanded once per iteration over all of the
 iterables values.
 Otherwise, this iterable node is expanded once per
 each permutation of the iterables values.</p>
 </dd>
-<dt>overwrite<span class="classifier">Boolean</span></dt><dd><p>Whether to overwrite contents of output directory if it already
+<dt><strong>overwrite</strong><span class="classifier">Boolean</span></dt><dd><p>Whether to overwrite contents of output directory if it already
 exists. If directory exists and hash matches it
 assumes that process has been executed</p>
 </dd>
-<dt>needed_outputs<span class="classifier">list of output_names</span></dt><dd><p>Force the node to keep only specific outputs. By default all
+<dt><strong>needed_outputs</strong><span class="classifier">list of output_names</span></dt><dd><p>Force the node to keep only specific outputs. By default all
 outputs are kept. Setting this attribute will delete any output
 files and directories from the node’s working directory that are
 not part of the <cite>needed_outputs</cite>.</p>
 </dd>
-<dt>run_without_submitting<span class="classifier">boolean</span></dt><dd><p>Run the node without submitting to a job engine or to a
+<dt><strong>run_without_submitting</strong><span class="classifier">boolean</span></dt><dd><p>Run the node without submitting to a job engine or to a
 multiprocessing pool</p>
 </dd>
-<dt>mem_gb<span class="classifier">int or float</span></dt><dd><p>Estimate (in GB) of constant memory to allocate for this
+<dt><strong>mem_gb</strong><span class="classifier">int or float</span></dt><dd><p>Estimate (in GB) of constant memory to allocate for this
 node.</p>
 </dd>
-<dt>mem_x<span class="classifier">2-tuple</span></dt><dd><p>(<code class="docutils literal notranslate"><span class="pre">multiplier</span></code>, <code class="docutils literal notranslate"><span class="pre">input_file</span></code>)
+<dt><strong>mem_x</strong><span class="classifier">2-tuple</span></dt><dd><p>(<code class="docutils literal notranslate"><span class="pre">multiplier</span></code>, <code class="docutils literal notranslate"><span class="pre">input_file</span></code>)
 (int or float, str)</p>
 <p><strong>Note</strong>
-This parameter is likely to change in a future release
-as we incorporate more factors into memory estimates.</p>
+This parameter (<code class="docutils literal notranslate"><span class="pre">mem_x</span></code>) is likely to change in a future
+release as we incorporate more factors into memory
+estimates.</p>
 <dl>
 <dt>See also<span class="classifier"><a class="reference external" href="https://github.com/FCP-INDI/C-PAC/issues/1509">⚡️ Setting data- and operation-dependent memory-estimates</a></span></dt><dd><p>GitHub epic of issues related to improving Node
 memory estimates based on the data and operations
@@ -243,9 +242,6 @@ times x * y * z * t of 4-D file at <code class="docutils literal notranslate"><s
 the node. <code class="docutils literal notranslate"><span class="pre">input_file</span></code> can be a Node input string or
 an actual path.</p>
 </dd>
-</dl>
-</dd>
-<dt><strong>.. versionchanged</strong><span class="classifier">: 1.8.1</span></dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -501,13 +497,11 @@ updates the hash without re-running.</p>
 <dd><dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>interface</strong><span class="classifier">interface object</span></dt><dd><blockquote>
-<div><p>node specific interface (fsl.Bet(), spm.Coregister())</p>
-</div></blockquote>
-<dl>
-<dt>name<span class="classifier">alphanumeric string</span></dt><dd><p>node specific name</p>
+<dt><strong>interface</strong><span class="classifier">interface object</span></dt><dd><p>node specific interface (fsl.Bet(), spm.Coregister())</p>
 </dd>
-<dt>iterables<span class="classifier">generator</span></dt><dd><p>Input field and list to iterate using the pipeline engine
+<dt><strong>name</strong><span class="classifier">alphanumeric string</span></dt><dd><p>node specific name</p>
+</dd>
+<dt><strong>iterables</strong><span class="classifier">generator</span></dt><dd><p>Input field and list to iterate using the pipeline engine
 for example to iterate over different frac values in fsl.Bet()
 for a single field the input can be a tuple, otherwise a list
 of tuples : :</p>
@@ -541,38 +535,39 @@ node.iterables = [(‘frac’, ‘threshold’),</p>
 </div></blockquote>
 </div></blockquote>
 </dd>
-<dt>itersource<span class="classifier">tuple</span></dt><dd><p>The (name, fields) iterables source which specifies the name
+<dt><strong>itersource</strong><span class="classifier">tuple</span></dt><dd><p>The (name, fields) iterables source which specifies the name
 of the predecessor iterable node and the input fields to use
 from that source node. The output field values comprise the
 key to the iterables parameter value mapping dictionary.</p>
 </dd>
-<dt>synchronize<span class="classifier">boolean</span></dt><dd><p>Flag indicating whether iterables are synchronized.
+<dt><strong>synchronize</strong><span class="classifier">boolean</span></dt><dd><p>Flag indicating whether iterables are synchronized.
 If the iterables are synchronized, then this iterable
 node is expanded once per iteration over all of the
 iterables values.
 Otherwise, this iterable node is expanded once per
 each permutation of the iterables values.</p>
 </dd>
-<dt>overwrite<span class="classifier">Boolean</span></dt><dd><p>Whether to overwrite contents of output directory if it already
+<dt><strong>overwrite</strong><span class="classifier">Boolean</span></dt><dd><p>Whether to overwrite contents of output directory if it already
 exists. If directory exists and hash matches it
 assumes that process has been executed</p>
 </dd>
-<dt>needed_outputs<span class="classifier">list of output_names</span></dt><dd><p>Force the node to keep only specific outputs. By default all
+<dt><strong>needed_outputs</strong><span class="classifier">list of output_names</span></dt><dd><p>Force the node to keep only specific outputs. By default all
 outputs are kept. Setting this attribute will delete any output
 files and directories from the node’s working directory that are
 not part of the <cite>needed_outputs</cite>.</p>
 </dd>
-<dt>run_without_submitting<span class="classifier">boolean</span></dt><dd><p>Run the node without submitting to a job engine or to a
+<dt><strong>run_without_submitting</strong><span class="classifier">boolean</span></dt><dd><p>Run the node without submitting to a job engine or to a
 multiprocessing pool</p>
 </dd>
-<dt>mem_gb<span class="classifier">int or float</span></dt><dd><p>Estimate (in GB) of constant memory to allocate for this
+<dt><strong>mem_gb</strong><span class="classifier">int or float</span></dt><dd><p>Estimate (in GB) of constant memory to allocate for this
 node.</p>
 </dd>
-<dt>mem_x<span class="classifier">2-tuple</span></dt><dd><p>(<code class="docutils literal notranslate"><span class="pre">multiplier</span></code>, <code class="docutils literal notranslate"><span class="pre">input_file</span></code>)
+<dt><strong>mem_x</strong><span class="classifier">2-tuple</span></dt><dd><p>(<code class="docutils literal notranslate"><span class="pre">multiplier</span></code>, <code class="docutils literal notranslate"><span class="pre">input_file</span></code>)
 (int or float, str)</p>
 <p><strong>Note</strong>
-This parameter is likely to change in a future release
-as we incorporate more factors into memory estimates.</p>
+This parameter (<code class="docutils literal notranslate"><span class="pre">mem_x</span></code>) is likely to change in a future
+release as we incorporate more factors into memory
+estimates.</p>
 <dl>
 <dt>See also<span class="classifier"><a class="reference external" href="https://github.com/FCP-INDI/C-PAC/issues/1509">⚡️ Setting data- and operation-dependent memory-estimates</a></span></dt><dd><p>GitHub epic of issues related to improving Node
 memory estimates based on the data and operations
@@ -585,9 +580,6 @@ times x * y * z * t of 4-D file at <code class="docutils literal notranslate"><s
 the node. <code class="docutils literal notranslate"><span class="pre">input_file</span></code> can be a Node input string or
 an actual path.</p>
 </dd>
-</dl>
-</dd>
-<dt><strong>.. versionchanged</strong><span class="classifier">: 1.8.1</span></dt><dd></dd>
 </dl>
 </dd>
 </dl>
